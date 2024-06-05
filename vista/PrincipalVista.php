@@ -550,7 +550,15 @@ use config\componentes\configSistema as configSistema;
                 <?php include_once "bin/component/footer.php";?>
             </div>
         </div>
+
+        <script src="plugins/jquery/jquery.js" crossorigin="anonymous"></script>
+        
+        <script src="plugins/all/js/all.min.js" crossorigin="anonymous"></script> 
+        <script src="plugins/popper/popper.min.js"></script>
+        <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="plugins/bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+
         <script src="content/js/scripts.js"></script>
         <script src="plugins/Chart.min.js" crossorigin="anonymous"></script>
         <script src="plugins/demo/chart-area-demo.js"></script>
