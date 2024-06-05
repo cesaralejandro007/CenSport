@@ -7,5 +7,4 @@
   <title>CenSport - SENIAT</title>
   <link href="plugins/datatables/css/style.min.css" rel="stylesheet" />
   <link href="content/css/styles.css" rel="stylesheet">
-  <script src="plugins/all/js/all.min.js" crossorigin="anonymous"></script>   
 </head>

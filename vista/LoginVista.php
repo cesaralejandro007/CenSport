@@ -4,7 +4,7 @@ use config\componentes\configSistema as configSistema;
 <!DOCTYPE html>
 <html lang="en">
 <?php include_once "bin/component/head.php";?>
-<body class="bg-primary">
+<body style="background:#991B27;">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main class="d-flex align-items-center justify-content-center vh-100">
@@ -13,7 +13,11 @@ use config\componentes\configSistema as configSistema;
                         <div class="col-lg-4">
                             <form>
                                 <div class="card shadow-lg border-0 rounded-lg">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                    <div class="card-header">
+                                        <center>
+                                            <img src="assets/img/CenSPORT.jpg" alt="Logo" style="height: 130px; width: 270px;">
+                                        </center>
+                                    </div>
                                     <div class="card-body">
                                         <div class="form-floating mb-3">
                                             <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
@@ -26,7 +30,7 @@ use config\componentes\configSistema as configSistema;
                                     </div>
                                     <div class="card-footer text-center py-3">
                                         <div class="d-flex align-items-center justify-content-center mb-0">
-                                            <a class="btn btn-primary" href="?pagina=<?php configSistema::_PRINCIPAL_();?>">Iniciar Sesión</a>
+                                            <a class="btn btn-secondary border" href="?pagina=<?php configSistema::_PRINCIPAL_();?>">Iniciar Sesión</a>
                                         </div>
                                     </div>
                                 </div>

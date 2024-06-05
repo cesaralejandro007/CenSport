@@ -1,7 +1,7 @@
 <?php
 use config\componentes\configSistema as configSistema;
 ?>        
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+<nav style="background:#991B27;" class="sb-topnav navbar navbar-expand navbar-dark">
   <!-- Navbar Brand-->
   <a class="navbar-brand ps-3" href="?pagina=<?php configSistema::_PRINCIPAL_();?>">CenSport</a>
   <!-- Sidebar Toggle-->
