@@ -454,6 +454,7 @@ $.ajax({
     success: (response) => {
     var res = JSON.parse(response);
     limpiar();
+    buscar_division_area(res.idDivision);
     $("#id_persona").val(res.id_persona);
     $("#cedula").val(res.cedula);
     $("#nombres").val(res.nombres);
@@ -462,6 +463,8 @@ $.ajax({
     $("#correo").val(res.correo);
     $("#fecha_nacimiento").val(res.fecha_nacimiento);
     $("#fecha_ingreso").val(res.fecha_ingreso);
+    $("#select_division").val(res.idDivision);
+    $("#area").val(res.idArea);
     $("#enviar").text("Modificar");
     $("#staticBackdrop").modal("show");
     $("#accion").val("modificar");
