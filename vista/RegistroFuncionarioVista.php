@@ -12,11 +12,11 @@ use config\componentes\configSistema as configSistema;
           <div id="layoutSidenav_content" style="background:#D4E6F1;">
             <main>
                 <div class="d-flex justify-content-between align-items-end">
-                    <button type="button" class="btn btn-dark border m-2" id="nuevo" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <button type="button" class="btn btn-dark border m-2" id="evento">
                         Registrar Funcionario
                     </button>  
                     <div class="py-2 px-4" style="border-radius: 0 0 0 50%; margin-bottom:10px; background:#D4AC0D; font-family:'Baskerville Old Face';" >
-                        <h2 class="m-0">Módulo Persona</h2>
+                        <h2 class="m-0">Módulo Personas</h2>
                     </div>
                 </div>
                 <!-- Modal -->
@@ -24,66 +24,83 @@ use config\componentes\configSistema as configSistema;
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Registrar Funcionario</h5>
+                            <h5 id="titulo" class="modal-title" id="staticBackdropLabel">Registrar Funcionario</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="accion" class="form-control" id="accion">
-                            <input type="hidden" name="id" class="form-control" id="id_usuario">
-                            <input type="hidden" name="id" class="form-control" id="cedula">
+                            <input type="hidden" name="id" class="form-control" id="id_persona">
+                            <input type="hidden" name="id" class="form-control" id="cedula_persona">
                             <div class="col-12">
-                                <label for="cedula" class="form-label">Cedula</label>
-                                <input type="text" name="cedula" class="form-control" id="cedula" value ="">
-                                <spam id="scedula"></spam>
+                            <div class="input-group mb-1">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Cedula</span>
+                                <input type="text" name="cedula" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="cedula" value="">
+                            </div>
+                            <span id="scedula"></span>
                             </div>
                             <div class="col-12">
-                                <label for="nombres" class="form-label">Nombres</label>
-                                <input type="Text" name="Nro" class="form-control" id="nombres" required>
-                                <spam id="snombres"></spam>
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Nombres</span>
+                                    <input type="Text" name="Nro" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="nombres" required>
+                                </div>
+                                <span id="snombres"></span>
                             </div>
                             <div class="col-12">
-                                <label for="apellidos" class="form-label">Apellidos</label>
-                                <input type="Text" name="Sujeto Pasivo" class="form-control" id="apellidos" required>
-                                <spam id="sapellidos"></spam>
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Apellidos</span>
+                                    <input type="Text" name="Sujeto Pasivo" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="apellidos" required>
+                                </div>
+                                <span id="sapellidos"></span>
                             </div>
-                            <div style="margin:15px 0px 0px 0px" class="col-12">
-                                <div class="input-group">
-                                    <label class="input-group-text" for="sexo">Sexo</label>
-                                    <select class="form-select" id="sexo">
+                            <div class="col-12">
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Género o Sexo</span>
+                                    <select class="form-select" id="sexo" aria-label="Default select example">
                                         <option value="0" selected>...</option>
                                         <option value="Masculino">Masculino</option>
                                         <option value="Femenino">Femenino</option>
                                     </select>
-                                    <spam id="ssexo"></spam>
                                 </div>
+                                <span id="ssexo"></span>
                             </div>
                             <div class="col-12">
-                                <label for="correo" class="form-label">Correo</label>
-                                <input type="Text" name="RifC" class="form-control" id="correo" required>
-                                <spam id="scorreo"></spam>
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Correo</span>
+                                    <input type="Text" name="RifC" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="correo" required>
+                                </div>
+                                <span id="scorreo"></span>
                             </div>
                             <div class="col-12">
-                                <label for="edad" class="form-label">Edad</label>
-                                <input type="Text" name="RifC" class="form-control" id="edad" required>
-                                <spam id="sedad"></spam>
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Fecha de Nacimiento</span>
+                                    <input type="date" name="RifC" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="fecha_nacimiento" required>
+                                </div>
+                                <span id="sfecha_nacimiento"></span>
                             </div>
-                            <div style="margin:15px 0px 0px 0px" class="col-12">
-                                <div class="input-group">
-                                    <label class="input-group-text" for="select_division">División</label>
-                                    <select class="form-select" id="select_division">
+                            <div class="col-12">
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Fecha de Ingreso SENIAT</span>
+                                    <input type="date" name="RifC" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="fecha_ingreso" required>
+                                </div>
+                                <span id="sfecha_ingreso"></span>
+                            </div>
+                            <div class="col-12">
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">División</span>
+                                    <select class="form-select" id="select_division" aria-label="Default select example" required>
                                         <option value="0" selected>...</option>
-                                        <?php ?>
-                                            <option value=""></option>
-                                        <?php ?>
+                                        <?php foreach ($divisiones as $key => $value) {?>
+                                            <option value="<?=$value['id_division'];?>"><?=$value['nombre_division'];?></option>
+                                        <?php }?>
                                     </select>
-                                    <spam id="sselect_division"></spam>
                                 </div>
+                                <span id="sselect_division"></span>
                             </div>
-                            <div id="seleccionar_area"></div>
+                            <div id="selec_area"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary">Incluir</button>
+                            <button id="enviar" type="button" class="btn btn-primary">Incluir</button>
                         </div>
                         </div>
                     </div>
@@ -121,7 +138,43 @@ use config\componentes\configSistema as configSistema;
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                       
+                            <?php
+                                foreach ($funcionarios as $valor) 
+                                {?>
+                                    <tr>
+                                    <td class="project-actions text-left">
+                                        <div class="d-flex">
+                                            <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                                            onclick="cargar_datos(<?=$valor['id_persona'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
+
+                                            <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                            onclick="eliminar(<?=$valor['id_persona'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                    <td class="project-actions text-left">
+                                        <?php echo $valor['cedula']; ?>
+                                    </td>
+                                    <td class="project-actions text-left">
+                                        <?php echo $valor['nombres']; ?>
+                                    </td>
+                                    <td class="project-actions text-left">
+                                        <?php echo $valor['apellidos']; ?>
+                                    </td>
+                                    <td class="project-actions text-left">
+                                        <?php echo $valor['sexo']; ?>
+                                    </td>
+                                    <td class="project-actions text-left">
+                                        <?php echo $valor['correo']; ?>
+                                    </td>
+                                    <td class="project-actions text-left">
+                                        <?php echo $valor['edad']; ?>
+                                    </td>
+                                    <td class="project-actions text-left">
+                                        <?php echo $valor['fecha_formateada']; ?>
+                                    </td>
+                                    </tr>
+                            <?php
+                                }?>
                                     </tbody>
                                 </table>
                             </div>
@@ -156,5 +209,6 @@ use config\componentes\configSistema as configSistema;
         <script src="plugins/sweetalert2/sweetalert2.all.js"></script>
         
         <script src="content/js/scripts.js"></script>
+        <script src="content/js/funcionarios.js"></script>
     </body>
 </html>
