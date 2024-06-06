@@ -10,51 +10,34 @@ use config\componentes\configSistema as configSistema;
         <div id="layoutSidenav">
           <?php include_once "bin/component/sidebar.php";?>
           <div id="layoutSidenav_content" style="background:#D4E6F1;">
+            <div class="d-flex justify-content-start align-items-end">
+            <div class="py-2 px-4" style="border-radius: 0 0 50% 0; margin-bottom:10px; background:#D4AC0D; font-family:'Baskerville Old Face';">
+                <h2 class="m-0">Grupos Deportivos</h2>
+                </div>
+            </div>
             <main>
-                <div class="d-flex justify-content-between align-items-end">
-                    <button type="button" class="btn btn-dark border m-2" id="nuevo" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Registrar Deporte
-                    </button>  
-                    <div class="py-2 px-4" style="border-radius: 0 0 0 50%; margin-bottom:10px; background:#D4AC0D; font-family:'Baskerville Old Face';">
-                        <h2 class="m-0">Módulo Deporte</h2>
-                    </div>
-                </div>
-                <!-- Modal -->
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Registrar Deporte</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary">Incluir</button>
-                        </div>
-                        </div>
-                    </div>
-                </div>
                     <div class="container-fluid px-2">
-                        <div class="card mb-2">
+                        <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Información de Deportes
+                                Información de Grupos Deportivos
                             </div>
                             <div style="padding:0 15px 15px 15px" class="card-body">
                             <table id="tabla" class="table table-bordered table-hover datatable">
                                     <thead>
                                         <tr>
-                                            <th>Opciones</th>
                                             <th>Deporte</th>
+                                            <th>Nombre de Grupo</th>
+                                            <th>Descripción de Grupo</th>
+                                            <th>Integrantes</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Opciones</th>
                                             <th>Deporte</th>
+                                            <th>Nombre</th>
+                                            <th>Descripción</th>
+                                            <th>Integrantes</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -87,8 +70,8 @@ use config\componentes\configSistema as configSistema;
         <script src="plugins/datatables/js/buttons.print.min.js"></script>
         <script src="plugins/datatables/js/dataTables.responsive.min.js"></script>
         <script src="plugins/datatables/js/responsive.bootstrap5.js"></script>
-
-        <script src="plugins/demo/datatables-deporte.js"></script>
+        <script src="plugins/datatables/js/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="plugins/demo/datatables-grupos.js"></script>
         
         <script src="plugins/sweetalert2/sweetalert2.all.js"></script>
         

@@ -1,6 +1,6 @@
 // Call the dataTables jQuery plugin
 
-var table = $('#tablas').DataTable({      
+var table = $('#tabla').DataTable({      
   language: {
           "lengthMenu": " _MENU_ ",
           "zeroRecords": "No se encontraron resultados",
@@ -28,27 +28,27 @@ var table = $('#tablas').DataTable({
 {
   extend:    'excelHtml5',
   filename: function() {
-    return "EXCEL-Expedientes-Sumario"      
+    return "EXCEL-Deportes"      
   },          
   title: function() {
     var searchString = table.search();        
-    return searchString.length? "Search: " + searchString : "Reporte de Expedientes (Sumario)"
+    return searchString.length? "Search: " + searchString : "Reporte de Deportes"
   },
   text:      '<i class="fas fa-file-excel text-success"></i> ',
   titleAttr: 'Exportar a Excel',
   className: 'btn border border-success bg-white mr-1',
   exportOptions: {
-    columns: [0,1,2,3,4,5]
+    columns: [1]
 }
 },
 {
   extend:    'pdfHtml5',
   filename: function() {
-    return "PDF-Expedientes-Sumario"      
+    return "PDF-Deportes"      
   },          
   title: function() {
     var searchString = table.search();        
-    return searchString.length? "Search: " + searchString : "Reporte de Expedientes (Sumario)"
+    return searchString.length? "Search: " + searchString : "Reporte de Deportes"
   },
   text:      '<i class="fas fa-file-pdf text-danger "></i> ',
   titleAttr: 'Exportar a PDF',
@@ -69,23 +69,23 @@ var table = $('#tablas').DataTable({
     // Splice the image in after the header, but before the table
     },
   exportOptions: {
-    columns:[0,1,2,3,4,5]
+    columns:[1]
 }
 },
 {
   extend:    'print',
   filename: function() {
-    return "Print-Expedientes-Sumario"      
+    return "Print-Deportes"      
   },          
   title: function() {
     var searchString = table.search();        
-    return searchString.length? "Search: " + searchString : "Reporte de Expedientes (Sumario)"
+    return searchString.length? "Search: " + searchString : "Reporte de Deportes"
   },
   text:      '<i class="fa fa-print text-info"></i> ',
   titleAttr: 'Imprimir',
   className: 'btn border border-info bg-white mr-1',
   exportOptions: {
-    columns: [0,1,2,3,4,5]
+    columns: [1]
 }
 },    
 ]  

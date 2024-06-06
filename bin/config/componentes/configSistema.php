@@ -3,7 +3,7 @@
 	namespace config\componentes;
 
 	define("_URL_", "http://localhost/practica/");
-	define("_BD_", "bd_expedientes");
+	define("_BD_", "censport");
 	define("_PASS_", "");
 	define("_USER_", "root");
 	define("_LOCAL_", "localhost");
@@ -100,6 +100,10 @@
 		
 		public static function _Funcionarios_() {
 			echo self::Seguridad('RegistroFuncionario', 'codificar');
+		}
+
+		public static function _Grupos_() {
+			echo self::Seguridad('GruposDeportivos', 'codificar');
 		}
 
 		public static function _Deportes_() {
