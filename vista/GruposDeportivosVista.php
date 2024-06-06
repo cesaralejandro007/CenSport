@@ -35,7 +35,11 @@ use config\componentes\configSistema as configSistema;
                                 <div class="input-group">
                                     <label class="input-group-text" for="deporte">Deporte</label>
                                     <select class="form-select" id="deporte">
-                                        <option value="0" selected>...</option>
+                                    <option value="0">--Seleccione--</option>
+                                        <?php foreach($deporte as $key => $deport) {?>
+                                            
+                                        <option value="<?php echo $deport["id_deporte"];?>"><?php echo $deport["nombre_deporte"]; ?></option>
+                                        <?php }?>
                                     </select>
                                     <spam id="sdeporte"></spam>
                                 </div>
@@ -51,16 +55,45 @@ use config\componentes\configSistema as configSistema;
                                 <spam id="sdescripcion"></spam>
                             </div>
                             <div style="margin:15px 0px 0px 0px" class="col-12">
-                                <div class="input-group">
-                                    <label class="input-group-text" for="cedula">Cedula</label>
-                                    <select class="form-select" id="cedula">
-                                        <option value="0" selected>...</option>
-                                        <?php ?>
-                                            <option value=""></option>
-                                        <?php ?>
-                                    </select>
-                                    <spam id="cedula"></spam>
+                           
+
+
+                                
+                                
+                                <div class="col-md-6 mt-2">
+                                <label for="">
+                                    Integrantes <span id='valid_integrantes' style='color:red'>
+                                </label>
+                                 <div class="input-group">
+                                    <input list="cedula" id="integrantes" name="datos[cedula_propietario]"
+                                        class="form-control no-simbolos letras_numeros" placeholder="Cédula" oninput="Limitar(this,15);"/>
+
+                                    <datalist id="cedula">
+                                        <?php foreach ($cedula as $key => $persona) {?>
+                                        <option value="<?php echo $persona["id_persona"]; ?>">
+                                            <?php echo $persona["primer_nombre"] . " " . $persona["primer_apellido"]; ?>
+                                        </option>
+                                    <?php }?>
+                                    </datalist>
+                                    
+                                    <button id='agregar' class="btn btn-info" type="button">Agregar</button>
                                 </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                  <label>Integrantes agregados a
+                                    <span id='nombre_persona'></span>
+                                    </label>
+
+                                <div class="text-center" style='width:95%;height:200px;overflow-y: scroll;background: #D4E6F4'>
+                                    <div id='integrantes_agregados' style='width:95%;margin-top:10px;'>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
                             </div>
                             <div id="seleccionar_area"></div>
                         </div>
