@@ -106,9 +106,29 @@ use config\componentes\configSistema as configSistema;
                 <?php include_once "bin/component/footer.php";?>
             </div>
         </div>
+        <script src="plugins/jquery/jquery.js" crossorigin="anonymous"></script>
+        
+        <script src="plugins/all/js/all.min.js" crossorigin="anonymous"></script> 
+        <script src="plugins/popper/popper.min.js"></script>
+        <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="plugins/bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="content/js/scripts.js"></script>
+
+        <script src="plugins/datatables/js/jszip.min.js"></script>
+        <script src="plugins/datatables/js/pdfmake.min.js"></script>
+        <script src="plugins/datatables/js/vfs_fonts.js"></script>
+        <script src="plugins/datatables/js/jquery.dataTables.min.js"></script>
+        <script src="plugins/datatables/js/dataTables.bootstrap5.min.js"></script>
+        <script src="plugins/datatables/js/dataTables.buttons.min.js"></script>
+        <script src="plugins/datatables/js/buttons.bootstrap5.min.js"></script>
+        <script src="plugins/datatables/js/buttons.colVis.min.js"></script>
+        <script src="plugins/datatables/js/buttons.html5.min.js"></script>
+        <script src="plugins/datatables/js/buttons.print.min.js"></script>
+        <script src="plugins/datatables/js/dataTables.responsive.min.js"></script>
+        <script src="plugins/datatables/js/responsive.bootstrap5.js"></script>
         <script src="plugins/datatables/js/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="plugins/demo/datatables-simple-demo.js"></script>
+        
+        <script src="plugins/sweetalert2/sweetalert2.all.js"></script>
+        
+        <script src="content/js/scripts.js"></script>
     </body>
 </html>

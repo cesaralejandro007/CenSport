@@ -5,6 +5,8 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>CenSport - SENIAT</title>
+    <!-- Favicons -->
+    <link href="assets/img/CenSPORT.jpg" rel="icon">
   <link href="plugins/datatables/css/style.min.css" rel="stylesheet" />
   <link href="content/css/styles.css" rel="stylesheet">
 </head>

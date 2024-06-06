@@ -28,7 +28,11 @@ use config\componentes\configSistema as configSistema;
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            ...
+                        <div class="col-12">
+                                <label for="deporte" class="form-label">Nombre de Deporte</label>
+                                <input type="Text" name="Nro" class="form-control" id="deporte" required>
+                                <spam id="sdeporte"></spam>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -43,7 +47,7 @@ use config\componentes\configSistema as configSistema;
                                 <i class="fas fa-table me-1"></i>
                                 Información de Deportes
                             </div>
-                            <div style="padding:0 15px 15px 15px" class="card-body">
+                            <div style="padding:0 15px 15px 15px" class="card-body table-responsive">
                             <table id="tabla" class="table table-bordered table-hover datatable">
                                     <thead>
                                         <tr>

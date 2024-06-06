@@ -89,7 +89,7 @@ use config\componentes\configSistema as configSistema;
                                 <i class="fas fa-table me-1"></i>
                                 Resumen
                             </div>
-                            <div class="card-body">
+                            <div class="card-body table-responsive">
                             <table id="tabla" class="table table-bordered table-hover datatable">
                                     <thead>
                                         <tr>

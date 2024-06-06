@@ -28,7 +28,58 @@ use config\componentes\configSistema as configSistema;
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            ...
+                            <input type="hidden" name="accion" class="form-control" id="accion">
+                            <input type="hidden" name="id" class="form-control" id="id_usuario">
+                            <input type="hidden" name="id" class="form-control" id="cedula">
+                            <div class="col-12">
+                                <label for="cedula" class="form-label">Cedula</label>
+                                <input type="text" name="cedula" class="form-control" id="cedula" value ="">
+                                <spam id="scedula"></spam>
+                            </div>
+                            <div class="col-12">
+                                <label for="nombres" class="form-label">Nombres</label>
+                                <input type="Text" name="Nro" class="form-control" id="nombres" required>
+                                <spam id="snombres"></spam>
+                            </div>
+                            <div class="col-12">
+                                <label for="apellidos" class="form-label">Apellidos</label>
+                                <input type="Text" name="Sujeto Pasivo" class="form-control" id="apellidos" required>
+                                <spam id="sapellidos"></spam>
+                            </div>
+                            <div style="margin:15px 0px 0px 0px" class="col-12">
+                                <div class="input-group">
+                                    <label class="input-group-text" for="sexo">Sexo</label>
+                                    <select class="form-select" id="sexo">
+                                        <option value="0" selected>...</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Femenino">Femenino</option>
+                                    </select>
+                                    <spam id="ssexo"></spam>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="correo" class="form-label">Correo</label>
+                                <input type="Text" name="RifC" class="form-control" id="correo" required>
+                                <spam id="scorreo"></spam>
+                            </div>
+                            <div class="col-12">
+                                <label for="edad" class="form-label">Edad</label>
+                                <input type="Text" name="RifC" class="form-control" id="edad" required>
+                                <spam id="sedad"></spam>
+                            </div>
+                            <div style="margin:15px 0px 0px 0px" class="col-12">
+                                <div class="input-group">
+                                    <label class="input-group-text" for="select_division">División</label>
+                                    <select class="form-select" id="select_division">
+                                        <option value="0" selected>...</option>
+                                        <?php ?>
+                                            <option value=""></option>
+                                        <?php ?>
+                                    </select>
+                                    <spam id="sselect_division"></spam>
+                                </div>
+                            </div>
+                            <div id="seleccionar_area"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -43,7 +94,7 @@ use config\componentes\configSistema as configSistema;
                                 <i class="fas fa-table me-1"></i>
                                 Información de Funcionarios
                             </div>
-                            <div style="padding:0 15px 15px 15px" class="card-body">
+                            <div style="padding:0 15px 15px 15px" class="card-body table-responsive">
                             <table id="tabla" class="table table-bordered table-hover datatable">
                                     <thead>
                                         <tr>
