@@ -31,7 +31,7 @@ use config\componentes\configSistema as configSistema;
                             <input type="hidden" name="accion" class="form-control" id="accion">
                             <input type="hidden" name="id" class="form-control" id="id_usuario">
                             <input type="hidden" name="id" class="form-control" id="cedula">
-                            <div style="margin:15px 0px 0px 0px" class="col-12">
+                            <div class="col-12 mt-2">
                                 <div class="input-group">
                                     <label class="input-group-text" for="deporte">Deporte</label>
                                     <select class="form-select" id="deporte">
@@ -44,56 +44,41 @@ use config\componentes\configSistema as configSistema;
                                     <spam id="sdeporte"></spam>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <label for="grupo" class="form-label">Nombre de Grupo</label>
-                                <input type="Text" name="RifC" class="form-control" id="grupo" required>
-                                <spam id="sgrupo"></spam>
-                            </div>
-                            <div class="col-12">
-                                <label for="descripcion" class="form-label">Descripción</label>
-                                <input type="Text" name="RifC" class="form-control" id="descripcion" required>
-                                <spam id="sdescripcion"></spam>
-                            </div>
-                            <div style="margin:15px 0px 0px 0px" class="col-12">
-                           
-
-
-                                
-                                
-                                <div class="col-md-6 mt-2">
-                                <label for="">
-                                    Integrantes <span id='valid_integrantes' style='color:red'>
-                                </label>
-                                 <div class="input-group">
-                                    <input list="cedula" id="integrantes" name="datos[cedula_propietario]"
-                                        class="form-control no-simbolos letras_numeros" placeholder="Cédula" oninput="Limitar(this,15);"/>
-
-                                    <datalist id="cedula">
-                                        <?php foreach ($cedula as $key => $persona) {?>
-                                        <option value="<?php echo $persona["id_persona"]; ?>">
-                                            <?php echo $persona["primer_nombre"] . " " . $persona["primer_apellido"]; ?>
-                                        </option>
-                                    <?php }?>
-                                    </datalist>
-                                    
-                                    <button id='agregar' class="btn btn-info" type="button">Agregar</button>
+                            <div class="col-12 mt-2">
+                                <div class="input-group">
+                                    <label for="grupo" class="input-group-text">Nombre de Grupo</label>
+                                    <input type="text" name="RifC" class="form-control" id="grupo" required>
+                                    <span id="sgrupo"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6 mt-3">
+                            <div class="col-12 mt-2">
+                                <div class="input-group">
+                                    <label for="descripcion" class="input-group-text">Descripción</label>
+                                    <input type="text" name="RifC" class="form-control" id="descripcion" required>
+                                    <span id="sdescripcion"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2"> 
+                                <div class="input-group">
+                                    <label for="exampleDataList" class="input-group-text">Integrante</label>
+                                    <input class="form-control" list="opcion_persona" id="exampleDataList" placeholder="Cedula persona">
+                                    <datalist id="opcion_persona">
+                                        <?php foreach ($cedula as $key => $persona) {?>
+                                        <option value="<?php echo $persona["cedula"]; ?>">
+                                            <?php echo $persona["nombres"] . " " . $persona["apellidos"]; ?>
+                                        </option>
+                                        <?php }?>
+                                    </datalist>
+                                    <button id='agregar' class="btn btn-secondary" type="button">Agregar</button>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
                                   <label>Integrantes agregados a
                                     <span id='nombre_persona'></span>
                                     </label>
-
                                 <div class="text-center" style='width:95%;height:200px;overflow-y: scroll;background: #D4E6F4'>
-                                    <div id='integrantes_agregados' style='width:95%;margin-top:10px;'>
-                                    </div>
+                                    <div id='integrantes_agregados' style='width:95%;margin-top:10px;'></div>
                                 </div>
-
-                            </div>
-
-
-
-
                             </div>
                             <div id="seleccionar_area"></div>
                         </div>
@@ -164,5 +149,6 @@ use config\componentes\configSistema as configSistema;
         <script src="plugins/sweetalert2/sweetalert2.all.js"></script>
         
         <script src="content/js/scripts.js"></script>
+        <script src="content/js/grupos_deportivos.js"></script>
     </body>
 </html>
