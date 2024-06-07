@@ -12,7 +12,7 @@ use config\componentes\configSistema as configSistema;
           <div id="layoutSidenav_content" style="background:#D4E6F1;">
             <main>
                 <div class="d-flex justify-content-between align-items-end">
-                    <button type="button" class="btn btn-dark border m-2" id="evento">
+                    <button type="button" class="btn btn-success border m-2" id="evento">
                         Registrar Funcionario
                     </button>  
                     <div class="py-2 px-4" style="border-radius: 0 0 0 50%; margin-bottom:10px; background:#D4AC0D; font-family:'Baskerville Old Face';" >
@@ -99,7 +99,7 @@ use config\componentes\configSistema as configSistema;
                             <div id="selec_area"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" style="background:#9D2323;" class="btn text-white" data-bs-dismiss="modal">Cerrar</button>
                             <button id="enviar" type="button" class="btn btn-primary">Incluir</button>
                         </div>
                         </div>

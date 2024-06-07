@@ -12,7 +12,7 @@ use config\componentes\configSistema as configSistema;
           <div id="layoutSidenav_content" style="background:#D4E6F1;">
             <main>
                 <div class="d-flex justify-content-between align-items-end">
-                    <button type="button" class="btn btn-dark border m-2" id="nuevo" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <button type="button" class="btn btn-success border m-2" id="evento">
                         Registrar Deporte
                     </button>  
                     <div class="py-2 px-4" style="border-radius: 0 0 0 50%; margin-bottom:10px; background:#D4AC0D; font-family:'Baskerville Old Face';">
@@ -28,15 +28,19 @@ use config\componentes\configSistema as configSistema;
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                        <div class="col-12">
-                                <label for="deporte" class="form-label">Nombre de Deporte</label>
-                                <input type="Text" name="Nro" class="form-control" id="deporte" required>
-                                <spam id="sdeporte"></spam>
+                            <input type="hidden" name="accion" class="form-control" id="accion">
+                            <input type="hidden" name="id" class="form-control" id="id_deporte">
+                            <div class="col-12">
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Nombre de Deporte</span>
+                                    <input type="Text" name="Nro" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="nombre_deporte" required>
+                                </div>
+                                <span id="snombre_deporte"></span>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary">Incluir</button>
+                            <button type="button" style="background:#9D2323;" class="btn text-white" data-bs-dismiss="modal">Cerrar</button>
+                            <button id="enviar" type="button" class="btn btn-primary">Incluir</button>
                         </div>
                         </div>
                     </div>
@@ -62,7 +66,24 @@ use config\componentes\configSistema as configSistema;
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                       
+                                    <?php
+                                foreach ($lista_deportes as $valor) 
+                                {?>
+                                    <tr>
+                                    <td class="project-actions text-left">
+                                        <div class="d-flex">
+                                            <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                                            onclick="cargar_datos(<?=$valor['id_deporte'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
+
+                                            <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                            onclick="eliminar(<?=$valor['id_deporte'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                    <td class="project-actions text-left">
+                                        <?php echo $valor['nombre_deporte']; ?>
+                                    </td>
+                                    <?php
+                                }?>
                                     </tbody>
                                 </table>
                             </div>
@@ -97,5 +118,6 @@ use config\componentes\configSistema as configSistema;
         <script src="plugins/sweetalert2/sweetalert2.all.js"></script>
         
         <script src="content/js/scripts.js"></script>
+        <script src="content/js/deporte.js"></script>
     </body>
 </html>

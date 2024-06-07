@@ -1,5 +1,5 @@
 var keyup_cedula = /^[0-9]{7,8}$/;
-var keyup_nombre = /^(([A-ZÁÉÍÓÚ]+[a-zñáéíóú.,-]*[\s]?){2,30})$/;
+var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}$/;
 var keyup_apellido = /^[A-ZÁÉÍÓÚ][a-zñáéíóú\s]{2,30}$/;
 var keyup_fecha = /^\d{4}-\d{2}-\d{2}$/;
 var keyup_correo =/^[A-Za-z0-9_\u00d1\u00f1\u00E0-\u00FC]{3,25}[@]{1}[A-Za-z0-9]{3,8}[.]{1}[A-Za-z]{2,4}$/;
@@ -66,7 +66,7 @@ function carga() {
     };
 /*--------------FIN VALIDACION PARA SEXO--------------------*/
 /*--------------VALIDACION PARA CORREO--------------------*/
-    document.getElementById("correo").maxLength = 30;
+    document.getElementById("correo").maxLength = 80;
     document.getElementById("correo").onkeypress = function (e) {
         er = /^[A-Za-z0-9./!@=%#&,?\s\b\u00f1\u00d1\u00E0-\u00FC]*$/;
         validarkeypress(er, e);
