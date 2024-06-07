@@ -118,8 +118,8 @@ class RegistroFuncionarioModelo extends connectDB
             $optionsHTML .= '<option value="' . $fila['id_area'] . '">' . $fila['nombre_area'] . '</option>';
         }
     
-        $selectHTML = '<div style="margin:15px 0px 0px 0px" class="col-12">';
-        $selectHTML .= '<div class="input-group">';
+        $selectHTML = '<div class="col-12">';
+        $selectHTML .= '<div class="input-group mb-1">';
         $selectHTML .= '<label class="input-group-text" for="area">Área</label>';
         $selectHTML .= '<select class="form-select" id="area">';
         $selectHTML .= '<option value="0" selected>...</option>';

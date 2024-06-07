@@ -454,7 +454,12 @@ $.ajax({
     success: (response) => {
     var res = JSON.parse(response);
     limpiar();
-    buscar_division_area(res.idDivision);
+
+    var datos = new FormData();
+    datos.append("accion", "buscar_area");
+    datos.append("id_division", res.idDivision);
+    buscar_division_area(datos);
+
     $("#id_persona").val(res.id_persona);
     $("#cedula").val(res.cedula);
     $("#nombres").val(res.nombres);
@@ -464,13 +469,14 @@ $.ajax({
     $("#fecha_nacimiento").val(res.fecha_nacimiento);
     $("#fecha_ingreso").val(res.fecha_ingreso);
     $("#select_division").val(res.idDivision);
-    $("#area").val(res.idArea);
     $("#enviar").text("Modificar");
     $("#staticBackdrop").modal("show");
     $("#accion").val("modificar");
     document.getElementById("accion").innerText = "modificar";
     $("#titulo").text("Modificar Funcionario");
-
+    setTimeout(function() {
+        $("#area").val(res.idArea);
+    }, 100);
     },
     error: (err) => {
     Toast.fire({
