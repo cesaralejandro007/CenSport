@@ -114,20 +114,22 @@ use config\componentes\configSistema as configSistema;
                             <table id="tabla" class="table table-bordered table-hover datatable border">
                                     <thead>
                                         <tr>
-                                            <th>opciones</th>
+                                            <th>Opciones</th>
                                             <th>Deporte</th>
                                             <th>Nombre de Grupo</th>
                                             <th>Descripción de Grupo</th>
                                             <th>Integrantes</th>
+                                            <th>Cant. Integrante</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>opciones</th>
+                                            <th>Opciones</th>
                                             <th>Deporte</th>
                                             <th>Nombre</th>
                                             <th>Descripción</th>
                                             <th>Integrantes</th>
+                                            <th>Cant. Integrante</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>  
@@ -175,6 +177,7 @@ use config\componentes\configSistema as configSistema;
                                                 </table>
                                             </div>
                                         </td>
+                                        <td><?= $grupo['cantidad_integrantes'] ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                                     </tbody>

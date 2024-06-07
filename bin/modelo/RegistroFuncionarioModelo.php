@@ -3,7 +3,7 @@ namespace modelo;
 use config\connect\connectDB as connectDB;
 class RegistroFuncionarioModelo extends connectDB
 {
-    public function registrar_funcionario($cedula,$nombres,$apellidos,$sexo,$correo,$fecha_nacimiento,$fecha_ingreso,$id_area)
+    public function registrar_funcionario($cedula,$nombres,$apellidos,$sexo,$telefono,$fecha_nacimiento,$fecha_ingreso,$id_area)
     {
         $validar_registro = $this->validar_registro($cedula);
         if ($validar_registro==false) {
@@ -17,7 +17,7 @@ class RegistroFuncionarioModelo extends connectDB
                 nombres,
                 apellidos,
                 sexo,
-                correo,
+                telefono,
                 fecha_nacimiento,
                 fecha_ingreso
                 )
@@ -27,7 +27,7 @@ class RegistroFuncionarioModelo extends connectDB
                 '$nombres',
                 '$apellidos',
                 '$sexo',
-                '$correo',
+                '$telefono',
                 '$fecha_nacimiento',
                 '$fecha_ingreso'
             )");
@@ -66,7 +66,7 @@ class RegistroFuncionarioModelo extends connectDB
         }
         return $respuestaArreglo;
     }
-    public function modificar_funcionario($id ,$cedula,$nombres,$apellidos,$sexo,$correo,$fecha_nacimiento,$fecha_ingreso,$id_area)
+    public function modificar_funcionario($id ,$cedula,$nombres,$apellidos,$sexo,$telefono,$fecha_nacimiento,$fecha_ingreso,$id_area)
     {
         $validar_modificar = $this->validar_modificar($id, $cedula);
         if ($validar_modificar) {
@@ -74,7 +74,7 @@ class RegistroFuncionarioModelo extends connectDB
             $respuesta['mensaje'] = "La persona ya se encuetra registrado.";
         }else {
             try {
-                $this->conex->query("UPDATE personas SET id_area = '$id_area', cedula = '$cedula', nombres = '$nombres', apellidos = '$apellidos', sexo = '$sexo', correo = '$correo', fecha_nacimiento = '$fecha_nacimiento', fecha_ingreso = '$fecha_ingreso' WHERE id_persona = '$id'");
+                $this->conex->query("UPDATE personas SET id_area = '$id_area', cedula = '$cedula', nombres = '$nombres', apellidos = '$apellidos', sexo = '$sexo', telefono = '$telefono', fecha_nacimiento = '$fecha_nacimiento', fecha_ingreso = '$fecha_ingreso' WHERE id_persona = '$id'");
                 $respuesta["resultado"]=1;
                 $respuesta["mensaje"]="Modificación exitosa.";
             } catch (Exception $e) {
@@ -134,7 +134,7 @@ class RegistroFuncionarioModelo extends connectDB
     
     public function listar_funcionarios()
     {
-        $resultado = $this->conex->prepare("SELECT *, YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) AS edad, DATE_FORMAT(fecha_ingreso, '%d/%m/%Y') AS fecha_formateada FROM personas;");
+        $resultado = $this->conex->prepare("SELECT *, YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) AS edad, DATE_FORMAT(fecha_ingreso, '%d/%m/%Y') AS fecha_formateada,DATE_FORMAT(fecha_nacimiento, '%d/%m/%Y') AS fecha_nacimiento_formateada FROM personas;");
         $respuestaArreglo = [];
         try {
             $resultado->execute();

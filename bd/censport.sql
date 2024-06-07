@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-06-2024 a las 21:15:18
+-- Tiempo de generación: 07-06-2024 a las 21:51:19
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -143,6 +143,13 @@ CREATE TABLE `grupos_deportivos` (
   `estado` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `grupos_deportivos`
+--
+
+INSERT INTO `grupos_deportivos` (`id_grupo_deportivo`, `nombre_grupo`, `descripcion_grupo`, `estado`) VALUES
+(39, 'Voleibol Seniat', 'Los mejors', '1');
+
 -- --------------------------------------------------------
 
 --
@@ -156,7 +163,7 @@ CREATE TABLE `personas` (
   `nombres` varchar(25) NOT NULL,
   `apellidos` varchar(25) NOT NULL,
   `sexo` varchar(9) NOT NULL,
-  `correo` varchar(80) NOT NULL,
+  `telefono` varchar(30) NOT NULL,
   `fecha_nacimiento` date NOT NULL,
   `fecha_ingreso` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -165,12 +172,12 @@ CREATE TABLE `personas` (
 -- Volcado de datos para la tabla `personas`
 --
 
-INSERT INTO `personas` (`id_persona`, `id_area`, `cedula`, `nombres`, `apellidos`, `sexo`, `correo`, `fecha_nacimiento`, `fecha_ingreso`) VALUES
-(6, 1, '12026715', 'Jorge Enrrique', 'Nieto Virguez', 'Masculino', 'jenieto@seniat.com', '1974-05-14', '2022-03-30'),
-(7, 2, '28055655', 'Cesar Alejandro', 'Vides Gonzalez', 'Masculino', 'jbrcesarvides@gmail.com', '2001-03-27', '2021-02-07'),
-(8, 5, '27543543', 'Maria Jose', 'Zapata Virguez', 'Femenino', 'mzapata@seniat.com', '1999-02-12', '1999-02-12'),
-(9, 1, '9617327', 'Ffdsfdsf Ffdsfds', 'Ffdsfds Ffdsfdsf', 'Masculino', 'asdsadas@fds.com', '2333-03-22', '2333-03-12'),
-(10, 11, '24363187', 'Csdadsad Ddfdsf', 'Cfdsfdsf Ffdsfds', 'Masculino', 'dfsdfds@seniat.com', '0244-03-24', '0234-04-23');
+INSERT INTO `personas` (`id_persona`, `id_area`, `cedula`, `nombres`, `apellidos`, `sexo`, `telefono`, `fecha_nacimiento`, `fecha_ingreso`) VALUES
+(6, 1, '12026715', 'Jorge Enrrique', 'Nieto Virguez', 'Masculino', '0412-0318406', '1974-05-14', '2022-03-30'),
+(7, 2, '28055655', 'Cesar Alejandro', 'Vides Gonzalez', 'Masculino', '0416-6756777', '2001-03-27', '2021-02-07'),
+(8, 5, '27543543', 'Maria Jose', 'Zapata Virguez', 'Femenino', '0412-0345435', '1999-02-12', '1999-02-12'),
+(9, 1, '9617327', 'Ffdsfdsf Ffdsfds', 'Ffdsfds Ffdsfdsf', 'Masculino', '0412-5676577', '2333-03-22', '2333-03-12'),
+(10, 11, '24363187', 'Csdadsad Ddfdsf', 'Cfdsfdsf Ffdsfds', 'Masculino', '0426-5666667', '0244-03-24', '0234-04-23');
 
 -- --------------------------------------------------------
 
@@ -184,6 +191,16 @@ CREATE TABLE `personas_grupos` (
   `id_deporte` int(11) NOT NULL,
   `id_grupo_deportivo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `personas_grupos`
+--
+
+INSERT INTO `personas_grupos` (`id_persona_grupo`, `id_persona`, `id_deporte`, `id_grupo_deportivo`) VALUES
+(34, 6, 3, 39),
+(35, 7, 3, 39),
+(36, 9, 3, 39),
+(37, 10, 3, 39);
 
 -- --------------------------------------------------------
 
@@ -283,19 +300,19 @@ ALTER TABLE `divisiones`
 -- AUTO_INCREMENT de la tabla `grupos_deportivos`
 --
 ALTER TABLE `grupos_deportivos`
-  MODIFY `id_grupo_deportivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id_grupo_deportivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `personas_grupos`
 --
 ALTER TABLE `personas_grupos`
-  MODIFY `id_persona_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_persona_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

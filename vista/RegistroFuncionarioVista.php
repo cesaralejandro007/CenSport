@@ -65,10 +65,10 @@ use config\componentes\configSistema as configSistema;
                             </div>
                             <div class="col-12">
                                 <div class="input-group mb-1">
-                                    <span class="input-group-text" id="inputGroup-sizing-default">Correo</span>
-                                    <input type="Text" name="RifC" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="correo" required>
+                                    <span class="input-group-text" id="inputGroup-sizing-default">telefono</span>
+                                    <input type="Text" name="telefono" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="telefono" required>
                                 </div>
-                                <span id="scorreo"></span>
+                                <span id="stelefono"></span>
                             </div>
                             <div class="col-12">
                                 <div class="input-group mb-1">
@@ -120,9 +120,10 @@ use config\componentes\configSistema as configSistema;
                                             <th>Nombres</th>
                                             <th>Apellidos</th>
                                             <th>Sexo</th>
-                                            <th>Correo</th>
+                                            <th>Fecha de Nacimiento</th>
                                             <th>Edad</th>
                                             <th>Fecha de Ingreso</th>
+                                            <th>Telefono</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -132,9 +133,10 @@ use config\componentes\configSistema as configSistema;
                                             <th>Nombres</th>
                                             <th>Apellidos</th>
                                             <th>Sexo</th>
-                                            <th>Correo</th>
+                                            <th>Fecha de Nacimiento</th>
                                             <th>Edad</th>
                                             <th>Fecha de Ingreso</th>
+                                            <th>Telefono</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -164,13 +166,16 @@ use config\componentes\configSistema as configSistema;
                                         <?php echo $valor['sexo']; ?>
                                     </td>
                                     <td class="project-actions text-left">
-                                        <?php echo $valor['correo']; ?>
+                                        <?php echo $valor['fecha_nacimiento_formateada']; ?>
                                     </td>
                                     <td class="project-actions text-left">
                                         <?php echo $valor['edad']; ?>
                                     </td>
                                     <td class="project-actions text-left">
                                         <?php echo $valor['fecha_formateada']; ?>
+                                    </td>
+                                    <td class="project-actions text-left">
+                                        <?php echo $valor['telefono']; ?>
                                     </td>
                                     </tr>
                             <?php

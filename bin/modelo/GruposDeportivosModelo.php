@@ -167,7 +167,8 @@ class GruposDeportivosModelo extends connectDB
                     'deporte' => $integrantes[0]['nombre_deporte'],
                     'nombre_grupo' => $grupo['nombre_grupo'],
                     'descripcion_grupo' => $grupo['descripcion_grupo'],
-                    'integrantes' => $integrantes
+                    'integrantes' => $integrantes,
+                    'cantidad_integrantes' =>count($integrantes),
                 ];
             
                 $datos_grupos[] = $datos_grupo;

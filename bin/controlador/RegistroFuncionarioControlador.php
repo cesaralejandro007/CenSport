@@ -13,7 +13,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         $modulo = 'Funcionarios:';
         $accion = $_POST['accion'];
         if ($accion == 'registrar') {
-            $response = $funcionario->registrar_funcionario($_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['correo'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area']);
+            $response = $funcionario->registrar_funcionario($_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area']);
             if ($response["resultado"]==1) {
                 echo json_encode([
                     'estatus' => '1',
@@ -60,7 +60,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                     'nombres' => $valor['nombres'],
                     'apellidos' => $valor['apellidos'],
                     'sexo' => $valor['sexo'],
-                    'correo' => $valor['correo'],
+                    'telefono' => $valor['telefono'],
                     'fecha_nacimiento' => $valor['fecha_nacimiento'],
                     'fecha_ingreso' => $valor['fecha_ingreso'],
                     'idDivision' => $valor['idDivision'],
@@ -69,7 +69,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             }
             return 0;
         }else if ($accion == 'modificar'){ 
-            $response = $funcionario->modificar_funcionario($_POST['id'],$_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['correo'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area']);
+            $response = $funcionario->modificar_funcionario($_POST['id'],$_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area']);
             if ($response['resultado']== 1) {
                 echo json_encode([
                     'estatus' => '1',

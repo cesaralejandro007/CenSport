@@ -2,7 +2,7 @@ var keyup_cedula = /^[0-9]{7,8}$/;
 var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}$/;
 var keyup_apellido = /^[A-ZÁÉÍÓÚ][a-zñáéíóú\s]{2,30}$/;
 var keyup_fecha = /^\d{4}-\d{2}-\d{2}$/;
-var keyup_correo =/^[A-Za-z0-9_\u00d1\u00f1\u00E0-\u00FC]{3,25}[@]{1}[A-Za-z0-9]{3,8}[.]{1}[A-Za-z]{2,4}$/;
+var keyup_telefono =/^[0-9]{4}-\d{7,8}$/
 
 document.onload = carga();
 function carga() {
@@ -65,21 +65,21 @@ function carga() {
         );
     };
 /*--------------FIN VALIDACION PARA SEXO--------------------*/
-/*--------------VALIDACION PARA CORREO--------------------*/
-    document.getElementById("correo").maxLength = 80;
-    document.getElementById("correo").onkeypress = function (e) {
-        er = /^[A-Za-z0-9./!@=%#&,?\s\b\u00f1\u00d1\u00E0-\u00FC]*$/;
+/*--------------VALIDACION PARA TELEFONO--------------------*/
+    document.getElementById("telefono").maxLength = 15;
+    document.getElementById("telefono").onkeypress = function (e) {
+        er = /^[0-9\b\u00f1\u00d1\u00E0-\u00FC-]*$/;
         validarkeypress(er, e);
     };
-    document.getElementById("correo").onkeyup = function () {
+    document.getElementById("telefono").onkeyup = function () {
         r = validarkeyup(
-            keyup_correo,
+            keyup_telefono,
             this,
-            document.getElementById("scorreo"),
-             "* El formato debe ser ejemplo@gmail.com"
+            document.getElementById("stelefono"),
+             "* El formato debe ser 0426-1234567"
         );
     };
-/*--------------FIN VALIDACION PARA CORREO--------------------*/
+/*--------------FIN VALIDACION PARA TELEFONO--------------------*/
 /*--------------VALIDACION PARA FECHA DE NACIMIENTO--------------------*/
 document.getElementById("fecha_nacimiento").onkeyup = function () {
     r = validarkeyup(
@@ -112,7 +112,7 @@ document.getElementById("enviar").onclick = function () {
         datos.append("nombres", $("#nombres").val());
         datos.append("apellidos", $("#apellidos").val());
         datos.append("sexo", $("#sexo").val());
-        datos.append("correo", $("#correo").val());
+        datos.append("telefono", $("#telefono").val());
         datos.append("fecha_nacimiento", $("#fecha_nacimiento").val());
         datos.append("fecha_ingreso", $("#fecha_ingreso").val());
         datos.append("id_division", $("#select_division").val());
@@ -172,7 +172,7 @@ function limpiar() {
     $("#nombres").val("");
     $("#apellidos").val("");
     $("#sexo").val(0);
-    $("#correo").val("");
+    $("#telefono").val("");
     $("#fecha_nacimiento").val("");
     $("#fecha_ingreso").val("");
     $("#select_division").val(0);
@@ -181,7 +181,7 @@ function limpiar() {
     document.getElementById("snombres").innerText = "";
     document.getElementById("sapellidos").innerText = "";
     document.getElementById("ssexo").innerText = "";
-    document.getElementById("scorreo").innerText = "";
+    document.getElementById("stelefono").innerText = "";
     document.getElementById("sfecha_nacimiento").innerText = "";
     document.getElementById("sfecha_ingreso").innerText = "";
     document.getElementById("sselect_division").innerText = "";
@@ -191,7 +191,7 @@ function limpiar() {
     document.getElementById("nombres").classList.remove("is-invalid", "is-valid");
     document.getElementById("apellidos").classList.remove("is-invalid", "is-valid");
     document.getElementById("sexo").classList.remove("is-invalid", "is-valid");
-    document.getElementById("correo").classList.remove("is-invalid", "is-valid");
+    document.getElementById("telefono").classList.remove("is-invalid", "is-valid");
     document.getElementById("fecha_nacimiento").classList.remove("is-invalid", "is-valid");
     document.getElementById("fecha_ingreso").classList.remove("is-invalid", "is-valid");
     document.getElementById("select_division").classList.remove("is-invalid", "is-valid");
@@ -227,11 +227,11 @@ function valida_registrar() {
         document.getElementById("sexo").classList.remove("is-invalid");
         document.getElementById("sexo").classList.add("is-valid");
     }
-    correo = validarkeyup(
-        keyup_correo,
-        document.getElementById("correo"),
-        document.getElementById("scorreo"),
-        "* El formato debe ser ejemplo@gmail.com"
+    telefono = validarkeyup(
+        keyup_telefono,
+        document.getElementById("telefono"),
+        document.getElementById("stelefono"),
+        "* El formato debe ser 0426-1234567"
     );
     fecha_nacimiento = validarkeyup(
         keyup_fecha,
@@ -270,7 +270,7 @@ function valida_registrar() {
         nombres == 0 ||
         apellidos == 0 ||
         document.getElementById("sexo").value == 0 ||
-        correo == 0 ||
+        telefono == 0 ||
         fecha_nacimiento == 0 ||
         fecha_ingreso == 0 ||
         document.getElementById("select_division").value == 0 ||
@@ -465,7 +465,7 @@ $.ajax({
     $("#nombres").val(res.nombres);
     $("#apellidos").val(res.apellidos);
     $("#sexo").val(res.sexo);
-    $("#correo").val(res.correo);
+    $("#telefono").val(res.telefono);
     $("#fecha_nacimiento").val(res.fecha_nacimiento);
     $("#fecha_ingreso").val(res.fecha_ingreso);
     $("#select_division").val(res.idDivision);
