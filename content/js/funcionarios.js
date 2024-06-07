@@ -171,7 +171,7 @@ function limpiar() {
     $("#cedula").val("");
     $("#nombres").val("");
     $("#apellidos").val("");
-    $("#sexo").val("");
+    $("#sexo").val(0);
     $("#correo").val("");
     $("#fecha_nacimiento").val("");
     $("#fecha_ingreso").val("");

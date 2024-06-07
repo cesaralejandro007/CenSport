@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2024 a las 04:37:00
+-- Tiempo de generación: 07-06-2024 a las 21:15:18
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -94,6 +94,15 @@ CREATE TABLE `deportes` (
   `nombre_deporte` varchar(35) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `deportes`
+--
+
+INSERT INTO `deportes` (`id_deporte`, `nombre_deporte`) VALUES
+(1, 'Futbol'),
+(2, 'Sofbol'),
+(3, 'Voleibol');
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +133,19 @@ INSERT INTO `divisiones` (`id_division`, `nombre_division`, `descripcion_divisio
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `grupos_deportivos`
+--
+
+CREATE TABLE `grupos_deportivos` (
+  `id_grupo_deportivo` int(11) NOT NULL,
+  `nombre_grupo` text NOT NULL,
+  `descripcion_grupo` text NOT NULL,
+  `estado` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `personas`
 --
 
@@ -133,11 +155,22 @@ CREATE TABLE `personas` (
   `cedula` varchar(11) NOT NULL,
   `nombres` varchar(25) NOT NULL,
   `apellidos` varchar(25) NOT NULL,
-  `sexo` varchar(2) NOT NULL,
+  `sexo` varchar(9) NOT NULL,
   `correo` varchar(80) NOT NULL,
   `fecha_nacimiento` date NOT NULL,
   `fecha_ingreso` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `personas`
+--
+
+INSERT INTO `personas` (`id_persona`, `id_area`, `cedula`, `nombres`, `apellidos`, `sexo`, `correo`, `fecha_nacimiento`, `fecha_ingreso`) VALUES
+(6, 1, '12026715', 'Jorge Enrrique', 'Nieto Virguez', 'Masculino', 'jenieto@seniat.com', '1974-05-14', '2022-03-30'),
+(7, 2, '28055655', 'Cesar Alejandro', 'Vides Gonzalez', 'Masculino', 'jbrcesarvides@gmail.com', '2001-03-27', '2021-02-07'),
+(8, 5, '27543543', 'Maria Jose', 'Zapata Virguez', 'Femenino', 'mzapata@seniat.com', '1999-02-12', '1999-02-12'),
+(9, 1, '9617327', 'Ffdsfdsf Ffdsfds', 'Ffdsfds Ffdsfdsf', 'Masculino', 'asdsadas@fds.com', '2333-03-22', '2333-03-12'),
+(10, 11, '24363187', 'Csdadsad Ddfdsf', 'Cfdsfdsf Ffdsfds', 'Masculino', 'dfsdfds@seniat.com', '0244-03-24', '0234-04-23');
 
 -- --------------------------------------------------------
 
@@ -149,9 +182,7 @@ CREATE TABLE `personas_grupos` (
   `id_persona_grupo` int(11) NOT NULL,
   `id_persona` int(11) NOT NULL,
   `id_deporte` int(11) NOT NULL,
-  `nombre_grupo` text NOT NULL,
-  `descripcion_grupo` text NOT NULL,
-  `estado` int(2) NOT NULL
+  `id_grupo_deportivo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -199,6 +230,12 @@ ALTER TABLE `divisiones`
   ADD PRIMARY KEY (`id_division`);
 
 --
+-- Indices de la tabla `grupos_deportivos`
+--
+ALTER TABLE `grupos_deportivos`
+  ADD PRIMARY KEY (`id_grupo_deportivo`);
+
+--
 -- Indices de la tabla `personas`
 --
 ALTER TABLE `personas`
@@ -211,7 +248,8 @@ ALTER TABLE `personas`
 ALTER TABLE `personas_grupos`
   ADD PRIMARY KEY (`id_persona_grupo`),
   ADD KEY `id_deporte` (`id_deporte`),
-  ADD KEY `id_persona` (`id_persona`);
+  ADD KEY `id_persona` (`id_persona`),
+  ADD KEY `id_grupo_deportivo` (`id_grupo_deportivo`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -233,7 +271,7 @@ ALTER TABLE `areas`
 -- AUTO_INCREMENT de la tabla `deportes`
 --
 ALTER TABLE `deportes`
-  MODIFY `id_deporte` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_deporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `divisiones`
@@ -242,16 +280,22 @@ ALTER TABLE `divisiones`
   MODIFY `id_division` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de la tabla `grupos_deportivos`
+--
+ALTER TABLE `grupos_deportivos`
+  MODIFY `id_grupo_deportivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `personas_grupos`
 --
 ALTER TABLE `personas_grupos`
-  MODIFY `id_persona_grupo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_persona_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -280,7 +324,8 @@ ALTER TABLE `personas`
 --
 ALTER TABLE `personas_grupos`
   ADD CONSTRAINT `personas_grupos_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `personas` (`id_persona`),
-  ADD CONSTRAINT `personas_grupos_ibfk_2` FOREIGN KEY (`id_deporte`) REFERENCES `deportes` (`id_deporte`);
+  ADD CONSTRAINT `personas_grupos_ibfk_2` FOREIGN KEY (`id_deporte`) REFERENCES `deportes` (`id_deporte`),
+  ADD CONSTRAINT `personas_grupos_ibfk_3` FOREIGN KEY (`id_grupo_deportivo`) REFERENCES `grupos_deportivos` (`id_grupo_deportivo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

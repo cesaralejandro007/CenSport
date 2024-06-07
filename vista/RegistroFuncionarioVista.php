@@ -56,7 +56,7 @@ use config\componentes\configSistema as configSistema;
                                 <div class="input-group mb-1">
                                     <span class="input-group-text" id="inputGroup-sizing-default">Género o Sexo</span>
                                     <select type="select" class="form-select" id="sexo" aria-label="Default select example">
-                                        <option value="0" selected>...</option>
+                                        <option value="0" selected>--Seleccione--</option>
                                         <option value="Masculino">Masculino</option>
                                         <option value="Femenino">Femenino</option>
                                     </select>
@@ -88,7 +88,7 @@ use config\componentes\configSistema as configSistema;
                                 <div class="input-group mb-1">
                                     <span class="input-group-text" id="inputGroup-sizing-default">División</span>
                                     <select class="form-select" id="select_division" aria-label="Default select example" required>
-                                        <option value="0" selected>...</option>
+                                        <option value="0" selected>--Seleccione--</option>
                                         <?php foreach ($divisiones as $key => $value) {?>
                                             <option value="<?=$value['id_division'];?>"><?=$value['nombre_division'];?></option>
                                         <?php }?>
