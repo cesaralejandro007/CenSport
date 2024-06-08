@@ -48,7 +48,7 @@ var table = $('#tabla').DataTable({
   },          
   title: function() {
     var searchString = table.search();        
-    return searchString.length? "Search: " + searchString : "Reporte de Funcionarios"
+    return searchString.length? "Search: " : "Reporte de Funcionarios"
   },
   text:      '<i class="fas fa-file-pdf text-danger "></i> ',
   titleAttr: 'Exportar a PDF',

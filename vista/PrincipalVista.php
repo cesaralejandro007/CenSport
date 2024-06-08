@@ -87,7 +87,7 @@ use config\componentes\configSistema as configSistema;
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Resumen
+                                Resumen de Funcionarios x Deporte
                             </div>
                             <div class="card-body table-responsive">
                             <table id="tabla" class="table table-bordered table-hover datatable">
@@ -97,10 +97,11 @@ use config\componentes\configSistema as configSistema;
                                             <th>Nombres</th>
                                             <th>Apellidos</th>
                                             <th>Sexo</th>
-                                            <th>Correo</th>
+                                            <th>Fecha de Nacimiento</th>
                                             <th>Edad</th>
                                             <th>Fecha de Ingreso</th>
-                                            <th>Deporte</th>
+                                            <th>Telefono</th>
+                                            <th>Deportes</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -109,26 +110,62 @@ use config\componentes\configSistema as configSistema;
                                             <th>Nombres</th>
                                             <th>Apellidos</th>
                                             <th>Sexo</th>
-                                            <th>Correo</th>
+                                            <th>Fecha de Nacimiento</th>
                                             <th>Edad</th>
                                             <th>Fecha de Ingreso</th>
-                                            <th>Deporte</th>
+                                            <th>Telefono</th>
+                                            <th>Deportes</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                       
+                                        
+                                    <?php if (!empty($func_deport)) {
+                                        foreach ($func_deport as $info): ?>
+                                            <td><?= $info['cedula'] ?></td>
+                                            <td><?= $info['nombres'] ?></td>
+                                            <td><?= $info['apellidos'] ?></td>
+                                            <td><?= $info['sexo'] ?></td>
+                                            <td><?= $info['fecha_nacimiento'] ?></td>
+                                            <td><?= $info['edad'] ?></td>
+                                            <td><?= $info['fecha_ingreso'] ?></td>
+                                            <td><?= $info['telefono'] ?></td>
+                                            <td>
+                                                <div class="integrantes-table-container">
+                                                    <table class="table table-secondary table-striped table-hover">
+                                                        <tbody>
+                                                            <?php foreach ($info['deportes_persona'] as $deporte): ?>
+                                                                <tr>
+                                                                    <td><?= $deporte['nombre_deporte'] ?></td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; }else{}?>
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                         <div class="row">
-                            <div class="col-xl-12">
+                            <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Roporte de Deporte X Persona
+                                        Roporte de Deportes Masculino
                                     </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"><canvas id="myBarChart_masculino" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Roporte de Deportes Femenino
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart_femenino" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                         </div>

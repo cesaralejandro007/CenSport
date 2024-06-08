@@ -42,7 +42,7 @@ class GruposDeportivosModelo extends connectDB
         $validar_registro = $this->validar_registro($nombre_grupo);
         if ($validar_registro==false) {
             $respuesta["resultado"]=2;
-            $respuesta["mensaje"]="El deporte ya se encuentra registrado.";
+            $respuesta["mensaje"]="El nombre del Grupo Deportivo ya se encuentra registrado.";
         } else {
             try {
                 $this->conex->query("INSERT INTO grupos_deportivos (
@@ -116,7 +116,7 @@ class GruposDeportivosModelo extends connectDB
         $validar_modificar = $this->validar_modificar($id, $nombre_deporte);
         if ($validar_modificar) {
             $respuesta['resultado'] = 3;
-            $respuesta['mensaje'] = "La persona ya se encuetra registrado.";
+            $respuesta['mensaje'] = "El nombre del Grupo Deportivo ya se encuentra registrado.";
         }else {
             try {
                 $this->conex->query("UPDATE deportes SET nombre_deporte = '$nombre_deporte' WHERE id_deporte = '$id'");

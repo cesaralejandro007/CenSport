@@ -144,7 +144,6 @@ use config\componentes\configSistema as configSistema;
                                                 onclick="eliminar(<?= $grupo['id_grupo_deportivo'] ?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
                                             </div>
                                         </td>
-                                        </td>
                                         <td><?= $grupo['deporte'] ?></td>
                                         <td><?= $grupo['nombre_grupo'] ?></td>
                                         <td><?= $grupo['descripcion_grupo'] ?></td>

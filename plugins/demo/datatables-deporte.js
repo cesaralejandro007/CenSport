@@ -32,7 +32,7 @@ var table = $('#tabla').DataTable({
   },          
   title: function() {
     var searchString = table.search();        
-    return searchString.length? "Search: " + searchString : "Reporte de Deportes"
+    return searchString.length? "Search: " : "Reporte de Deportes"
   },
   text:      '<i class="fas fa-file-excel text-success"></i> ',
   titleAttr: 'Exportar a Excel',

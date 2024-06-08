@@ -79,7 +79,7 @@ var table = $('#tabla').DataTable({
   },          
   title: function() {
     var searchString = table.search();        
-    return searchString.length? "Search: " + searchString : "Reporte de Grupos"
+    return searchString.length? "Search: ": "Reporte de Grupos"
   },
   text:      '<i class="fa fa-print text-info"></i> ',
   titleAttr: 'Imprimir',

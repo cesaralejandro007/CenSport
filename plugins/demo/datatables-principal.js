@@ -38,7 +38,7 @@ var table = $('#tabla').DataTable({
   titleAttr: 'Exportar a Excel',
   className: 'btn border border-success bg-white mr-1',
   exportOptions: {
-    columns: [1,2,3,4,5,6,7]
+    columns: [0,1,2,3,4,5,6,7,8]
 }
 },
 {
@@ -69,7 +69,7 @@ var table = $('#tabla').DataTable({
     // Splice the image in after the header, but before the table
     },
   exportOptions: {
-    columns:[1,2,3,4,5,6,7]
+    columns:[0,1,2,3,4,5,6,7,8]
 }
 },
 {
@@ -79,13 +79,13 @@ var table = $('#tabla').DataTable({
   },          
   title: function() {
     var searchString = table.search();        
-    return searchString.length? "Search: " + searchString : "Reporte de Funcionarios y Deportes"
+    return searchString.length? "Search: " : "Reporte de Funcionarios y Deportes"
   },
   text:      '<i class="fa fa-print text-info"></i> ',
   titleAttr: 'Imprimir',
   className: 'btn border border-info bg-white mr-1',
   exportOptions: {
-    columns: [1,2,3,4,5,6,7]
+    columns: [0,1,2,3,4,5,6,7,8]
 }
 },    
 ]  
