@@ -6,38 +6,53 @@ class PrincipalModelo extends connectDB
     public function listado_func_deport()
     {
         try {
-            $resultado = $this->conex->prepare("SELECT *, YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) AS edad, DATE_FORMAT(fecha_ingreso, '%d/%m/%Y') AS fecha_formateada,DATE_FORMAT(fecha_nacimiento, '%d/%m/%Y') AS fecha_nacimiento_formateada FROM personas;");
+            $sql = "SELECT *, 
+                           YEAR(CURDATE()) - YEAR(fecha_nacimiento) - 
+                           (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) AS edad, 
+                           DATE_FORMAT(fecha_ingreso, '%d/%m/%Y') AS fecha_formateada, 
+                           DATE_FORMAT(fecha_nacimiento, '%d/%m/%Y') AS fecha_nacimiento_formateada 
+                    FROM personas;";
+            $resultado = $this->conex->prepare($sql);
             $datos_grupos = [];
             $resultado->execute();
             $personas = $resultado->fetchAll();
+    
             foreach ($personas as $persona) {
                 $cedula = $persona['cedula'];
-                $deportes = $this->conex->prepare("SELECT personas.cedula as cedula, deportes.id_deporte AS id_deporte, deportes.nombre_deporte as nombre_deporte FROM personas,personas_grupos,deportes WHERE personas.id_persona = personas_grupos.id_persona AND personas_grupos.id_deporte = deportes.id_deporte AND personas.cedula = ?");
+                $sql_deportes = "SELECT personas.cedula as cedula, 
+                                        deportes.id_deporte AS id_deporte, 
+                                        deportes.nombre_deporte as nombre_deporte 
+                                 FROM personas
+                                 JOIN personas_grupos ON personas.id_persona = personas_grupos.id_persona
+                                 JOIN deportes ON personas_grupos.id_deporte = deportes.id_deporte
+                                 WHERE personas.cedula = ?";
+                $deportes = $this->conex->prepare($sql_deportes);
                 $deportes->execute([$cedula]);
                 $deporte_persona = $deportes->fetchAll();
-                if(count($deporte_persona)!=0){
+    
+                if(count($deporte_persona) != 0) {
                     $datos_grupo = [
                         'cedula' => $persona['cedula'],
                         'nombres' => $persona['nombres'],
                         'apellidos' => $persona['apellidos'],
                         'sexo' => $persona['sexo'],
-                        'fecha_nacimiento' =>$persona['fecha_nacimiento_formateada'],
-                        'edad' =>$persona['edad'],
-                        'fecha_ingreso' =>$persona['fecha_formateada'],
-                        'telefono' =>$persona['telefono'],
+                        'fecha_nacimiento' => $persona['fecha_nacimiento_formateada'],
+                        'edad' => $persona['edad'],
+                        'fecha_ingreso' => $persona['fecha_formateada'],
+                        'telefono' => $persona['telefono'],
                         'deportes_persona' => $deporte_persona,
                     ];
-                }
-                if (!empty($datos_grupo)) {
                     $datos_grupos[] = $datos_grupo;
                 }
-            }   
-
+            }
+    
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    
         return $datos_grupos;
     }
+    
 
     public function reporte_deporte_masculino()
     {

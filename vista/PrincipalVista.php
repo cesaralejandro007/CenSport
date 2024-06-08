@@ -84,6 +84,26 @@ use config\componentes\configSistema as configSistema;
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Roporte de Deportes Masculino
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart_masculino" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Roporte de Deportes Femenino
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart_femenino" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
@@ -146,27 +166,6 @@ use config\componentes\configSistema as configSistema;
                                     <?php endforeach; }else{}?>
                                     </tbody>
                                 </table>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        Roporte de Deportes Masculino
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart_masculino" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        Roporte de Deportes Femenino
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart_femenino" width="100%" height="40"></canvas></div>
-                                </div>
                             </div>
                         </div>
                     </div>

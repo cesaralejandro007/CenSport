@@ -110,6 +110,7 @@ document.getElementById("enviar").onclick = function () {
             }else {
         var datos = new FormData();
         datos.append("accion", $("#accion").val());
+        datos.append("id_grupo_deportivo", $("#id_grupo_deportivo").val());
         datos.append("id_deporte", $("#deporte_selec").val());
         datos.append("nombre_grupo", $("#nombre_grupo").val());
         datos.append("descripcion_grupo", $("#descripcion_grupo").val());
@@ -119,6 +120,8 @@ document.getElementById("enviar").onclick = function () {
 };
 
     document.getElementById("evento").onclick = function () {
+        document.getElementById('tbody_integrantes').innerHTML = '';
+        integrantes = [];
         limpiar();
         $("#accion").val("registrar");
         $("#titulo").text("Registrar Grupo Deportivo");
@@ -245,10 +248,35 @@ function eliminar(id) {
   });
 }
 
-function cargar_datos(id_persona){
+
+function eliminarIntegranteEditado(id_persona, id_grupo_deportivo) {
+    Swal.fire({
+      title: "¿Está seguro de eliminar?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonColor: "#0C72C4",
+      cancelButtonColor: "#9D2323",
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setTimeout(function () {
+          var datos = new FormData();
+          datos.append("accion", "eliminar_persona_grupo");
+          datos.append("id_grupos_deportivo", id_grupo_deportivo);
+          datos.append("id_persona", id_persona);
+          mostrar(datos);
+        }, 10);
+      }
+    });
+  }
+
+function cargar_datos(id_grupos){
     var datos = new FormData();
     datos.append("accion", "editar");
-    datos.append("id_persona", id_persona);
+    datos.append("id_grupos_deportivo", id_grupos);
     mostrar(datos);
 }
 
@@ -320,7 +348,6 @@ $.ajax({
     //alert(res.title);
     if (res.estatus == 1) {
         toastMixin.fire({
-
         title: res.title,
         text: res.message,
         icon: res.icon,
@@ -344,6 +371,14 @@ $.ajax({
 
 
 function mostrar(datos) {
+var toastMixin = Swal.mixin({
+    toast: true,
+    width: 300,
+    position: "top-right",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+});
 $.ajax({
     async: true,
     url: "",
@@ -354,17 +389,37 @@ $.ajax({
     cache: false,
     success: (response) => {
     var res = JSON.parse(response);
-    limpiar();
+    if(typeof res.resultado == 'undefined'){
+        limpiar();
+        document.getElementById('tbody_integrantes').innerHTML = '';
+        integrantes = [];
+        var tableHTML = '';
+        res[0].integrantes.forEach(function(item) {
+            integrantes.push(item.cedula);
+            tableHTML += '<tr>';
+            tableHTML += '<td>' + item.cedula + '</td>';
+            tableHTML += '<td>' + item.nombres + " " + item.apellidos+ '</td>';
+            tableHTML += '<td><button class="btn btn-danger btn-sm" onclick="eliminarIntegranteEditado(' + item.id_persona +","+ res[0].id_grupo_deportivo + ')">Eliminar</button></td>';
+            tableHTML += '</tr>';
+        });
+        document.getElementById('tbody_integrantes').innerHTML = tableHTML;
 
-    $("#deporte_selec").val(res.id_deporte);
-    $("#nombre_grupo").val(res.nombre_grupo);
-    $("#descripcion_grupo").val(res.descripcion_grupo);
-    $("#integrantes").val(res.integrantes);
-    $("#enviar").text("Modificar");
-    $("#staticBackdrop").modal("show");
-    $("#accion").val("modificar");
-    document.getElementById("accion").innerText = "modificar";
-    $("#titulo").text("Modificar Grupo Deportivo");
+        $("#id_grupo_deportivo").val(res[0].id_grupo_deportivo);
+        $("#deporte_selec").val(res[0].id_deporte);
+        $("#nombre_grupo").val(res[0].nombre_grupo);
+        $("#descripcion_grupo").val(res[0].descripcion_grupo);
+        $("#enviar").text("Modificar");
+        $("#staticBackdrop").modal("show");
+        $("#accion").val("modificar");
+        document.getElementById("accion").innerText = "modificar";
+        $("#titulo").text("Modificar Grupo Deportivo");
+    }else{
+        toastMixin.fire({
+            title: "Grupos Deportivos",
+            text: "Debe quedar un integrante en el grupo.",
+            icon: "warning",
+        });
+    }
     },
     error: (err) => {
     Toast.fire({

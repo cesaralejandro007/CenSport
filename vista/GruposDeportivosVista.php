@@ -35,7 +35,8 @@ use config\componentes\configSistema as configSistema;
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="accion" class="form-control" id="accion">
-                            <input type="hidden" name="id" class="form-control" id="id_deporte">
+                            <input type="hidden" name="id_deporte" class="form-control" id="id_deporte">
+                            <input type="hidden" name="id_grupo_deportivo" class="form-control" id="id_grupo_deportivo">
                             <div class="col-12 mt-2">
                                 <div class="input-group">
                                     <label class="input-group-text" for="deporte_selec">Deporte</label>

@@ -52,30 +52,32 @@ $grupos_deportivo = new Gruposrupos;
             }
             return 0;
             exit;
-        } else if ($accion == 'editar') {
+        }else if ($accion == 'eliminar_persona_grupo') {
+            $datos = $grupos_deportivo->eliminar_pers_grup_deport($_POST['id_persona'],$_POST['id_grupos_deportivo']);
+            echo json_encode($datos);
+            return 0;
+            exit;
+        }else if ($accion == 'editar') {
             $datos = $grupos_deportivo->cargar_grupos_deportivo($_POST['id_grupos_deportivo']);
-            foreach ($datos as $valor) {
-                echo json_encode([
-                    'id_grupos_deportivo' => $valor['id_grupos_deportivo'],
-                    'nombre_grupos_deportivo' => $valor['nombre_grupos_deportivo']
-                ]);
-            }
+            echo json_encode($datos);
             return 0;
         }else if ($accion == 'modificar'){ 
-            $response = $grupos_deportivo->modificar_grupos_deportivo($_POST['id'],$_POST['nombre_grupos_deportivo']);
-            if ($response['resultado']== 1) {
+            $array_integrantes = explode(",", $_POST['integrantes']);
+            $response1 = $grupos_deportivo->modificar_integ_grup_deport($_POST['id_grupo_deportivo'],$_POST['id_deporte'],$array_integrantes);
+            $response2 = $grupos_deportivo->modificar_grupos_deportivo($_POST['id_grupo_deportivo'],$_POST['nombre_grupo'],$_POST['descripcion_grupo']);
+            if ($response1['resultado']== 1 && $response2['resultado']== 1) {
                 echo json_encode([
                     'estatus' => '1',
                     'icon' => 'success',
                     'title' => $modulo,
-                    'message' => $response['mensaje']
+                    'message' => $response2['mensaje']
                 ]);
             }else {
                 echo json_encode([
                     'estatus' => '2',
                     'icon' => 'info',
                     'title' => $modulo,
-                    'message' => $response['mensaje']
+                    'message' => $response2['mensaje']
                 ]);
             }
             return 0;
