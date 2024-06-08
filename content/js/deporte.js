@@ -111,7 +111,7 @@ function cargar_datos(valor) {
 function eliminar(id) {
   Swal.fire({
     title: "¿Está seguro de eliminar?",
-    text: "¡No podrás revertir esto!",
+    text: "Se eliminarán los grupos deportivos asociados a este deporte.",
     icon: "warning",
     showCloseButton: true,
     showCancelButton: true,

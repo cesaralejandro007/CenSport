@@ -30,6 +30,7 @@ class RegistroDeporteModelo extends connectDB
     public function eliminar_deporte($id_deporte)
     {
         try {
+            $this->conex->query("DELETE personas_grupos, grupos_deportivos FROM personas_grupos INNER JOIN grupos_deportivos ON grupos_deportivos.id_grupo_deportivo = personas_grupos.id_grupo_deportivo WHERE personas_grupos.id_deporte = '$id_deporte';");
             $this->conex->query("DELETE FROM deportes WHERE id_deporte = '$id_deporte'");
             $respuesta['resultado'] = 1;
             $respuesta['mensaje'] = "Eliminacion exitosa";
