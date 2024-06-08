@@ -26,8 +26,8 @@ use config\componentes\configSistema as configSistema;
           </div>
       </div>
       <div class="sb-sidenav-footer">
-          <div class="small">Logged in as:</div>
-          Start Bootstrap
+      <div>Soporte: Cesar Vides</div>
+      <div class="small">Telf: +58 0412-0318406</div>
       </div>
   </nav>
 </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-06-2024 a las 21:51:19
+-- Tiempo de generación: 08-06-2024 a las 22:15:41
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -94,15 +94,6 @@ CREATE TABLE `deportes` (
   `nombre_deporte` varchar(35) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `deportes`
---
-
-INSERT INTO `deportes` (`id_deporte`, `nombre_deporte`) VALUES
-(1, 'Futbol'),
-(2, 'Sofbol'),
-(3, 'Voleibol');
-
 -- --------------------------------------------------------
 
 --
@@ -143,13 +134,6 @@ CREATE TABLE `grupos_deportivos` (
   `estado` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `grupos_deportivos`
---
-
-INSERT INTO `grupos_deportivos` (`id_grupo_deportivo`, `nombre_grupo`, `descripcion_grupo`, `estado`) VALUES
-(39, 'Voleibol Seniat', 'Los mejors', '1');
-
 -- --------------------------------------------------------
 
 --
@@ -168,17 +152,6 @@ CREATE TABLE `personas` (
   `fecha_ingreso` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `personas`
---
-
-INSERT INTO `personas` (`id_persona`, `id_area`, `cedula`, `nombres`, `apellidos`, `sexo`, `telefono`, `fecha_nacimiento`, `fecha_ingreso`) VALUES
-(6, 1, '12026715', 'Jorge Enrrique', 'Nieto Virguez', 'Masculino', '0412-0318406', '1974-05-14', '2022-03-30'),
-(7, 2, '28055655', 'Cesar Alejandro', 'Vides Gonzalez', 'Masculino', '0416-6756777', '2001-03-27', '2021-02-07'),
-(8, 5, '27543543', 'Maria Jose', 'Zapata Virguez', 'Femenino', '0412-0345435', '1999-02-12', '1999-02-12'),
-(9, 1, '9617327', 'Ffdsfdsf Ffdsfds', 'Ffdsfds Ffdsfdsf', 'Masculino', '0412-5676577', '2333-03-22', '2333-03-12'),
-(10, 11, '24363187', 'Csdadsad Ddfdsf', 'Cfdsfdsf Ffdsfds', 'Masculino', '0426-5666667', '0244-03-24', '0234-04-23');
-
 -- --------------------------------------------------------
 
 --
@@ -192,16 +165,6 @@ CREATE TABLE `personas_grupos` (
   `id_grupo_deportivo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `personas_grupos`
---
-
-INSERT INTO `personas_grupos` (`id_persona_grupo`, `id_persona`, `id_deporte`, `id_grupo_deportivo`) VALUES
-(34, 6, 3, 39),
-(35, 7, 3, 39),
-(36, 9, 3, 39),
-(37, 10, 3, 39);
-
 -- --------------------------------------------------------
 
 --
@@ -211,7 +174,8 @@ INSERT INTO `personas_grupos` (`id_persona_grupo`, `id_persona`, `id_deporte`, `
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `cedula` text NOT NULL,
-  `nombre_apellido` text NOT NULL,
+  `nombres` text NOT NULL,
+  `apellidos` text NOT NULL,
   `cargo` text NOT NULL,
   `contrasenna` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -220,8 +184,8 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombre_apellido`, `cargo`, `contrasenna`) VALUES
-(1, '28055655', 'Cesar Vides', 'Administrador', 'Usuariov.37**');
+INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombres`, `apellidos`, `cargo`, `contrasenna`) VALUES
+(1, '28055655', 'Cesar Alejandro', 'Vides Gonzalez', 'Administrador', 'Usuariov.37**');
 
 --
 -- Índices para tablas volcadas
@@ -288,7 +252,7 @@ ALTER TABLE `areas`
 -- AUTO_INCREMENT de la tabla `deportes`
 --
 ALTER TABLE `deportes`
-  MODIFY `id_deporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_deporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `divisiones`
@@ -300,7 +264,7 @@ ALTER TABLE `divisiones`
 -- AUTO_INCREMENT de la tabla `grupos_deportivos`
 --
 ALTER TABLE `grupos_deportivos`
-  MODIFY `id_grupo_deportivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_grupo_deportivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
@@ -312,7 +276,7 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `personas_grupos`
 --
 ALTER TABLE `personas_grupos`
-  MODIFY `id_persona_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_persona_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=276;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
