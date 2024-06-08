@@ -8,7 +8,7 @@ class RegistroFuncionarioModelo extends connectDB
         $validar_registro = $this->validar_registro($cedula);
         if ($validar_registro==false) {
             $respuesta["resultado"]=2;
-            $respuesta["mensaje"]="La persona ya se encuentra registrado.";
+            $respuesta["mensaje"]="La persona ya está registrada.";
         } else {
             try {
             $this->conex->query("INSERT INTO personas(
@@ -44,6 +44,7 @@ class RegistroFuncionarioModelo extends connectDB
     public function eliminar_funcionario($id_persona)
     {
         try {
+            $this->conex->query("DELETE FROM personas_grupos WHERE id_persona = '$id_persona'");
             $this->conex->query("DELETE FROM personas WHERE id_persona = '$id_persona'");
             $respuesta['resultado'] = 1;
             $respuesta['mensaje'] = "Eliminacion exitosa";
@@ -71,7 +72,7 @@ class RegistroFuncionarioModelo extends connectDB
         $validar_modificar = $this->validar_modificar($id, $cedula);
         if ($validar_modificar) {
             $respuesta['resultado'] = 3;
-            $respuesta['mensaje'] = "La persona ya se encuetra registrado.";
+            $respuesta['mensaje'] = "La persona ya está registrada.";
         }else {
             try {
                 $this->conex->query("UPDATE personas SET id_area = '$id_area', cedula = '$cedula', nombres = '$nombres', apellidos = '$apellidos', sexo = '$sexo', telefono = '$telefono', fecha_nacimiento = '$fecha_nacimiento', fecha_ingreso = '$fecha_ingreso' WHERE id_persona = '$id'");

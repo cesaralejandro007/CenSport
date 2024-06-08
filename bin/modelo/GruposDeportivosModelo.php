@@ -39,11 +39,15 @@ class GruposDeportivosModelo extends connectDB
 
     public function registrar_grupos_deportivo($id_deporte,$nombre_grupo,$descripcion_grupo,$integrantes)
     {
+        $validar_deporte = $this->validar_deporte($id_deporte);
         $validar_registro = $this->validar_registro($nombre_grupo);
-        if ($validar_registro==false) {
+        if ($validar_deporte==false) {
             $respuesta["resultado"]=2;
-            $respuesta["mensaje"]="El nombre del Grupo Deportivo ya se encuentra registrado.";
-        } else {
+            $respuesta["mensaje"]="El deporte del grupo deportivo ya está registrado.";
+        }else if ($validar_registro==false) {
+            $respuesta["resultado"]=2;
+            $respuesta["mensaje"]="El nombre del Grupo Deportivo ya está registrado.";
+        }else {
             try {
                 $this->conex->query("INSERT INTO grupos_deportivos (
                     nombre_grupo, descripcion_grupo, estado
@@ -87,7 +91,7 @@ class GruposDeportivosModelo extends connectDB
             $this->conex->query("DELETE FROM personas_grupos WHERE id_grupo_deportivo = '$id_grupo_derportivo'");
             $this->conex->query("DELETE FROM grupos_deportivos WHERE id_grupo_deportivo = '$id_grupo_derportivo'");
             $respuesta['resultado'] = 1;
-            $respuesta['mensaje'] = "Eliminacion exitosa";
+            $respuesta['mensaje'] = "Eliminación exitosa";
             return $respuesta;
         } catch (Exception $e) {
             $respuesta['resultado'] = 0;
@@ -172,12 +176,16 @@ class GruposDeportivosModelo extends connectDB
         return $datos_grupos;
     }
 
-    public function modificar_grupos_deportivo($id_grupo_deportivo ,$nombre_grupo,$descripcion_grupo)
+    public function modificar_grupos_deportivo($id_grupo_deportivo,$id_deporte,$nombre_grupo,$descripcion_grupo)
     {
+        $validar_modif_deporte = $this->validar_modif_deporte($id_deporte,$id_grupo_deportivo);
         $validar_modificar = $this->validar_modificar($id_grupo_deportivo, $nombre_grupo);
-        if ($validar_modificar) {
+        if ($validar_modif_deporte) {
             $respuesta['resultado'] = 2;
-            $respuesta['mensaje'] = "El nombre del Grupo Deportivo ya se encuentra registrado.";
+            $respuesta['mensaje'] = "El Deporte del grupo deportivo ya está asignado a otro grupo.";
+        }else if ($validar_modificar) {
+            $respuesta['resultado'] = 2;
+            $respuesta['mensaje'] = "El nombre del Grupo Deportivo ya está asignado a otro grupo.";
         }else {
             try {
                 $this->conex->query("UPDATE grupos_deportivos SET nombre_grupo = '$nombre_grupo', descripcion_grupo = '$descripcion_grupo' WHERE id_grupo_deportivo = '$id_grupo_deportivo'");
@@ -191,7 +199,7 @@ class GruposDeportivosModelo extends connectDB
         return $respuesta;
     }
 
-    public function modificar_integ_grup_deport($id_grupo_deportivo ,$id_deporte,$array_integrantes)
+    public function modificar_integ_grup_deport($id_grupo_deportivo,$id_deporte,$array_integrantes)
     {
     try {
 
@@ -224,6 +232,22 @@ class GruposDeportivosModelo extends connectDB
     return $respuesta;
     }
 
+    public function validar_modif_deporte($id_deporte, $id_grupo)
+    {
+        try {
+            $resultado = $this->conex->prepare("SELECT * FROM personas,personas_grupos,deportes,grupos_deportivos WHERE personas.id_persona = personas_grupos.id_persona AND personas_grupos.id_grupo_deportivo = grupos_deportivos.id_grupo_deportivo AND personas_grupos.id_deporte = deportes.id_deporte AND deportes.id_deporte = '$id_deporte' AND grupos_deportivos.id_grupo_deportivo <> '$id_grupo' GROUP BY deportes.nombre_deporte");
+            $resultado->execute();
+            $fila = $resultado->fetchAll();
+            if ($fila) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     public function validar_modificar($id, $nombre_grupo)
     {
         try {
@@ -235,6 +259,24 @@ class GruposDeportivosModelo extends connectDB
             } else {
                 return false;
             }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function comprobar_pers_deporte($cedula,$nombre)
+    {
+        try {
+            $resultado = $this->conex->prepare("SELECT * FROM personas,personas_grupos,deportes WHERE personas_grupos.id_persona = personas.id_persona AND personas_grupos.id_deporte = deportes.id_deporte AND personas.cedula = '$cedula'");
+            $resultado->execute();
+            $filas = $resultado->rowCount();
+            if ($filas >= 3) {
+                $respuesta["resultado"]=2;
+                $respuesta["mensaje"]="La persona ". $nombre ." ha excedido el límite de deportes permitidos.";
+            } else {
+                $respuesta["resultado"]=1;
+            }
+            return $respuesta;
         } catch (Exception $e) {
             return false;
         }
@@ -277,6 +319,22 @@ class GruposDeportivosModelo extends connectDB
     {
         try {
             $resultado = $this->conex->prepare("SELECT * FROM grupos_deportivos WHERE nombre_grupo='$grupos_deportivos'");
+            $resultado->execute();
+            $fila = $resultado->fetchAll();
+            if ($fila) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function validar_deporte($id_deporte)
+    {
+        try {
+            $resultado = $this->conex->prepare("SELECT * FROM personas,personas_grupos,deportes,grupos_deportivos WHERE personas.id_persona = personas_grupos.id_persona AND personas_grupos.id_grupo_deportivo = grupos_deportivos.id_grupo_deportivo AND personas_grupos.id_deporte = deportes.id_deporte AND deportes.id_deporte = '$id_deporte' GROUP BY deportes.nombre_deporte");
             $resultado->execute();
             $fila = $resultado->fetchAll();
             if ($fila) {

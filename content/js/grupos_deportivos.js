@@ -12,6 +12,9 @@ function Limitar(event, cantidad) {
         var selectedOption = document.querySelector('#opcion_persona option[value="' + input.value + '"]');
         var nombre = selectedOption ? selectedOption.textContent : '';
         if (nombre && !integrantes.includes(input.value)) {
+            if(input.value != "" && nombre != ""){
+                comprobar_pers_deporte(input.value,nombre);
+            }
             integrantes.push(input.value);
             var tbody = document.getElementById('tbody_integrantes');
             var newRow = document.createElement('tr');
@@ -214,7 +217,61 @@ function valida_registrar() {
     }
     return error;
 }
+function comprobar_pers_deporte(cedula, nombre) {
+    var datos = new FormData();
+    datos.append("accion", "comprobar_pers_deporte");
+    datos.append("cedula", cedula);
+    datos.append("nombre", nombre);
+    var toastMixin = Swal.mixin({
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+    });
+    $.ajax({
+        url: "",
+        type: "POST",
+        contentType: false,
+        data: datos,
+        processData: false,
+        cache: false,
+        success: (response) => {
+            var res = JSON.parse(response);
+            if (res.estatus == 2) {
+                var index = integrantes.indexOf(cedula);
+                if (index !== -1) {
+                    integrantes.splice(index, 1);
+                }
+                toastMixin.fire({
+                    title: res.title,
+                    text: res.message,
+                    icon: res.icon,
+                });
 
+                // Eliminar la fila de la tabla
+                eliminarFilaPorCedula(cedula);
+            }
+            return 1;
+        },
+        error: (err) => {
+            Toast.fire({
+                icon: res.error,
+            });
+        },
+    });
+}
+
+function eliminarFilaPorCedula(cedula) {
+    var tbody = document.getElementById('tbody_integrantes');
+    var rows = tbody.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        let cell = rows[i].getElementsByTagName('td')[0];
+        if (cell.textContent === cedula) {
+            tbody.deleteRow(i);
+            break;
+        }
+    }
+}
 
 function cargar_datos(valor) {
     var datos = new FormData();
@@ -300,7 +357,6 @@ function enviaAjax(datos) {
       //alert(res.title);
       if (res.estatus == 1) {
         toastMixin.fire({
-
           title: res.title,
           text: res.message,
           icon: res.icon,

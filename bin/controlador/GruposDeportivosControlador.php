@@ -23,6 +23,14 @@ $grupos_deportivo = new Gruposrupos;
                     'message' => $response['mensaje']
                 ]);
                 return 0;
+            }else if ($response["resultado"]==2) {
+                echo json_encode([
+                    'estatus' => '2',
+                    'icon' => 'info',
+                    'title' => $modulo,
+                    'message' => $response['mensaje']
+                ]);
+                return 0;
             }else{
                 echo json_encode([
                     'estatus' => '2',
@@ -52,6 +60,18 @@ $grupos_deportivo = new Gruposrupos;
             }
             return 0;
             exit;
+        }else if ($accion == 'comprobar_pers_deporte') {
+            $datos = $grupos_deportivo->comprobar_pers_deporte($_POST['cedula'],$_POST['nombre']);
+            if ($datos['resultado'] == 1) {
+            }else{
+                echo json_encode([
+                    'estatus' => '2',
+                    'icon' => 'info',
+                    'title' => $modulo,
+                    'message' => $datos["mensaje"]
+                ]);
+            }
+            return 0;
         }else if ($accion == 'eliminar_persona_grupo') {
             $datos = $grupos_deportivo->eliminar_pers_grup_deport($_POST['id_persona'],$_POST['id_grupos_deportivo']);
             echo json_encode($datos);
@@ -64,7 +84,7 @@ $grupos_deportivo = new Gruposrupos;
         }else if ($accion == 'modificar'){ 
             $array_integrantes = explode(",", $_POST['integrantes']);
             $response1 = $grupos_deportivo->modificar_integ_grup_deport($_POST['id_grupo_deportivo'],$_POST['id_deporte'],$array_integrantes);
-            $response2 = $grupos_deportivo->modificar_grupos_deportivo($_POST['id_grupo_deportivo'],$_POST['nombre_grupo'],$_POST['descripcion_grupo']);
+            $response2 = $grupos_deportivo->modificar_grupos_deportivo($_POST['id_grupo_deportivo'],$_POST['id_deporte'],$_POST['nombre_grupo'],$_POST['descripcion_grupo']);
             if ($response1['resultado']== 1 && $response2['resultado']== 1) {
                 echo json_encode([
                     'estatus' => '1',

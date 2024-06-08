@@ -324,7 +324,7 @@ function cargar_datos(valor) {
 function eliminar(id) {
   Swal.fire({
     title: "¿Está seguro de eliminar?",
-    text: "¡No podrás revertir esto!",
+    text: "¡Se eliminarán todos los registros de los deportes en los que está inscrita esta persona!",
     icon: "warning",
     showCloseButton: true,
     showCancelButton: true,
@@ -354,8 +354,6 @@ function cargar_datos(id_persona) {
 function enviaAjax(datos) {
   var toastMixin = Swal.mixin({
     showConfirmButton: false,
-    width: 450,
-    padding: '3.5em',
     timer: 2000,
     timerProgressBar: true,
   });

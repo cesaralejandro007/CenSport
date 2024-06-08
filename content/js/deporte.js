@@ -141,8 +141,6 @@ function cargar_datos(id_persona) {
 function enviaAjax(datos) {
   var toastMixin = Swal.mixin({
     showConfirmButton: false,
-    width: 450,
-    padding: '3.5em',
     timer: 2000,
     timerProgressBar: true,
   });
