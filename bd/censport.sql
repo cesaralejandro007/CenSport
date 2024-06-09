@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-06-2024 a las 22:15:41
+-- Tiempo de generación: 09-06-2024 a las 06:39:21
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -38,50 +38,65 @@ CREATE TABLE `areas` (
 --
 
 INSERT INTO `areas` (`id_area`, `id_division`, `nombre_area`) VALUES
-(1, 2, 'Área de Recursos Humanos '),
-(2, 2, 'Área de Bienes Nacionales'),
-(3, 2, 'Despacho de la División de Administración'),
-(4, 2, 'Área de Compras'),
-(5, 2, 'Área de Almacén '),
-(6, 2, 'Área de Presupuesto'),
-(7, 2, 'Área de Contabilidad'),
-(8, 2, 'Área de Tesorería '),
-(9, 2, 'Coordinación de Infraestructura y Servicios'),
-(10, 2, 'Área de Viáticos '),
-(11, 1, 'Despacho de Gerencia'),
-(12, 1, 'Resguardo'),
-(13, 1, 'Seguridad'),
-(14, 3, 'Despacho Asistencia al Contribuyente'),
-(15, 3, 'Área de Prensa'),
-(16, 4, 'Área De Cobranzas'),
-(17, 4, 'Modulo de Inserción'),
-(18, 4, 'Modulo Exoneración'),
-(19, 4, 'Modulo de Remisión'),
-(20, 4, 'Registro de Cta./Corriente'),
-(21, 4, 'Despacho División  de Recaudación'),
-(22, 4, 'Modulo de Retenciones'),
-(23, 4, 'Entes Públicos '),
-(24, 4, 'Área de Sucesiones'),
-(25, 4, 'Modulo Investigación Patrimonial'),
+(1, 1, 'Informatica'),
+(2, 1, 'Área de Recursos Humanos'),
+(3, 1, 'Área de Bienes Nacionales'),
+(4, 1, 'Despacho de la División de Administración'),
+(5, 1, 'Área de Compras'),
+(6, 1, 'Área de Almacén'),
+(7, 1, 'Área de Presupuesto'),
+(8, 1, 'Área de Contabilidad'),
+(9, 1, 'Área de Tesorería'),
+(10, 1, 'Coordinación de Infraestructura y Servicios'),
+(11, 1, 'Área de Viáticos'),
+(12, 2, 'Despacho de Gerencia'),
+(13, 2, 'Resguardo'),
+(14, 2, 'Seguridad'),
+(15, 3, 'Despacho Asistencia al Contribuyente'),
+(16, 3, 'Área de Prensa'),
+(17, 4, 'Área De Cobranzas'),
+(18, 4, 'Modulo de Inserción'),
+(19, 4, 'Modulo Exoneración'),
+(20, 4, 'Modulo de Remisión'),
+(21, 4, 'Registro de Cta./Corriente'),
+(22, 4, 'Despacho División de Recaudación'),
+(23, 4, 'Modulo de Retenciones'),
+(24, 4, 'Entes Públicos'),
+(25, 4, 'Área de Sucesiones'),
 (26, 4, 'Modulo Investigación Patrimonial'),
-(27, 4, 'Área de Licores'),
-(28, 4, 'Liquidación '),
-(29, 4, 'Reintegro y Devoluciones'),
-(30, 4, 'Timbres Fiscales'),
-(31, 5, 'Despacho Fiscalización'),
-(32, 5, 'Fiscalización General'),
-(33, 5, 'Evaluo'),
-(34, 5, 'Selección Previa'),
-(35, 5, 'Deberes Formales'),
-(36, 5, 'Beneficios Fiscales'),
-(37, 5, 'Fondo y Semi Fondo'),
-(38, 5, 'Planificación y Control de Gestión '),
-(39, 6, 'Despacho División de Sumario'),
+(27, 4, 'Área de Rif'),
+(28, 4, 'Área de Licores'),
+(29, 4, 'Liquidación'),
+(30, 4, 'Reintegro y Devoluciones'),
+(31, 4, 'Timbres Fiscales'),
+(32, 5, 'Despacho Fiscalización'),
+(33, 5, 'Fiscalización General'),
+(34, 5, 'Avaluo'),
+(35, 5, 'Selección Previa'),
+(36, 5, 'Deberes Formales'),
+(37, 5, 'Beneficios Fiscales'),
+(38, 5, 'Fondo y Semi Fondo'),
+(39, 5, 'Planificación y Control de Gestión'),
 (40, 6, 'Despacho División de Sumario'),
-(41, 7, 'Área Cobro Judicial'),
-(42, 7, 'Recursos Administrativo y Jurídico '),
-(43, 7, 'Despacho de la División'),
-(44, 7, 'Contencioso Tributario');
+(41, 6, 'Área de Sustanciación de Sumario'),
+(42, 7, 'Área Cobro Judicial'),
+(43, 7, 'Recursos Administrativo y Jurídico'),
+(44, 7, 'Despacho de la División'),
+(45, 7, 'Contencioso Tributario'),
+(46, 7, 'Sustanciación'),
+(47, 8, 'Área de Notificación'),
+(48, 8, 'Área de Vivienda Principal'),
+(49, 8, 'Área de Archivo General'),
+(50, 8, 'Área de Correspondencia'),
+(51, 8, 'Despacho de la División'),
+(52, 9, 'Área Control de Obligación'),
+(53, 9, 'Cobranza'),
+(54, 9, 'Área Control Bancario'),
+(55, 9, 'Asistencia al Contribuyente'),
+(56, 9, 'Despacho de la División'),
+(57, 9, 'Modulo de Correcciones y Análisis de Cuentas'),
+(58, 9, 'Contribuyentes Especiales Punto Fijo');
+
 
 -- --------------------------------------------------------
 
@@ -111,8 +126,8 @@ CREATE TABLE `divisiones` (
 --
 
 INSERT INTO `divisiones` (`id_division`, `nombre_division`, `descripcion_division`) VALUES
-(1, 'Gerencia Regional de Tributos Internos', 'GTI'),
-(2, 'Administracion', 'ADM'),
+(1, 'Administracion', 'ADM'),
+(2, 'Gerencia Regional de Tributos Internos', 'GTI'),
 (3, 'División Asistencia al Contribuyente', 'AC'),
 (4, 'División de Recaudación', 'RE'),
 (5, 'División de Fiscalizacíon', 'FI'),
@@ -185,7 +200,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombres`, `apellidos`, `cargo`, `contrasenna`) VALUES
-(1, '28055655', 'Cesar Alejandro', 'Vides Gonzalez', 'Administrador', 'Usuariov.37**');
+(4, '28055655', 'Cesar Alejandro', 'Vides Gonzalez', 'Administrador', '$2y$10$EX4.HdhpjsoGfidaNChyCuZfhA1Ki/esrlYhH422r0Kq.gwAlHdWq');
 
 --
 -- Índices para tablas volcadas
@@ -282,7 +297,7 @@ ALTER TABLE `personas_grupos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
