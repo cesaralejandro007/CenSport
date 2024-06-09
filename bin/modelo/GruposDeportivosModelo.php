@@ -296,7 +296,7 @@ class GruposDeportivosModelo extends connectDB
                 $resultado_integrantes = $this->conex->prepare("SELECT personas.id_persona, personas.cedula, personas.nombres, personas.apellidos, deportes.nombre_deporte FROM personas INNER JOIN personas_grupos ON personas_grupos.id_persona = personas.id_persona INNER JOIN deportes ON deportes.id_deporte = personas_grupos.id_deporte WHERE personas_grupos.id_grupo_deportivo = ?");
                 $resultado_integrantes->execute([$id_grupo]);
                 $integrantes = $resultado_integrantes->fetchAll();
-            
+                if (!empty($integrantes)) {
                 $datos_grupo = [
                     'id_grupo_deportivo' => $grupo['id_grupo_deportivo'],
                     'deporte' => $integrantes[0]['nombre_deporte'],
@@ -305,7 +305,9 @@ class GruposDeportivosModelo extends connectDB
                     'integrantes' => $integrantes,
                     'cantidad_integrantes' =>count($integrantes),
                 ];
-            
+                }else{
+                    $datos_grupos = [];
+                }   
                 $datos_grupos[] = $datos_grupo;
             }       
 

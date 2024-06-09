@@ -67,11 +67,11 @@ class RegistroFuncionarioModelo extends connectDB
         }
         return $respuestaArreglo;
     }
-    public function modificar_funcionario($id ,$cedula,$nombres,$apellidos,$sexo,$telefono,$fecha_nacimiento,$fecha_ingreso,$id_area)
+    public function modificar_funcionario($id,$cedula,$nombres,$apellidos,$sexo,$telefono,$fecha_nacimiento,$fecha_ingreso,$id_area)
     {
         $validar_modificar = $this->validar_modificar($id, $cedula);
         if ($validar_modificar) {
-            $respuesta['resultado'] = 3;
+            $respuesta['resultado'] = 2;
             $respuesta['mensaje'] = "La persona ya está registrada.";
         }else {
             try {
@@ -89,7 +89,7 @@ class RegistroFuncionarioModelo extends connectDB
     public function validar_modificar($id, $cedula)
     {
         try {
-            $resultado = $this->conex->prepare("SELECT * FROM personas WHERE cedula='$cedula' AND id_personas<>'$id'");
+            $resultado = $this->conex->prepare("SELECT * FROM personas WHERE cedula='$cedula' AND id_persona <>'$id'");
             $resultado->execute();
             $fila = $resultado->fetchAll();
             if ($fila) {

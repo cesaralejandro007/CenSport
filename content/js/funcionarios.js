@@ -353,7 +353,7 @@ function cargar_datos(id_persona) {
 function enviaAjax(datos) {
   var toastMixin = Swal.mixin({
     showConfirmButton: false,
-    timer: 2000,
+    timer: 1500,
     timerProgressBar: true,
   });
   $.ajax({
@@ -377,7 +377,7 @@ function enviaAjax(datos) {
         limpiar();
         setTimeout(function () {
           window.location.reload();
-        }, 3000);
+        }, 1500);
       } else {
         toastMixin.fire({
 
