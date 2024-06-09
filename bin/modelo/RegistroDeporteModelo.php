@@ -75,8 +75,9 @@ class RegistroDeporteModelo extends connectDB
 
     public function validar_modificar($id, $nombre_deporte)
     {
+        $nombre_deporte_sin_espacio = trim($nombre_deporte);
         try {
-            $resultado = $this->conex->prepare("SELECT * FROM personas WHERE nombre_deporte='$nombre_deporte' AND id_deportes <>'$id'");
+            $resultado = $this->conex->prepare("SELECT * FROM personas WHERE nombre_deporte='$nombre_deporte_sin_espacio' AND id_deportes <>'$id'");
             $resultado->execute();
             $fila = $resultado->fetchAll();
             if ($fila) {
@@ -104,8 +105,9 @@ class RegistroDeporteModelo extends connectDB
     
     public function validar_registro($nombre_deporte)
     {
+        $nombre_deporte_sin_espacio = trim($nombre_deporte);
         try {
-            $resultado = $this->conex->prepare("SELECT * FROM deportes WHERE nombre_deporte='$nombre_deporte'");
+            $resultado = $this->conex->prepare("SELECT * FROM deportes WHERE nombre_deporte='$nombre_deporte_sin_espacio'");
             $resultado->execute();
             $fila = $resultado->fetchAll();
             if ($fila) {

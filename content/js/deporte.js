@@ -1,4 +1,4 @@
-var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{3,30}$/;
+var keyup_nombre = /^(?!.*\s{2})[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(?:\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*){0,49}$/;
  carga();
 function carga() {
 
@@ -13,7 +13,7 @@ function carga() {
             keyup_nombre,
             this,
             document.getElementById("snombre_deporte"),
-            "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+            "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula."
         );
     };
 /*--------------FIN VALIDACION PARA NOMBRE--------------------*/
@@ -89,7 +89,7 @@ function valida_registrar() {
         keyup_nombre,
         document.getElementById("nombre_deporte"),
         document.getElementById("snombre_deporte"),
-        "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+        "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula."
     );
     if(
         nombre_deporte == 0

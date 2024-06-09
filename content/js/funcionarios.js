@@ -31,7 +31,7 @@ function carga() {
             keyup_nombre,
             this,
             document.getElementById("snombres"),
-            "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+            "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula."
         );
     };
 /*--------------FIN VALIDACION PARA NOMBRE--------------------*/
@@ -46,7 +46,7 @@ function carga() {
             keyup_nombre,
             this,
             document.getElementById("sapellidos"),
-            "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+            "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula."
         );
     };
 /*--------------FIN VALIDACION PARA APELLIDO--------------------*/
@@ -209,13 +209,13 @@ function valida_registrar() {
         keyup_nombre,
         document.getElementById("nombres"),
         document.getElementById("snombres"),
-        "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+        "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula."
     );
     apellidos = validarkeyup(
         keyup_nombre,
         document.getElementById("apellidos"),
         document.getElementById("sapellidos"),
-        "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+        "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula."
     );
     if(document.getElementById("sexo").value == 0){
         document.getElementById("ssexo").innerHTML ="* Seleccione un genero";

@@ -250,8 +250,9 @@ class GruposDeportivosModelo extends connectDB
 
     public function validar_modificar($id, $nombre_grupo)
     {
+        $nombre_grupo_sin_espacio = trim($nombre_grupo);
         try {
-            $resultado = $this->conex->prepare("SELECT * FROM grupos_deportivos WHERE nombre_grupo = '$nombre_grupo' AND id_grupo_deportivo <>'$id'");
+            $resultado = $this->conex->prepare("SELECT * FROM grupos_deportivos WHERE nombre_grupo = '$nombre_grupo_sin_espacio' AND id_grupo_deportivo <>'$id'");
             $resultado->execute();
             $fila = $resultado->fetchAll();
             if ($fila) {
@@ -319,8 +320,9 @@ class GruposDeportivosModelo extends connectDB
     
     public function validar_registro($grupos_deportivos)
     {
+        $nombre_grupo_sin_espacio = trim($grupos_deportivos);
         try {
-            $resultado = $this->conex->prepare("SELECT * FROM grupos_deportivos WHERE nombre_grupo='$grupos_deportivos'");
+            $resultado = $this->conex->prepare("SELECT * FROM grupos_deportivos WHERE nombre_grupo='$nombre_grupo_sin_espacio'");
             $resultado->execute();
             $fila = $resultado->fetchAll();
             if ($fila) {

@@ -51,8 +51,7 @@ function Limitar(event, cantidad) {
         }
     }
 
-
-var keyup_nombre = /^[A-Za-z0-9\sÁáÉéÍíÓóÚúÑñ]{3,50}$/;
+var keyup_nombre = /^(?!.*\s{2})[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(?:\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*){0,49}$/;
 var keyup_descripcion = /^.{3,200}$/;
 
 document.onload = carga();
@@ -71,7 +70,7 @@ function carga() {
 /*--------------VALIDACION PARA NOMBRE GRUPO--------------------*/
     document.getElementById("nombre_grupo").maxLength = 50;
     document.getElementById("nombre_grupo").onkeypress = function (e) {
-       var er = /^[A-Za-z0-9\s\u00f1\u00d1!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]*$/;
+        var er = /^[A-Za-z0-9\s\u00f1\u00d1áéíóúÁÉÍÓÚ!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]*$/;
         validarkeypress(er, e);
     };
     document.getElementById("nombre_grupo").onkeyup = function () {
@@ -79,14 +78,14 @@ function carga() {
             keyup_nombre,
             this,
             document.getElementById("snombre_grupo"),
-            "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+            "* Solo letras de 3 a 50 caracteres, comenzando cada palabra con la primera letra en mayúscula."
         );
     };
 /*--------------FIN VALIDACION PARA NOMBRE GRUPO--------------------*/
 /*--------------VALIDACION PARA DESCRIPCION GRUPO--------------------*/
     document.getElementById("descripcion_grupo").maxLength = 200;
     document.getElementById("descripcion_grupo").onkeypress = function (e) {
-       var er = /^[A-Za-z0-9\s\u00f1\u00d1!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]*$/;
+        var er = /^[A-Za-z0-9\s\u00f1\u00d1áéíóúÁÉÍÓÚ!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]*$/;
         validarkeypress(er, e);
     };
     document.getElementById("descripcion_grupo").onkeyup = function () {
@@ -94,7 +93,7 @@ function carga() {
             keyup_descripcion,
             this,
             document.getElementById("sdescripcion_grupo"),
-            "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+            "* La cadena debe tener entre 3 y 200 caracteres."
         );
     };
 /*--------------FIN VALIDACION PARA DESCRIPCION GRUPO--------------------*/
@@ -200,13 +199,13 @@ function valida_registrar() {
         keyup_nombre,
         document.getElementById("nombre_grupo"),
         document.getElementById("snombre_grupo"),
-        "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+        "* Solo letras de 3 a 50 caracteres, comenzando cada palabra con la primera letra en mayúscula."
     );
     descripcion_grupo = validarkeyup(
         keyup_nombre,
         document.getElementById("descripcion_grupo"),
         document.getElementById("sdescripcion_grupo"),
-        "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
+         "* La cadena debe tener entre 3 y 200 caracteres."
     );
     if(
         document.getElementById("deporte_selec").value == 0 ||
