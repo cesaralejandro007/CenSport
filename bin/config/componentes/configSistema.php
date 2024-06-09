@@ -78,6 +78,10 @@
 			return self::Seguridad('Login', 'codificar');
 		}
 
+		public static function _MLOGIN_() {
+			echo self::Seguridad('Login', 'codificar');
+		}
+
 		public static function _SALIR_() {
 			echo self::Seguridad('Login', 'codificar');
 		}

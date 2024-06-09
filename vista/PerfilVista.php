@@ -26,8 +26,9 @@ use config\componentes\configSistema as configSistema;
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <h2><?php echo "Cesar Vides" ?></h2>
-              <h3> <?php echo "Admin" ?></h3>
+              <h2><?php echo $_SESSION['usuario']['nombres'] ?></h2>
+              <h2><?php echo $_SESSION['usuario']['apellidos'] ?></h2>
+              <h4> <?php echo $_SESSION['usuario']['rol']  ?></h4>
               <div class="social-links mt-2">
               </div>
             </div>
@@ -54,20 +55,24 @@ use config\componentes\configSistema as configSistema;
           <table class="table">
             <tbody>
               <tr>
-                <th scope="row">Nombre y Apellido</th>
-                <td><?php echo "Cesar Vides" ?></td>
+                <th scope="row">Cedula</th>
+                <td><?php echo $_SESSION['usuario']['cedula']?></td>
+              </tr>
+              <tr>
+                <th scope="row">Nombres</th>
+                <td><?php echo  $_SESSION['usuario']['nombres'] ?></td>
+              </tr>
+              <tr>
+                <th scope="row">Apellidos</th>
+                <td><?php echo  $_SESSION['usuario']['apellidos'] ?></td>
+              </tr>
+              <tr>
+                <th scope="row">Cargo en el sistema</th>
+                <td><?php echo $_SESSION['usuario']['rol']?></td>
               </tr>
               <tr>
                 <th scope="row">Compañia</th>
                 <td>SENIAT</td>
-              </tr>
-              <tr>
-                <th scope="row">Cargo en el sistema</th>
-                <td><?php echo "Admin"?></td>
-              </tr>
-              <tr>
-                <th scope="row">Cedula</th>
-                <td><?php echo "28055655"?></td>
               </tr>
             </tbody>
           </table>

@@ -7,6 +7,12 @@ if (!is_file($config->_Dir_Model_().$pagina.$config->_MODEL_())) {
     echo "Falta definir la clase " . $pagina;
     exit;
 }
+session_start();
+if (!isset($_SESSION['usuario'])) {
+	$redirectUrl = '?pagina=' . configSistema::_INICIO_();
+    echo '<script>window.location="' . $redirectUrl . '"</script>';
+    die();
+}
 $funcionario = new Funcionario();
 if (is_file("vista/" . $pagina . "Vista.php")) {
     if (isset($_POST['accion'])) {

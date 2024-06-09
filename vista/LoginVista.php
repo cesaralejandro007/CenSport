@@ -20,53 +20,53 @@ use config\componentes\configSistema as configSistema;
                         <div class="col-12">
                             <div class="input-group mb-1">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Cedula</span>
-                                <input type="Text" name="telefono" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="telefono" required>
+                                <input type="Text" name="user" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="user" required>
                             </div>
-                            <span id="stelefono"></span>
+                            <span id="suser"></span>
                         </div>
                         <div class="col-12">
                             <div class="input-group mb-1">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Nombres</span>
-                                <input type="Text" name="RifC" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="fecha_nacimiento" required>
+                                <input type="Text" name="nombres" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="nombres" required>
                             </div>
-                            <span id="sfecha_nacimiento"></span>
+                            <span id="snombres"></span>
                         </div>
                         <div class="col-12">
                             <div class="input-group mb-1">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Apellidos</span>
-                                <input type="Text" name="RifC" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="fecha_nacimiento" required>
+                                <input type="Text" name="apellidos" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="apellidos" required>
                             </div>
-                            <span id="sfecha_nacimiento"></span>
+                            <span id="sapellidos"></span>
                         </div>
                         <div class="col-12">
                                 <div class="input-group mb-1">
                                     <span class="input-group-text" id="inputGroup-sizing-default">Cargo</span>
-                                    <select type="select" class="form-select" id="sexo" aria-label="Default select example">
+                                    <select type="select" class="form-select" id="rol" aria-label="Default select example">
                                         <option value="0" selected>--Seleccione--</option>
                                         <option value="Administrador">Administrador</option>
                                         <option value="Usuario">Usuario</option>
                                     </select>
                                 </div>
-                                <span id="ssexo"></span>
+                                <span id="srol"></span>
                             </div>
                         <div class="col-12">
                             <div class="input-group mb-1">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Clave</span>
-                                <input type="Text" name="RifC" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="fecha_ingreso" required>
+                                <input type="password" name="clave" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="clave" required>
                             </div>
-                            <span id="sfecha_ingreso"></span>
+                            <span id="sclave"></span>
                         </div>
                         <div class="col-12">
                             <div class="input-group mb-1">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Confirmar Clave</span>
-                                <input type="Text" name="RifC" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="fecha_ingreso" required>
+                                <input type="password" name="clave2" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="clave2" required>
                             </div>
-                            <span id="sfecha_ingreso"></span>
+                            <span id="sclave2"></span>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Registrar</button>
+                        <button id="enviar" type="button" class="btn btn-primary">Registrar</button>
                     </div>
                     </div>
                 </div>
@@ -83,8 +83,8 @@ use config\componentes\configSistema as configSistema;
                                     </div>
                                     <div class="card-body">
                                         <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                            <label for="inputEmail">Usuario</label>
+                                            <input class="form-control" id="inputUsuario" type="text" placeholder="Usuario" />
+                                            <label for="inputUsuario">Usuario</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
@@ -93,7 +93,7 @@ use config\componentes\configSistema as configSistema;
                                     </div>
                                     <div class="card-footer text-center py-3">
                                         <div class="d-flex align-items-center justify-content-center mb-0">
-                                            <a class="btn btn-secondary border" href="?pagina=<?php configSistema::_PRINCIPAL_();?>">Iniciar Sesión</a>
+                                            <button id="ingresar" type="button" class="btn btn-secondary">Iniciar Sesión</button>
                                         </div>
                                     </div>
                                 </div>
@@ -112,12 +112,7 @@ use config\componentes\configSistema as configSistema;
     <script src="plugins/popper/popper.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script>
-    document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.shiftKey && event.key === 'y') {
-        $("#exampleModal").modal("show");
-    }
-    });
-    </script>
+    <script src="plugins/sweetalert2/sweetalert2.all.js"></script>
+    <script src="content/js/login.js"></script>
 </body>
 </html>

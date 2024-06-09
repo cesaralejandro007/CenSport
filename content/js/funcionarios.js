@@ -1,6 +1,5 @@
 var keyup_cedula = /^[0-9]{7,8}$/;
-var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}$/;
-var keyup_apellido = /^[A-ZÁÉÍÓÚ][a-zñáéíóú\s]{2,30}$/;
+var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
 var keyup_fecha = /^\d{4}-\d{2}-\d{2}$/;
 var keyup_telefono =/^[0-9]{4}-\d{7,8}$/
 
@@ -61,7 +60,7 @@ function carga() {
         r = validarselect(
             this,
             document.getElementById("ssexo"),
-            "* Seleccione un Rol"
+            "* Seleccione un genero"
         );
     };
 /*--------------FIN VALIDACION PARA SEXO--------------------*/

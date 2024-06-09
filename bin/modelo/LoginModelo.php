@@ -3,52 +3,56 @@ namespace modelo;
 use config\connect\connectDB as connectDB;
 class loginModelo extends connectDB
 {
-/*     private $nombreapellido;
-    private $email; */
-    private $user;
+    private $cedula;
+    private $nombres;
+    private $apellidos;
+    private $rol;
     private $password;
-    public function set_user($valor)
+    public function set_cedula($valor)
     {
-        $this->user = $valor;
+        $this->cedula = $valor;
     }
-/*     public function set_email($valor)
+    public function set_nombres($valor)
     {
-        $this->email = $valor;
-    } */
-/*     public function set_nombreapellido($valor)
+        $this->nombres = $valor;
+    }
+    public function set_apellidos($valor)
     {
-        $this->nombreapellido = $valor;
-    } */
-    public function set_password($valor)
+        $this->apellidos = $valor;
+    }
+    public function set_rol($valor)
+    {
+        return $this->rol = $valor;
+    }
+    public function set_clave($valor)
     {
         $this->password = $valor;
     }
-/*     public function get_user()
-    {
-        return $this->user;
-    }
-    public function get_password()
-    {
-        return $this->password;
-    } */
 
-    public function registrarU()
+    public function set_clave_encriptada($valor)
     {
-        $validar_registro = $this->validar_registro($this->user);
+        $this->password = $valor;
+    }
+
+    public function registrar_usuario()
+    {
+        $validar_registro = $this->validar_registro($this->cedula);
         if ($validar_registro) {
             return false;
         } else {
             try {
                 $this->conex->query("INSERT INTO usuarios(
-        					nombre_apellido,
-        					email,
         					cedula,
-        					clave
+                            nombres,
+                            apellidos,
+        					cargo,
+        					contrasenna
         					)
         				VALUES(
-        					'$this->nombreapellido',
-        					'$this->email',
-        					'$this->user',
+                            '$this->cedula',
+        					'$this->nombres',
+        					'$this->apellidos',
+        					'$this->rol',
         					'$this->password'
         				)");
                 return true;
@@ -57,14 +61,15 @@ class loginModelo extends connectDB
             }
         }
     }
-    public function verificarU()
+
+    public function verificar_usuario($usuario,$password)
     {
-        $resultado = $this->conex->prepare("SELECT * FROM user WHERE cedula_user ='$this->user' AND password ='$this->password'");
+        $resultado = $this->conex->prepare("SELECT * FROM usuarios WHERE cedula ='$usuario'");
         try {
             $resultado->execute();
-            $respuesta1 = $resultado->rowCount();
-            if ($respuesta1 > 0) {
-                return true;
+            $respuesta1 = $resultado->fetchAll();
+            if(password_verify($password, $respuesta1[0]['contrasenna'])) {
+                return $respuesta1[0]['contrasenna'];
             } else {
                 return false;
             }
@@ -73,9 +78,9 @@ class loginModelo extends connectDB
         }
     }
 
-    public function datos_UserU()
+    public function datos_usuario($cedula)
     {
-        $resultado = $this->conex->prepare("SELECT *,user.id as id_usuario FROM user,area,division WHERE user.id_area = area.id AND area.id_division = division.id AND cedula_user ='$this->user' AND password ='$this->password'");
+        $resultado = $this->conex->prepare("SELECT * FROM usuarios WHERE cedula ='$cedula'");
         try {
             $resultado->execute();
             $respuestaArreglo = $resultado->fetchAll();

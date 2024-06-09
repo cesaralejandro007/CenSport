@@ -2,63 +2,70 @@
 use modelo\LoginModelo as Login;
 use config\componentes\configSistema as configSistema;
 session_start();
-
 $config = new configSistema;
 $login = new Login;
 if (!is_file($config->_Dir_Model_().$pagina.$config->_MODEL_())) {
     echo "Falta definir la clase " . $pagina;
     exit;
 }
-
 if (is_file("vista/" . $pagina . "Vista.php")) {
-
-
     if (isset($_POST['accion'])) {
         $accion = $_POST['accion'];
         if($accion=="ingresar"){
-            $usuario = $_POST['cedula'];
-            $clave = $_POST['clave'];
-            $login->set_user($usuario);
-            $login->set_password($clave);
-            $responseU = $login->verificarU();
-            if($responseU == true){
-                $infoU = $login->datos_UserU();
-                foreach ($infoU as $datos) {
-                    $_SESSION['usuario'] = array('id' => $datos['id_usuario'],'cedula' => $datos['cedula_user'], 'nombre_apellido' => $datos['nombre_user'], 'id_area' => $datos['id_area'], 'nombre_rol' => $datos['nombre_rol'], 'password' => $datos['password'], 'division' => $datos['nombrediv'], 'area' => $datos['nombrearea']);
+            $usuario = $_POST['usuario'];
+            $clave = $_POST['password'];
+            if($usuario != "" && $clave != ""){
+                $res_usuario = $login->verificar_usuario($usuario,$clave);
+                if($res_usuario == true){
+                    $info_usuario = $login->datos_usuario($usuario);
+                    foreach ($info_usuario as $datos) {
+                        $_SESSION['usuario'] = array('id' => $datos['id_usuario'],'cedula' => $datos['cedula'], 'nombres' => $datos['nombres'], 'apellidos' => $datos['apellidos'], 'rol' => $datos['cargo']);
+                    }
+                    echo json_encode([
+                        'estatus' => '1',
+                        'icon' => 'success',
+                        'title' => 'Login',
+                        'message' => 'Inicio exitoso!'
+                    ]);
+                    return 0;
                 }
+                else{
+                    echo json_encode([
+                        'estatus' => '2',
+                        'icon' => 'info',
+                        'title' => 'Login',
+                        'message' => 'Verifique sus datos!'
+                    ]);
+                    return 0;
+                }
+            }else{
                 echo json_encode([
-                    'estatus' => '1',
-                    'icon' => 'success',
+                    'estatus' => '2',
+                    'icon' => 'error',
                     'title' => 'Login',
-                    'message' => 'Inicio exitoso'
-                ]);
-                return 0;
-            }
-            else{
-                echo json_encode([
-                    'estatus' => '3',
-                    'icon' => 'info',
-                    'title' => 'Login',
-                    'message' => 'Verifique sus datos'
+                    'message' => 'Ingrese usuario y contraseña!'
                 ]);
                 return 0;
             }
         }else if ($accion == 'codificarURL') {
             echo configSistema::_PRINCIPAL_();
             return 0;
-        }else if($accion=="registrar"){
-            $nombreapellido = $_POST['nombreapellido'];
-            $email = $_POST['email'];
+        }else if($accion=="registrar_usuario"){
             $cedula = $_POST['cedula'];
-            $clave1 = $_POST['clave'];
-            $login->set_nombreapellido($nombreapellido);
-            $login->set_email($email);
-            $login->set_user($cedula);
-            $login->set_password($clave1);
-            $response = $login->registrarU();
+            $nombres = $_POST['nombres'];
+            $apellidos = $_POST['apellidos'];
+            $rol = $_POST['rol'];
+            $clave_encriptada = password_hash($_POST['clave'], PASSWORD_DEFAULT);
+
+            $login->set_cedula($cedula);
+            $login->set_nombres($nombres);
+            $login->set_apellidos($apellidos);
+            $login->set_rol($rol);
+            $login->set_clave_encriptada($clave_encriptada);
+            $response = $login->registrar_usuario();
             if ($response == true) {
                 echo json_encode([
-                    'estatus' => '2',
+                    'estatus' => '1',
                     'icon' => 'success',
                     'title' => 'Usuario',
                     'message' => 'Registro Exitoso.'
@@ -66,13 +73,15 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 return 0;
             }else {
                 echo json_encode([
-                    'estatus' => '3',
+                    'estatus' => '2',
                     'icon' => 'info',
                     'title' => 'Usuario',
-                    'message' => 'El Usuario ya se encuentra registrado.'
+                    'message' => 'El Usuario ya está registrado.'
                 ]);
                 return 0;
             }
+        }else{
+            session_destroy();  
         }
     }else {
         session_destroy();

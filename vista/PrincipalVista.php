@@ -200,7 +200,6 @@ use config\componentes\configSistema as configSistema;
 
         <script src="content/js/scripts.js"></script>
         <script src="plugins/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="plugins/demo/chart-area-demo.js"></script>
         <script src="plugins/demo/chart-bar-demo.js"></script>
         <script src="plugins/datatables/js/simple-datatables.min.js" crossorigin="anonymous"></script>
     </body>
