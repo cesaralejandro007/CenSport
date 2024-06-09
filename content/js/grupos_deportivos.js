@@ -52,7 +52,7 @@ function Limitar(event, cantidad) {
     }
 
 var keyup_nombre = /^(?!.*\s{2})[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(?:\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*){0,49}$/;
-var keyup_descripcion = /^.{3,200}$/;
+var keyup_descripcion = /^.{2,200}$/;
 
 document.onload = carga();
 function carga() {
@@ -202,7 +202,7 @@ function valida_registrar() {
         "* Solo letras de 3 a 50 caracteres, comenzando cada palabra con la primera letra en mayúscula."
     );
     descripcion_grupo = validarkeyup(
-        keyup_nombre,
+        keyup_descripcion,
         document.getElementById("descripcion_grupo"),
         document.getElementById("sdescripcion_grupo"),
          "* La cadena debe tener entre 3 y 200 caracteres."
