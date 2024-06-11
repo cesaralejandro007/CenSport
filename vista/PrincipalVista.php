@@ -89,7 +89,7 @@ use config\componentes\configSistema as configSistema;
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Roporte de Deportes Masculino
+                                        Reporte de Deportes Masculino
                                     </div>
                                     <div class="card-body"><canvas id="myBarChart_masculino" width="100%" height="40"></canvas></div>
                                 </div>
@@ -98,7 +98,7 @@ use config\componentes\configSistema as configSistema;
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Roporte de Deportes Femenino
+                                        Reporte de Deportes Femenino
                                     </div>
                                     <div class="card-body"><canvas id="myBarChart_femenino" width="100%" height="40"></canvas></div>
                                 </div>

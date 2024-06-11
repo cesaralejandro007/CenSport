@@ -74,8 +74,11 @@ use config\componentes\configSistema as configSistema;
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-4">
-                            <form>
+                            <form>                    
                                 <div class="card shadow-lg border-0 rounded-lg">
+                                    <div class="d-flex justify-content-center py-1">
+                                        <img src="assets/img/SOP.png" class="img-fluid border-bottom border-5 border-danger" alt="Imagen de SOP">
+                                    </div>
                                     <div class="card-header">
                                         <center>
                                             <img src="assets/img/CenSPORT.jpg" alt="Logo" style="height: 130px; width: 270px;">
