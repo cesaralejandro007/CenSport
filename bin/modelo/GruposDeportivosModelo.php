@@ -8,7 +8,6 @@ class GruposDeportivosModelo extends connectDB
         $resultado_arreglo=[];
         try{
             $sql->execute();
-            $sql->setFetchMode(); 
             $resultado_arreglo = $sql->fetchAll();
             return $resultado_arreglo;
 
@@ -26,7 +25,6 @@ class GruposDeportivosModelo extends connectDB
         try{
 
             $sql->execute();
-            $sql->setFetchMode();
             $resultado_arreglo=$sql->fetchAll();
             return $resultado_arreglo;
 
