@@ -61,20 +61,24 @@ class loginModelo extends connectDB
             }
         }
     }
-
+    
     public function verificar_usuario($usuario,$password)
     {
         $resultado = $this->conex->prepare("SELECT * FROM usuarios WHERE cedula ='$usuario'");
         try {
             $resultado->execute();
             $respuesta1 = $resultado->fetchAll();
-            if(password_verify($password, $respuesta1[0]['contrasenna'])) {
-                return $respuesta1[0]['contrasenna'];
+            if (!empty($respuesta1)) {
+                if(password_verify($password, $respuesta1[0]['contrasenna'])) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
         } catch (Exception $e) {
-            return $e->getMessage();
+                return $e->getMessage();
         }
     }
 
