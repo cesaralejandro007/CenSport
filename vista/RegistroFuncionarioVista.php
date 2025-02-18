@@ -97,41 +97,44 @@ use config\componentes\configSistema as configSistema;
                                 <span id="sselect_division"></span>
                             </div>
                             <div id="selec_area"></div>
-                            <div class="col-12 mt-2"> 
-                            <div class="input-group">
-                                <label for="id_diciplina" class="input-group-text">Disciplina</label>
-                                <input class="form-control" list="opcion_diciplina" id="id_diciplina" placeholder="Disciplinas">
-                                <datalist id="opcion_diciplina">
-                                    <?php foreach ($lista_deportes as $deporte) { ?>
-                                        <option value="<?php echo $deporte['nombre_deporte']; ?>" data-id="<?php echo $deporte['id_deporte']; ?>">
-                                    <?php } ?>
-                                </datalist>
-                                <button id='agregar' class="btn btn-secondary" type="button">Agregar</button>
-                                </div>
-                            </div>
-                            <input type="hidden" id="id_deporte_seleccionado"> <!-- Campo oculto para guardar el ID -->
+                            <div class="col-12 mt-2">
+    <div class="input-group">
+        <label for="id_diciplina" class="input-group-text">Disciplina</label>
+        <input class="form-control" list="opcion_diciplina" id="id_diciplina" placeholder="Disciplinas">
+        <datalist id="opcion_diciplina">
+            <?php foreach ($lista_deportes as $deporte) { ?>
+                <option value="<?php echo $deporte['nombre_deporte']; ?>" data-id="<?php echo $deporte['id_deporte']; ?>">
+                    <?php echo $deporte['nombre_deporte']; ?>
+                </option>
+            <?php } ?>
+        </datalist>
+        <button id="agregar" class="btn btn-secondary" type="button">Agregar</button>
+    </div>
+</div>
+                            <input type="text" id="id_deporte_seleccionado" hidden> <!-- Campo oculto para guardar el ID -->
 
-                            <div class="col-12 mt-2 d-flex justify-content-center">
-                                <div class="card">
-                                    <div class="card-header bg-secondary text-white text-center">
-                                        <h5 class="mb-0">Disciplinas agregadas</h5>
-                                    </div>
-                                    <div class="card-body bg-light">
-                                        <div class="table-responsive" style="max-height: 150px; overflow-y: auto;">
-                                            <table id="integrantes_agregados" class="table table-striped-columns table-hover">
-                                                <thead class="table">
-                                                    <tr>
-                                                        <th class="text-center">Deporte</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tbody_diciplinas">
-                                                    <!-- Aquí se agregarán las disciplinas seleccionadas -->
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+<div class="col-12 mt-2 d-flex justify-content-center">
+    <div class="card">
+        <div class="card-header bg-secondary text-white text-center">
+            <h5 class="mb-0">Disciplinas agregadas</h5>
+        </div>
+        <div class="card-body bg-light">
+            <div class="table-responsive" style="max-height: 150px; overflow-y: auto;">
+                <table id="integrantes_agregados" class="table table-striped-columns table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Deporte</th>
+                            <th class="text-center">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody_diciplinas">
+                        <!-- Aquí se agregarán las disciplinas seleccionadas -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" style="background:#9D2323;" class="btn text-white" data-bs-dismiss="modal">Cerrar</button>
@@ -215,7 +218,7 @@ use config\componentes\configSistema as configSistema;
                                         <?php echo $valor['telefono']; ?>
                                     </td>
                                     <td class="project-actions text-left">
-                                        <?php echo $valor['telefono']; ?>
+                                        <?php echo $valor['deportes_vinculados']; ?>
                                     </td>
                                     </tr>
                                 <?php

@@ -21,19 +21,14 @@ class RegistroFuncionarioModelo extends connectDB
     
             // Obtener el ID generado para la persona recién insertada
             $id_persona = $this->conex->lastInsertId();
-    
-            // (Opcional) Se vuelve a obtener el id_persona mediante consulta con fetchAll()
-            $resultado1 = $this->conex->query("SELECT id_persona FROM personas WHERE cedula = '$cedula'");
-            $filas = $resultado1->fetchAll();
-            $id_persona = $filas[0]['id_persona'];
-    
+        
             // Insertar las disciplinas asociadas
             foreach ($disciplinas as $id_deporte) {
                 // Insertar en la tabla diciplina_persona
                 $this->conex->query("INSERT INTO diciplina_persona (id_persona, id_deporte) VALUES ('$id_persona', '$id_deporte')");
             }
     
-            return ["resultado" => 1, "mensaje" => $id_persona];
+            return ["resultado" => 1, "mensaje" => "Registro Exitoso."];
         } catch (Exception $e) {
             return ["resultado" => 0, "mensaje" => "Error: " . $e->getMessage()];
         }
@@ -56,17 +51,148 @@ class RegistroFuncionarioModelo extends connectDB
 
     public function cargar_funcionario($id_persona)
     {
-        $resultado = $this->conex->prepare("SELECT *,divisiones.id_division as idDivision, areas.id_area as idArea FROM personas,areas,divisiones WHERE divisiones.id_division = areas.id_division AND areas.id_area = personas.id_area AND personas.id_persona = '$id_persona';");
-        $respuestaArreglo = [];
         try {
-            $resultado->execute();
-            $respuestaArreglo = $resultado->fetchAll();
+            // Consulta principal para obtener los detalles del funcionario
+            $resultado = $this->conex->prepare("SELECT personas.*, divisiones.id_division as idDivision, areas.id_area as idArea
+                                                FROM personas
+                                                JOIN areas ON areas.id_area = personas.id_area
+                                                JOIN divisiones ON divisiones.id_division = areas.id_division
+                                                WHERE personas.id_persona = ?");
+            $resultado->execute([$id_persona]);
+            $personas = $resultado->fetchAll(); // Obtener todos los resultados (aunque solo esperamos uno)
+            
+            if (count($personas) > 0) {
+                $persona = $personas[0]; // Tomar el primer elemento si se encuentra alguna persona
+            } else {
+                return ['resultado' => 0, 'mensaje' => 'Funcionario no encontrado.'];
+            }
+    
+            // Consulta para obtener los deportes vinculados al funcionario
+            $resultado_deportes = $this->conex->prepare("SELECT deportes.id_deporte, deportes.nombre_deporte
+                                                        FROM personas
+                                                        JOIN diciplina_persona ON personas.id_persona = diciplina_persona.id_persona
+                                                        JOIN deportes ON diciplina_persona.id_deporte = deportes.id_deporte
+                                                        WHERE personas.id_persona = ?");
+            $resultado_deportes->execute([$id_persona]);
+            $deportes = $resultado_deportes->fetchAll(); // Obtener todos los deportes vinculados
+    
+            $edad = date('Y') - date('Y', strtotime($persona['fecha_nacimiento'])); // Año actual - Año de nacimiento
+
+            // Si la fecha de nacimiento aún no ha pasado este año, restar 1 de la edad
+            if (date('md') < date('md', strtotime($persona['fecha_nacimiento']))) {
+                $edad--;
+            }
+            
+            $datos_funcionario = [
+                'id_persona' => $persona['id_persona'],
+                'cedula' => $persona['cedula'],
+                'nombres' => $persona['nombres'],
+                'apellidos' => $persona['apellidos'],
+                'telefono' => $persona['telefono'],
+                'idDivision' => $persona['idDivision'],
+                'idArea' => $persona['idArea'],
+                'sexo' => $persona['sexo'],
+                'edad' => $edad,
+                'fecha_ingreso' => $persona['fecha_ingreso'],
+                'fecha_nacimiento' => $persona['fecha_nacimiento'],
+                'deportes' => $deportes // Lista de deportes vinculados
+            ];
+
         } catch (Exception $e) {
-            return $e->getMessage();
+            return ['resultado' => 0, 'mensaje' => 'Error: ' . $e->getMessage()];
         }
-        return $respuestaArreglo;
+        return $datos_funcionario;
     }
-    public function modificar_funcionario($id,$cedula,$nombres,$apellidos,$sexo,$telefono,$fecha_nacimiento,$fecha_ingreso,$id_area)
+
+
+    public function eliminar_deporte_funcionario($id_deporte, $id_persona)
+    {
+        // Verificar si el funcionario tiene al menos un deporte vinculado
+        $validar_registro = $this->validar_elim_deportes($id_persona);
+        if ($validar_registro == false) {
+            return [
+                'resultado' => 2,
+                'mensaje' => 'Debe dejar al menos un deporte.'
+            ];
+        }
+        try {
+            // Eliminar el deporte vinculado al funcionario
+            $this->conex->query("DELETE FROM diciplina_persona WHERE id_deporte = '$id_deporte' AND id_persona = '$id_persona'");
+    
+            // Obtener los datos del funcionario
+            $resultado = $this->conex->prepare("SELECT personas.*, divisiones.id_division as idDivision, areas.id_area as idArea
+                                                FROM personas
+                                                JOIN areas ON areas.id_area = personas.id_area
+                                                JOIN divisiones ON divisiones.id_division = areas.id_division
+                                                WHERE personas.id_persona = ?");
+            $resultado->execute([$id_persona]);
+            $personas = $resultado->fetchAll(); // Obtener los datos del funcionario
+    
+            if (count($personas) > 0) {
+                $persona = $personas[0];
+            } else {
+                return [
+                    'resultado' => 0,
+                    'mensaje' => 'Funcionario no encontrado.'
+                ];
+            }
+    
+            // Obtener los deportes restantes vinculados al funcionario
+            $resultado_deportes = $this->conex->prepare("SELECT deportes.id_deporte, deportes.nombre_deporte
+                                                        FROM personas
+                                                        JOIN diciplina_persona ON personas.id_persona = diciplina_persona.id_persona
+                                                        JOIN deportes ON diciplina_persona.id_deporte = deportes.id_deporte
+                                                        WHERE personas.id_persona = ?");
+            $resultado_deportes->execute([$id_persona]);
+            $deportes = $resultado_deportes->fetchAll(); // Obtener todos los deportes restantes
+    
+            // Calcular la edad del funcionario
+            $edad = date('Y') - date('Y', strtotime($persona['fecha_nacimiento'])); // Año actual - Año de nacimiento
+            if (date('md') < date('md', strtotime($persona['fecha_nacimiento']))) {
+                $edad--;
+            }
+    
+            // Preparar la respuesta con los datos actualizados del funcionario
+            $datos_funcionario = [
+                'id_persona' => $persona['id_persona'],
+                'cedula' => $persona['cedula'],
+                'nombres' => $persona['nombres'],
+                'apellidos' => $persona['apellidos'],
+                'telefono' => $persona['telefono'],
+                'idDivision' => $persona['idDivision'],
+                'idArea' => $persona['idArea'],
+                'sexo' => $persona['sexo'],
+                'edad' => $edad,
+                'fecha_ingreso' => $persona['fecha_ingreso'],
+                'fecha_nacimiento' => $persona['fecha_nacimiento'],
+                'deportes' => $deportes // Lista de deportes restantes
+            ];
+        } catch (Exception $e) {
+            return [
+                'resultado' => 0,
+                'mensaje' => 'Error al eliminar el deporte: ' . $e->getMessage()
+            ];
+        }
+        return $datos_funcionario; 
+    }
+    
+    public function validar_elim_deportes($id_persona)
+    {
+        try {
+            $resultado = $this->conex->prepare("SELECT * FROM diciplina_persona WHERE id_persona = '$id_persona'");
+            $resultado->execute();
+            $fila = $resultado->rowCount();
+            if ($fila == 1) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    
+    public function modificar_funcionario($id,$cedula,$nombres,$apellidos,$sexo,$telefono,$fecha_nacimiento,$fecha_ingreso,$id_area,$disciplinas)
     {
         $validar_modificar = $this->validar_modificar($id, $cedula);
         if ($validar_modificar) {
@@ -77,6 +203,13 @@ class RegistroFuncionarioModelo extends connectDB
                 $this->conex->query("UPDATE personas SET id_area = '$id_area', cedula = '$cedula', nombres = '$nombres', apellidos = '$apellidos', sexo = '$sexo', telefono = '$telefono', fecha_nacimiento = '$fecha_nacimiento', fecha_ingreso = '$fecha_ingreso' WHERE id_persona = '$id'");
                 $respuesta["resultado"]=1;
                 $respuesta["mensaje"]="Modificación exitosa.";
+
+                $this->conex->query("DELETE FROM diciplina_persona WHERE id_persona = '$id'");
+                foreach ($disciplinas as $id_deporte) {
+                    // Insertar en la tabla diciplina_persona
+                    $this->conex->query("INSERT INTO diciplina_persona (id_persona, id_deporte) VALUES ('$id', '$id_deporte')");
+                }
+
             } catch (Exception $e) {
                 $respuesta['resultado'] = 0;
                 $respuesta['mensaje'] = $e->getMessage();
@@ -134,7 +267,22 @@ class RegistroFuncionarioModelo extends connectDB
     
     public function listar_funcionarios()
     {
-        $resultado = $this->conex->prepare("SELECT *, YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) AS edad, DATE_FORMAT(fecha_ingreso, '%d/%m/%Y') AS fecha_formateada,DATE_FORMAT(fecha_nacimiento, '%d/%m/%Y') AS fecha_nacimiento_formateada FROM personas;");
+        $resultado = $this->conex->prepare("
+        SELECT 
+            personas.*,
+            YEAR(CURDATE()) - YEAR(personas.fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(personas.fecha_nacimiento, '%m%d')) AS edad,
+            DATE_FORMAT(personas.fecha_ingreso, '%d/%m/%Y') AS fecha_formateada,
+            DATE_FORMAT(personas.fecha_nacimiento, '%d/%m/%Y') AS fecha_nacimiento_formateada,
+            GROUP_CONCAT(deportes.nombre_deporte ORDER BY deportes.nombre_deporte ASC SEPARATOR ', ') AS deportes_vinculados
+        FROM 
+            personas
+        JOIN 
+            diciplina_persona ON personas.id_persona = diciplina_persona.id_persona
+        JOIN 
+            deportes ON diciplina_persona.id_deporte = deportes.id_deporte
+        GROUP BY 
+            personas.id_persona;
+        ");
         $respuestaArreglo = [];
         try {
             $resultado->execute();

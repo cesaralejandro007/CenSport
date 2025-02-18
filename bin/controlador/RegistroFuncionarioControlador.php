@@ -62,23 +62,11 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             exit;
         } else if ($accion == 'editar') {
             $datos = $funcionario->cargar_funcionario($_POST['id_persona']);
-            foreach ($datos as $valor) {
-                echo json_encode([
-                    'id_persona' => $valor['id_persona'],
-                    'cedula' => $valor['cedula'],
-                    'nombres' => $valor['nombres'],
-                    'apellidos' => $valor['apellidos'],
-                    'sexo' => $valor['sexo'],
-                    'telefono' => $valor['telefono'],
-                    'fecha_nacimiento' => $valor['fecha_nacimiento'],
-                    'fecha_ingreso' => $valor['fecha_ingreso'],
-                    'idDivision' => $valor['idDivision'],
-                    'idArea' => $valor['idArea'],
-                ]);
-            }
+                echo json_encode($datos);
             return 0;
         }else if ($accion == 'modificar'){ 
-            $response = $funcionario->modificar_funcionario($_POST['id'],$_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area']);
+            $array_diciplinas = explode(",", $_POST['disciplinas']);
+            $response = $funcionario->modificar_funcionario($_POST['id'],$_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area'],$array_diciplinas);
             if ($response['resultado']== 1) {
                 echo json_encode([
                     'estatus' => '1',
@@ -94,6 +82,11 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                     'message' => $response['mensaje']
                 ]);
             }
+            return 0;
+            exit;
+        }else if ($accion == 'eliminar_deporte_funcionario') {
+            $datos = $funcionario->eliminar_deporte_funcionario($_POST['id_deporte'],$_POST['id_persona']);
+            echo json_encode($datos);
             return 0;
             exit;
         }else if ($accion == 'buscar_area') {
