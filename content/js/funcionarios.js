@@ -1,3 +1,74 @@
+// Array para almacenar los deportes agregados (cada elemento es un array: [idDeporte, nombreDeporte])
+var disciplinas = [];
+
+// Evento para capturar el ID del deporte seleccionado
+document.getElementById('id_diciplina').addEventListener('input', function() {
+    var input = this.value;
+    var option = Array.from(document.querySelectorAll('#opcion_diciplina option')).find(opt => opt.value === input);
+    document.getElementById('id_deporte_seleccionado').value = option ? option.getAttribute('data-id') : '';
+});
+
+// Función para agregar un deporte a la tabla (máximo 2 disciplinas)
+document.getElementById('agregar').addEventListener('click', function() {
+    var input = document.getElementById('id_diciplina'); 
+    var idDeporte = document.getElementById('id_deporte_seleccionado').value;
+    var nombreDeporte = input.value;
+
+    if (disciplinas.length >= 2) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Solo puedes agregar un máximo de 2 disciplinas!',
+            confirmButtonColor: '#007bff',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+
+    // Se verifica que no se haya agregado el deporte previamente (comparando por id)
+    if (idDeporte && nombreDeporte && !disciplinas.some(d => d[0] === idDeporte)) {
+        // Agregar el deporte como array [id, nombre]
+        disciplinas.push([idDeporte]);
+
+        var tbody = document.getElementById('tbody_diciplinas');
+        var newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td class="text-center">${nombreDeporte}</td>
+            <td class="text-center">
+                <button class="btn btn-danger btn-sm" onclick="eliminarDeporte(this, '${idDeporte}')">Eliminar</button>
+            </td>
+        `;
+        tbody.appendChild(newRow);
+
+        // Limpiar el input y el campo oculto
+        input.value = '';
+        document.getElementById('id_deporte_seleccionado').value = '';
+
+    } else if (!nombreDeporte || !idDeporte) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Seleccione una disciplina válida!',
+            confirmButtonColor: '#007bff',
+            confirmButtonText: 'Aceptar'
+        });
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Este deporte ya está agregado!',
+            confirmButtonColor: '#007bff',
+            confirmButtonText: 'Aceptar'
+        });
+    }
+});
+
+// Función para eliminar un deporte de la tabla
+function eliminarDeporte(button, idDeporte) {
+    var row = button.closest('tr');
+    // Filtrar utilizando el índice 0 del array (que contiene el id)
+    disciplinas = disciplinas.filter(d => d[0] !== idDeporte);
+    row.remove();
+}
+
+
 var keyup_cedula = /^[0-9]{7,8}$/;
 var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
 var keyup_fecha = /^\d{4}-\d{2}-\d{2}$/;
@@ -103,7 +174,15 @@ document.getElementById("fecha_ingreso").onkeyup = function () {
 document.getElementById("enviar").onclick = function () {
     a = valida_registrar();
     if (a != "") {
-    }else {
+    }else if(disciplinas.length == 0){
+        Swal.fire({
+            icon: 'error',
+            title: 'Seleccione al menos una diciplina!',
+            showConfirmButton: true,
+            confirmButtonColor: '#007bff', // Color primario de Bootstrap
+            confirmButtonText: 'Aceptar'
+            });
+    }else{
         var datos = new FormData();
         datos.append("accion", $("#accion").val());
         datos.append("id", $("#id_persona").val());
@@ -116,6 +195,7 @@ document.getElementById("enviar").onclick = function () {
         datos.append("fecha_ingreso", $("#fecha_ingreso").val());
         datos.append("id_division", $("#select_division").val());
         datos.append("id_area", $("#area").val());
+        datos.append("disciplinas",disciplinas);
         enviaAjax(datos);
     }
 };

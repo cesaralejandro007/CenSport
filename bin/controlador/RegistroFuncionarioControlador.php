@@ -1,5 +1,6 @@
 <?php
 use modelo\RegistroFuncionarioModelo as Funcionario;
+use modelo\RegistroDeporteModelo as Deporte;
 use config\componentes\configSistema as configSistema;
 
 $config = new configSistema;
@@ -14,12 +15,14 @@ if (!isset($_SESSION['usuario'])) {
     die();
 }
 $funcionario = new Funcionario();
+$deporte = new Deporte();
 if (is_file("vista/" . $pagina . "Vista.php")) {
     if (isset($_POST['accion'])) {
         $modulo = 'Funcionarios:';
         $accion = $_POST['accion'];
         if ($accion == 'registrar') {
-            $response = $funcionario->registrar_funcionario($_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area']);
+            $array_diciplinas = explode(",", $_POST['disciplinas']);
+            $response = $funcionario->registrar_funcionario($_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area'],$array_diciplinas);
             if ($response["resultado"]==1) {
                 echo json_encode([
                     'estatus' => '1',
@@ -102,6 +105,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     }
 $funcionarios = $funcionario->listar_funcionarios();
 $divisiones = $funcionario->listar_division();
+$lista_deportes = $deporte->listar_deportes();
 require_once "vista/" . $pagina . "Vista.php";
 } else {
     echo "pagina en construccion";

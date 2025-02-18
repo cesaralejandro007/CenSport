@@ -3,43 +3,42 @@ namespace modelo;
 use config\connect\connectDB as connectDB;
 class RegistroFuncionarioModelo extends connectDB
 {
-    public function registrar_funcionario($cedula,$nombres,$apellidos,$sexo,$telefono,$fecha_nacimiento,$fecha_ingreso,$id_area)
-    {
-        $validar_registro = $this->validar_registro($cedula);
-        if ($validar_registro==false) {
-            $respuesta["resultado"]=2;
-            $respuesta["mensaje"]="La persona ya está registrada.";
-        } else {
-            try {
-            $this->conex->query("INSERT INTO personas(
-                id_area,
-                cedula,
-                nombres,
-                apellidos,
-                sexo,
-                telefono,
-                fecha_nacimiento,
-                fecha_ingreso
-                )
-            VALUES(
-                '$id_area',
-                '$cedula',
-                '$nombres',
-                '$apellidos',
-                '$sexo',
-                '$telefono',
-                '$fecha_nacimiento',
-                '$fecha_ingreso'
-            )");
 
-            $respuesta["resultado"]=1;
-            $respuesta["mensaje"]="Registro Exitoso.";
-            } catch (Exception $e) {
-                return $e->getMessage();
-            }
+    public function registrar_funcionario($cedula, $nombres, $apellidos, $sexo, $telefono, $fecha_nacimiento, $fecha_ingreso, $id_area, $disciplinas)
+    {
+        // Validar si la persona ya está registrada
+        if (!$this->validar_registro($cedula)) {
+            return ["resultado" => 2, "mensaje" => "La persona ya está registrada."];
         }
-        return $respuesta;
+    
+        try {
+            // Insertar en la tabla personas
+            $this->conex->query("INSERT INTO personas (
+                id_area, cedula, nombres, apellidos, sexo, telefono, fecha_nacimiento, fecha_ingreso
+            ) VALUES (
+                '$id_area', '$cedula', '$nombres', '$apellidos', '$sexo', '$telefono', '$fecha_nacimiento', '$fecha_ingreso'
+            )");
+    
+            // Obtener el ID generado para la persona recién insertada
+            $id_persona = $this->conex->lastInsertId();
+    
+            // (Opcional) Se vuelve a obtener el id_persona mediante consulta con fetchAll()
+            $resultado1 = $this->conex->query("SELECT id_persona FROM personas WHERE cedula = '$cedula'");
+            $filas = $resultado1->fetchAll();
+            $id_persona = $filas[0]['id_persona'];
+    
+            // Insertar las disciplinas asociadas
+            foreach ($disciplinas as $id_deporte) {
+                // Insertar en la tabla diciplina_persona
+                $this->conex->query("INSERT INTO diciplina_persona (id_persona, id_deporte) VALUES ('$id_persona', '$id_deporte')");
+            }
+    
+            return ["resultado" => 1, "mensaje" => $id_persona];
+        } catch (Exception $e) {
+            return ["resultado" => 0, "mensaje" => "Error: " . $e->getMessage()];
+        }
     }
+    
 
     public function eliminar_funcionario($id_persona)
     {
