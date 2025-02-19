@@ -1,6 +1,6 @@
 var keyup_cedula = /^[0-9]{7,8}$/;
 var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
-var keyup_clave =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;;
+var keyup_clave = /^.{3,}$/;
 
 document.onload = carga();
 function carga() {
@@ -74,7 +74,7 @@ document.getElementById("clave").onkeyup = function () {
         keyup_clave,
         this,
         document.getElementById("sclave"),
-        "La clave debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un dígito y un carácter especial."
+        "La clave debe tener al menos 3 caracteres."
     );
 };
 /*--------------FIN VALIDACION PARA APELLIDO--------------------*/
@@ -220,7 +220,7 @@ function valida_registrar() {
         keyup_clave,
         document.getElementById("clave"),
         document.getElementById("sclave"),
-        "* El formato debe ser 0426-1234567"
+        "La clave debe tener al menos 3 caracteres."
     );
 
     if(

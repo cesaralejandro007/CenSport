@@ -21,8 +21,8 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         $modulo = 'Funcionarios:';
         $accion = $_POST['accion'];
         if ($accion == 'registrar') {
-            $array_diciplinas = explode(",", $_POST['disciplinas']);
-            $response = $funcionario->registrar_funcionario($_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area'],$array_diciplinas);
+            $array_disciplinas = explode(",", $_POST['disciplinas']);
+            $response = $funcionario->registrar_funcionario($_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area'],$array_disciplinas);
             if ($response["resultado"]==1) {
                 echo json_encode([
                     'estatus' => '1',
@@ -60,13 +60,25 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             }
             return 0;
             exit;
+        }else if ($accion == 'comprobar_pers_disciplinas') {
+            $datos = $funcionario->comprobar_pers_disciplinas($_POST['id_diciplina'],$_POST['nombre_deporte'],$_POST['id_persona']);
+            if ($datos['resultado'] == 1) {
+            }else{
+                echo json_encode([
+                    'estatus' => '2',
+                    'icon' => 'info',
+                    'title' => $modulo,
+                    'message' => $datos["mensaje"]
+                ]);
+            }
+            return 0;
         } else if ($accion == 'editar') {
             $datos = $funcionario->cargar_funcionario($_POST['id_persona']);
                 echo json_encode($datos);
             return 0;
         }else if ($accion == 'modificar'){ 
-            $array_diciplinas = explode(",", $_POST['disciplinas']);
-            $response = $funcionario->modificar_funcionario($_POST['id'],$_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area'],$array_diciplinas);
+            $array_disciplinas = explode(",", $_POST['disciplinas']);
+            $response = $funcionario->modificar_funcionario($_POST['id'],$_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area'],$array_disciplinas);
             if ($response['resultado']== 1) {
                 echo json_encode([
                     'estatus' => '1',

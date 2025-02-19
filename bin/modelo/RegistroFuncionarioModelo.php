@@ -3,14 +3,16 @@ namespace modelo;
 use config\connect\connectDB as connectDB;
 class RegistroFuncionarioModelo extends connectDB
 {
-
     public function registrar_funcionario($cedula, $nombres, $apellidos, $sexo, $telefono, $fecha_nacimiento, $fecha_ingreso, $id_area, $disciplinas)
     {
-        // Validar si la persona ya está registrada
-        if (!$this->validar_registro($cedula)) {
-            return ["resultado" => 2, "mensaje" => "La persona ya está registrada."];
+        $validar_registro = $this->validar_registro($cedula);
+        
+        if (!$validar_registro) {
+            return [
+                "resultado" => 2,
+                "mensaje" => "La persona ya está registrada."
+            ];
         }
-    
         try {
             // Insertar en la tabla personas
             $this->conex->query("INSERT INTO personas (
@@ -18,26 +20,41 @@ class RegistroFuncionarioModelo extends connectDB
             ) VALUES (
                 '$id_area', '$cedula', '$nombres', '$apellidos', '$sexo', '$telefono', '$fecha_nacimiento', '$fecha_ingreso'
             )");
-    
             // Obtener el ID generado para la persona recién insertada
-            $id_persona = $this->conex->lastInsertId();
-        
+            $resultado = $this->conex->query("SELECT id_persona FROM personas WHERE cedula = '$cedula'");
+            $filas = $resultado->fetchAll();
+            $id_persona = $filas[0]['id_persona'];
+            
             // Insertar las disciplinas asociadas
-            foreach ($disciplinas as $id_deporte) {
-                // Insertar en la tabla diciplina_persona
-                $this->conex->query("INSERT INTO diciplina_persona (id_persona, id_deporte) VALUES ('$id_persona', '$id_deporte')");
+            foreach ($disciplinas as $nombre_deporte) {
+                $resultado2 = $this->conex->query("SELECT id_deporte FROM deportes WHERE nombre_deporte = '$nombre_deporte'");
+                $fila_deporte = $resultado2->fetchAll();
+                
+                if ($fila_deporte) {
+                    // Iterar sobre cada fila para obtener el ID de la persona
+                    foreach ($fila_deporte as $fila) {
+                        $id_deporte = $fila['id_deporte'];
+                        // Insertar el ID de la persona en la tabla personas_grupos
+                        $this->conex->query("INSERT INTO diciplina_persona (id_persona, id_deporte) VALUES ('$id_persona', '$id_deporte')");
+                    }
+                }
             }
-    
-            return ["resultado" => 1, "mensaje" => "Registro Exitoso."];
+            return [
+                "resultado" => 1,
+                "mensaje" => "Registro Exitoso."
+            ];
         } catch (Exception $e) {
-            return ["resultado" => 0, "mensaje" => "Error: " . $e->getMessage()];
+            return [
+                "resultado" => 0,
+                "mensaje" => "Error: " . $e->getMessage()
+            ];
         }
     }
     
-
     public function eliminar_funcionario($id_persona)
     {
         try {
+            $this->conex->query("DELETE FROM diciplina_persona WHERE id_persona = '$id_persona'");
             $this->conex->query("DELETE FROM personas_grupos WHERE id_persona = '$id_persona'");
             $this->conex->query("DELETE FROM personas WHERE id_persona = '$id_persona'");
             $respuesta['resultado'] = 1;
@@ -83,7 +100,7 @@ class RegistroFuncionarioModelo extends connectDB
                 $edad--;
             }
             
-            $datos_funcionario = [
+            $datos = [
                 'id_persona' => $persona['id_persona'],
                 'cedula' => $persona['cedula'],
                 'nombres' => $persona['nombres'],
@@ -98,12 +115,33 @@ class RegistroFuncionarioModelo extends connectDB
                 'deportes' => $deportes // Lista de deportes vinculados
             ];
 
+            $datos_funcionarios[] = $datos;
+
         } catch (Exception $e) {
             return ['resultado' => 0, 'mensaje' => 'Error: ' . $e->getMessage()];
         }
-        return $datos_funcionario;
+        return $datos_funcionarios;
     }
 
+
+    
+    public function comprobar_pers_disciplinas($id_diciplina,$nombre_deporte,$id_persona)
+    {
+        try {
+            $resultado = $this->conex->prepare("SELECT * FROM personas,diciplina_persona,deportes WHERE diciplina_persona.id_persona = personas.id_persona AND diciplina_persona.id_deporte = deportes.id_deporte AND personas.id_persona = '$id_persona'");
+            $resultado->execute();
+            $filas = $resultado->rowCount();
+            if ($filas >= 2) {
+                $respuesta["resultado"]=2;
+                $respuesta["mensaje"]="La persona ". $nombre_deporte ." ha excedido el límite de deportes permitidos.";
+            } else {
+                $respuesta["resultado"]=1;
+            }
+            return $respuesta;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 
     public function eliminar_deporte_funcionario($id_deporte, $id_persona)
     {
@@ -153,7 +191,7 @@ class RegistroFuncionarioModelo extends connectDB
             }
     
             // Preparar la respuesta con los datos actualizados del funcionario
-            $datos_funcionario = [
+            $datos = [
                 'id_persona' => $persona['id_persona'],
                 'cedula' => $persona['cedula'],
                 'nombres' => $persona['nombres'],
@@ -167,6 +205,8 @@ class RegistroFuncionarioModelo extends connectDB
                 'fecha_nacimiento' => $persona['fecha_nacimiento'],
                 'deportes' => $deportes // Lista de deportes restantes
             ];
+
+            $datos_funcionario[] = $datos;
         } catch (Exception $e) {
             return [
                 'resultado' => 0,
@@ -192,32 +232,56 @@ class RegistroFuncionarioModelo extends connectDB
         }
     }
     
-    public function modificar_funcionario($id,$cedula,$nombres,$apellidos,$sexo,$telefono,$fecha_nacimiento,$fecha_ingreso,$id_area,$disciplinas)
+    public function modificar_funcionario($id, $cedula, $nombres, $apellidos, $sexo, $telefono, $fecha_nacimiento, $fecha_ingreso, $id_area, $disciplinas)
     {
         $validar_modificar = $this->validar_modificar($id, $cedula);
+        
         if ($validar_modificar) {
             $respuesta['resultado'] = 2;
             $respuesta['mensaje'] = "La persona ya está registrada.";
-        }else {
+        } else {
             try {
-                $this->conex->query("UPDATE personas SET id_area = '$id_area', cedula = '$cedula', nombres = '$nombres', apellidos = '$apellidos', sexo = '$sexo', telefono = '$telefono', fecha_nacimiento = '$fecha_nacimiento', fecha_ingreso = '$fecha_ingreso' WHERE id_persona = '$id'");
-                $respuesta["resultado"]=1;
-                $respuesta["mensaje"]="Modificación exitosa.";
+                // Actualizar datos de la persona
+                $this->conex->query("UPDATE personas 
+                                    SET id_area = '$id_area', 
+                                        cedula = '$cedula', 
+                                        nombres = '$nombres', 
+                                        apellidos = '$apellidos', 
+                                        sexo = '$sexo', 
+                                        telefono = '$telefono', 
+                                        fecha_nacimiento = '$fecha_nacimiento', 
+                                        fecha_ingreso = '$fecha_ingreso' 
+                                    WHERE id_persona = '$id'");
 
                 $this->conex->query("DELETE FROM diciplina_persona WHERE id_persona = '$id'");
-                foreach ($disciplinas as $id_deporte) {
-                    // Insertar en la tabla diciplina_persona
-                    $this->conex->query("INSERT INTO diciplina_persona (id_persona, id_deporte) VALUES ('$id', '$id_deporte')");
+                // Insertar las nuevas disciplinas
+                foreach ($disciplinas as $valor) {
+                    // Buscar el ID del deporte basado en el valor recibido
+                    $resultado = $this->conex->query("SELECT id_deporte FROM deportes WHERE nombre_deporte = '$valor'");
+                    $filas_deporte = $resultado->fetchAll();
+    
+                    // Verificar si el deporte existe antes de insertarlo
+                    if ($filas_deporte) {
+                        foreach ($filas_deporte as $fila) {
+                            $id_deporte = $fila['id_deporte'];
+                            // Insertar en la tabla diciplina_persona
+                            $this->conex->query("INSERT INTO diciplina_persona (id_persona, id_deporte) VALUES ('$id', '$id_deporte')");
+                        }
+                    }
                 }
-
+    
+                $respuesta["resultado"] = 1;
+                $respuesta["mensaje"] = "Modificación exitosa.";
+    
             } catch (Exception $e) {
                 $respuesta['resultado'] = 0;
                 $respuesta['mensaje'] = $e->getMessage();
             }
         }
+    
         return $respuesta;
     }
-
+    
     public function validar_modificar($id, $cedula)
     {
         try {

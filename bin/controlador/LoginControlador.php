@@ -1,9 +1,13 @@
 <?php
 use modelo\LoginModelo as Login;
+use modelo\RegistroFuncionarioModelo as Funcionario;
+use modelo\RegistroDeporteModelo as Deporte;
 use config\componentes\configSistema as configSistema;
 session_start();
 $config = new configSistema;
 $login = new Login;
+$deporte = new Deporte();
+$funcionario = new Funcionario();
 if (!is_file($config->_Dir_Model_().$pagina.$config->_MODEL_())) {
     echo "Falta definir la clase " . $pagina;
     exit;
@@ -80,13 +84,40 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 ]);
                 return 0;
             }
+        }else if ($accion == 'buscar_area') {
+            $datos = $funcionario->buscar_area($_POST['id_division']);
+            echo $datos;
+            return 0;
+            exit;
+        }if ($accion == 'registrar') {
+            $array_disciplinas = explode(",", $_POST['disciplinas']);
+            $response = $funcionario->registrar_funcionario($_POST['cedula'],$_POST['nombres'],$_POST['apellidos'],$_POST['sexo'],$_POST['telefono'],$_POST['fecha_nacimiento'],$_POST['fecha_ingreso'],$_POST['id_area'],$array_disciplinas);
+            if ($response["resultado"]==1) {
+                echo json_encode([
+                    'estatus' => '1',
+                    'icon' => 'success',
+                    'title' => "Censo",
+                    'message' => $response["mensaje"]
+                ]);
+                return 0;
+            }else{
+                echo json_encode([
+                    'estatus' => '2',
+                    'icon' => 'error',
+                    'title' => "Censo",
+                    'message' => $response["mensaje"]
+                ]);
+                return 0;
+            }
+            exit;
         }else{
             session_destroy();  
         }
     }else {
         session_destroy();
     }
-   
+    $divisiones = $funcionario->listar_division();
+    $lista_deportes = $deporte->listar_deportes();
     require_once "vista/" . $pagina . "Vista.php";
 } else {
     echo "pagina en construccion";

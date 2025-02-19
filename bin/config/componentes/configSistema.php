@@ -4,7 +4,7 @@
 
 	define("_URL_", "http://localhost/practica/");
 	define("_BD_", "censport");
-	define("_PASS_", "");
+	define("_PASS_", "Usuariov.37");
 	define("_USER_", "root");
 	define("_LOCAL_", "localhost");
 	define("DIRECTORY_CONTROL", "bin/controlador/");

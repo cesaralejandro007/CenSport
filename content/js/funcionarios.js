@@ -1,77 +1,68 @@
-// Array para almacenar los deportes agregados (cada elemento es un array: [idDeporte, nombreDeporte])
+// Array para almacenar las disciplinas agregadas
 var disciplinas = [];
 
-// Evento para capturar el ID del deporte seleccionado
-document.getElementById('id_diciplina').addEventListener('input', function () {
-    var input = this.value;
-    var option = Array.from(document.querySelectorAll('#opcion_diciplina option')).find(opt => opt.value === input);
-    document.getElementById('id_deporte_seleccionado').value = option ? option.getAttribute('data-id') : '';
-});
-
-// Función para agregar un deporte a la tabla (máximo 2 disciplinas)
-document.getElementById('agregar').addEventListener('click', function () {
+// Función para agregar disciplina a la tabla y al array
+document.getElementById('agregar').addEventListener('click', function() {
     var input = document.getElementById('id_diciplina');
-    var idDeporte = document.getElementById('id_deporte_seleccionado').value;
-    var nombreDeporte = input.value;
+    var id_persona = document.getElementById('id_persona').value;
+    // Buscamos el option cuyo value coincida con lo escrito en el input
+    var selectedOption = document.querySelector('#opcion_diciplina option[value="' + input.value + '"]');
+    var nombreDeporte = selectedOption ? selectedOption.textContent : '';
 
-    // Verificar que no se haya agregado el deporte previamente (comparando por id)
-    if (disciplinas.length >= 2) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Solo puedes agregar un máximo de 2 disciplinas!',
-            confirmButtonColor: '#007bff',
-            confirmButtonText: 'Aceptar'
-        });
-        return;
-    }
-
-    // Validación de idDeporte y nombreDeporte antes de agregarlo
-    if (idDeporte && nombreDeporte) {
-        // Verificar si el deporte ya está en la lista
-        if (!disciplinas.some(d => d[0] === idDeporte)) {
-            // Agregar el deporte a la lista (array) como [idDeporte, nombreDeporte]
-            disciplinas.push([idDeporte, nombreDeporte]);
-
-            var tbody = document.getElementById('tbody_diciplinas');
-            var newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td class="text-center">${nombreDeporte}</td>
-                <td class="text-center">
-                    <button class="btn btn-danger btn-sm" onclick="eliminarDeporte(this, '${idDeporte}')">Eliminar</button>
-                </td>
-            `;
-            tbody.appendChild(newRow);
-
-            // Limpiar el input y el campo oculto
-            input.value = '';
-            document.getElementById('id_deporte_seleccionado').value = '';
-
-        } else {
+    if (nombreDeporte && !disciplinas.includes(input.value)) {
+        if (disciplinas.length >= 2) {
             Swal.fire({
                 icon: 'warning',
-                title: 'Este deporte ya está agregado!',
+                title: 'Solo puedes agregar un máximo de 2 disciplinas!',
                 confirmButtonColor: '#007bff',
                 confirmButtonText: 'Aceptar'
             });
+            return;
         }
-    } else {
+        // Llamada opcional a función extra, si aplica
+        if (input.value !== "" && nombreDeporte !== ""){
+            comprobar_pers_disciplinas(input.value, nombreDeporte,id_persona);
+        }
+        // Se agrega el valor (que en este caso es el nombre de la disciplina)
+        disciplinas.push(input.value);
+        var tbody = document.getElementById('tbody_disciplinas');
+        var newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td class="text-center">${nombreDeporte}</td>
+            <td class="text-center">
+                <button class="btn btn-danger btn-sm" onclick="eliminarDeporte(this)">Eliminar</button>
+            </td>
+        `;
+        tbody.appendChild(newRow);
+        input.value = '';
+    } else if (nombreDeporte === '') {
         Swal.fire({
             icon: 'error',
             title: 'Seleccione una disciplina válida!',
             confirmButtonColor: '#007bff',
             confirmButtonText: 'Aceptar'
         });
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Esta disciplina ya está agregada!',
+            confirmButtonColor: '#007bff',
+            confirmButtonText: 'Aceptar'
+        });
     }
 });
 
-// Función para eliminar un deporte de la tabla
-function eliminarDeporte(button, idDeporte) {
-    var row = button.closest('tr');
-    // Filtrar utilizando el índice 0 del array (que contiene el id)
-    disciplinas = disciplinas.filter(d => d[0] !== idDeporte);
-    row.remove();
+// Función para eliminar disciplina de la tabla y del array
+function eliminarDeporte(button) {
+    var row = button.parentNode.parentNode;
+    // Obtenemos el contenido de la primera celda (la disciplina)
+    var nombreDeporte = row.firstChild.textContent;
+    var index = disciplinas.indexOf(nombreDeporte);
+    if (index !== -1) {
+        disciplinas.splice(index, 1);
+        row.parentNode.removeChild(row);
+    }
 }
-
 
 var keyup_cedula = /^[0-9]{7,8}$/;
 var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
@@ -205,10 +196,9 @@ function carga() {
     };
 
     document.getElementById("evento").onclick = function () {
+        document.getElementById('tbody_disciplinas').innerHTML = '';
+        disciplinas = [];
         limpiar();
-        var tbody = $("#tbody_diciplinas");
-        tbody.empty();
-        integrantes = [];
         $("#accion").val("registrar");
         $("#titulo").text("Registrar Funcionario");
         $("#enviar").text("Incluir");
@@ -398,6 +388,64 @@ function buscar_division_area(datos) {
     });
 }
 
+function comprobar_pers_disciplinas(id_diciplina, nombreDeporte,id_persona) {
+    var datos = new FormData();
+    datos.append("accion", "comprobar_pers_disciplinas");
+    datos.append("id_diciplina", id_diciplina);
+    datos.append("nombre_deporte", nombreDeporte);
+    datos.append("id_persona", id_persona);
+    var toastMixin = Swal.mixin({
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+    });
+    $.ajax({
+        url: "",
+        type: "POST",
+        contentType: false,
+        data: datos,
+        processData: false,
+        cache: false,
+        success: (response) => {
+            var res = JSON.parse(response);
+            if (res.estatus == 2) {
+                var index = disciplinas.indexOf(nombreDeporte);
+                if (index !== -1) {
+                    disciplinas.splice(index, 1);
+                }
+                toastMixin.fire({
+                    title: res.title,
+                    text: res.message,
+                    icon: res.icon,
+                });
+
+                // Eliminar la fila de la tabla
+                eliminarFilaPorNombre(nombreDeporte);
+            }
+            return 1;
+        },
+        error: (err) => {
+            Toast.fire({
+                icon: res.error,
+            });
+        },
+    });
+}
+
+function eliminarFilaPorNombre(nombreDeporte) {
+    var tbody = document.getElementById('tbody_disciplinas');
+    var rows = tbody.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        let cell = rows[i].getElementsByTagName('td')[0];
+        if (cell.textContent === nombreDeporte) {
+            tbody.deleteRow(i);
+            break;
+        }
+    }
+}
+
+
 function cargar_datos(valor) {
     var datos = new FormData();
     datos.append("accion", "editar");
@@ -526,7 +574,7 @@ function enviadatosAjax(datos) {
 }
 
 
-function eliminarDeporte(id_deporte, id_persona) {
+function eliminarDeporteEditado(id_deporte, id_persona) {
     Swal.fire({
         title: '¿Estás seguro?',
         text: "Este deporte será eliminado de las disciplinas del funcionario.",
@@ -547,7 +595,6 @@ function eliminarDeporte(id_deporte, id_persona) {
         }
     });
 }
-
 function mostrar(datos) {
     var toastMixin = Swal.mixin({
         toast: true,
@@ -557,6 +604,7 @@ function mostrar(datos) {
         timer: 2000,
         timerProgressBar: true,
     });
+
     $.ajax({
         async: true,
         url: "", // La URL de tu API o controlador
@@ -566,61 +614,63 @@ function mostrar(datos) {
         processData: false,
         cache: false,
         success: (response) => {
-            alert(response);
             var res = JSON.parse(response);
-            if (typeof res.resultado == 'undefined') {
+
+            if (res && typeof res.resultado === 'undefined') {
                 limpiar();
+                document.getElementById('tbody_disciplinas').innerHTML = '';
+                disciplinas = [];
+                var tableHTML = '';
+                res[0].deportes.forEach(function (deporte) {
+                    disciplinas.push(deporte.nombre_deporte);
+                    tableHTML += '<tr>';
+                    tableHTML += '<td class="text-center">' + deporte.nombre_deporte + '</td>';
+                    tableHTML += '<td class="text-center"><button class="btn btn-danger btn-sm" onclick="eliminarDeporteEditado(' + deporte.id_deporte + ', ' + res[0].id_persona + ')">Eliminar</button></td>';
+                    tableHTML += '</tr>';
+                });
+
+                // Usar appendChild para añadir las filas
+                document.getElementById('tbody_disciplinas').innerHTML = tableHTML;
+
                 var datos = new FormData();
                 datos.append("accion", "buscar_area");
-                datos.append("id_division", res.idDivision);
+                datos.append("id_division", res[0].idDivision);
                 buscar_division_area(datos);
+
                 // Mostrar los datos del funcionario
-                $("#id_persona").val(res.id_persona);
-                $("#cedula").val(res.cedula);
-                $("#nombres").val(res.nombres);
-                $("#apellidos").val(res.apellidos);
-                $("#sexo").val(res.sexo);
-                $("#telefono").val(res.telefono);
-                $("#fecha_nacimiento").val(res.fecha_nacimiento);
-                $("#fecha_ingreso").val(res.fecha_ingreso);
-                $("#select_division").val(res.idDivision);
+                $("#id_persona").val(res[0].id_persona);
+                $("#cedula").val(res[0].cedula);
+                $("#nombres").val(res[0].nombres);
+                $("#apellidos").val(res[0].apellidos);
+                $("#sexo").val(res[0].sexo);
+                $("#telefono").val(res[0].telefono);
+                $("#fecha_nacimiento").val(res[0].fecha_nacimiento);
+                $("#fecha_ingreso").val(res[0].fecha_ingreso);
+                $("#select_division").val(res[0].idDivision);
                 $("#enviar").text("Modificar");
                 $("#staticBackdrop").modal("show");
                 $("#accion").val("modificar");
                 document.getElementById("accion").innerText = "modificar";
                 $("#titulo").text("Modificar Funcionario");
-                // Mostrar las disciplinas (deportes) vinculadas
-                var tbody = $("#tbody_diciplinas"); // Obtener el tbody de la tabla
-                tbody.empty(); // Limpiar la tabla antes de agregar nuevos datos
-
-                res.deportes.forEach(function (deporte) {
-                    var row = `<tr id="deporte-${deporte.id_deporte}">
-                            <td class="text-center">${deporte.nombre_deporte}</td>
-                            <td class="text-center">
-                                <button class="btn btn-danger btn-sm" onclick="eliminarDeporte(${deporte.id_deporte},${res.id_persona})">Eliminar</button>
-                            </td>
-                          </tr>`;
-                    tbody.append(row); // Agregar la fila con el deporte a la tabla
-                });
             } else {
                 toastMixin.fire({
                     title: "Funcionarios",
-                    text: "Debe quedar un deporte asignado.",
+                    text: "Debe quedar al menos un deporte asignado.",
                     icon: "warning",
                 });
             }
-            alert(disciplinas)
+
+            // alert(disciplinas); // Descomentar si necesitas ver el array de disciplinas
+
             setTimeout(function () {
-                $("#area").val(res.idArea);
+                $("#area").val(res[0].idArea);
             }, 100);
         },
         error: (err) => {
-            Toast.fire({
+            toastMixin.fire({
                 icon: 'error',
                 title: 'Error al cargar los datos',
             });
         },
     });
 }
-
-

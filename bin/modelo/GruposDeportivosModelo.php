@@ -269,7 +269,7 @@ class GruposDeportivosModelo extends connectDB
             $resultado = $this->conex->prepare("SELECT * FROM personas,personas_grupos,deportes WHERE personas_grupos.id_persona = personas.id_persona AND personas_grupos.id_deporte = deportes.id_deporte AND personas.cedula = '$cedula'");
             $resultado->execute();
             $filas = $resultado->rowCount();
-            if ($filas >= 3) {
+            if ($filas >= 2) {
                 $respuesta["resultado"]=2;
                 $respuesta["mensaje"]="La persona ". $nombre ." ha excedido el límite de deportes permitidos.";
             } else {
