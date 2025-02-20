@@ -111,7 +111,7 @@ $grupos_deportivo = new Gruposrupos;
         }
     }
     $deportes=$grupos_deportivo->Consulta_deportes();
-    $cedulas=$grupos_deportivo->Consulta_personas();
+    $cedulas=$grupos_deportivo->Consulta_personas_con_deportes();
     $grupos_deportivos = $grupos_deportivo->lista_grupos_deportivos();
     require_once "vista/" . $pagina . "Vista.php";
 } else {

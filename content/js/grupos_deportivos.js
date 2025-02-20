@@ -1,8 +1,53 @@
-function Limitar(event, cantidad) {
-    if (event.value.length >= cantidad) {
-        event.value = event.value.substring(0, cantidad);
+    function Limitar(event, cantidad) {
+        if (event.value.length >= cantidad) {
+            event.value = event.value.substring(0, cantidad);
+        }
     }
-}
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleSexo = document.getElementById("toggleSexo");
+        const labelToggleSexo = document.getElementById("labelToggleSexo");
+        const filtroDeporte = document.getElementById("filtroDeporte");
+        const dataList = document.getElementById("opcion_persona");
+        const opciones = Array.from(dataList.options);
+
+        let filtroSexo = ""; // "Masculino", "Femenino", o vacío
+
+        function toggleFiltroSexo() {
+            if (toggleSexo.checked) {
+                filtroSexo = "Masculino";
+                labelToggleSexo.classList.remove("btn-outline-secondary", "btn-danger");
+                labelToggleSexo.classList.add("btn-primary");
+                labelToggleSexo.innerHTML = "♂ Hombres";
+            } else {
+                filtroSexo = "Femenino";
+                labelToggleSexo.classList.remove("btn-outline-secondary", "btn-primary");
+                labelToggleSexo.classList.add("btn-danger");
+                labelToggleSexo.innerHTML = "♀ Mujeres";
+            }
+            filtrarPersonas();
+        }
+
+        function filtrarPersonas() {
+            let deporteSeleccionado = filtroDeporte.value;
+            dataList.innerHTML = "";
+
+            opciones.forEach(option => {
+                let sexoPersona = option.getAttribute("data-sexo");
+                let deportesPersona = option.getAttribute("data-deportes").split(',');
+
+                let cumpleSexo = filtroSexo === "" || sexoPersona === filtroSexo;
+                let cumpleDeporte = deporteSeleccionado === "" || deportesPersona.includes(deporteSeleccionado);
+
+                if (cumpleSexo && cumpleDeporte) {
+                    dataList.appendChild(option.cloneNode(true));
+                }
+            });
+        }
+
+        toggleSexo.addEventListener("change", toggleFiltroSexo);
+        filtroDeporte.addEventListener("input", filtrarPersonas);
+    });
     // Array para almacenar los integrantes agregados
     var integrantes = [];
 

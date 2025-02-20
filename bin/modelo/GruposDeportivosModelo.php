@@ -18,22 +18,45 @@ class GruposDeportivosModelo extends connectDB
         }
     }
 
-    public function Consulta_personas(){
-
-        $sql=$this->conex->prepare("SELECT * FROM personas");
-        $resultado_arreglo=[];
-        try{
-
+    public function Consulta_personas_con_deportes() {
+        $sql = $this->conex->prepare("
+            SELECT 
+                personas.cedula, 
+                personas.nombres, 
+                personas.apellidos, 
+                personas.sexo AS genero, 
+                deportes.nombre_deporte 
+            FROM personas
+            INNER JOIN diciplina_persona ON personas.id_persona = diciplina_persona.id_persona
+            INNER JOIN deportes ON diciplina_persona.id_deporte = deportes.id_deporte
+        ");
+    
+        $resultado_arreglo = [];
+        try {
             $sql->execute();
-            $resultado_arreglo=$sql->fetchAll();
-            return $resultado_arreglo;
-
-        }catch(Exception $e){
-
+            $resultados = $sql->fetchAll();
+    
+            // Agrupar por cédula
+            foreach ($resultados as $fila) {
+                $cedula = $fila['cedula'];
+                if (!isset($resultado_arreglo[$cedula])) {
+                    $resultado_arreglo[$cedula] = [
+                        'cedula' => $fila['cedula'],
+                        'nombres' => $fila['nombres'],
+                        'apellidos' => $fila['apellidos'],
+                        'genero' => $fila['genero'],
+                        'deportes' => []
+                    ];
+                }
+                $resultado_arreglo[$cedula]['deportes'][] = $fila['nombre_deporte'];
+            }
+    
+            return array_values($resultado_arreglo); // Convertir a array indexado
+        } catch (Exception $e) {
             return $e->getMessage();
-
         }
     }
+    
 
     public function registrar_grupos_deportivo($id_deporte,$nombre_grupo,$descripcion_grupo,$integrantes)
     {

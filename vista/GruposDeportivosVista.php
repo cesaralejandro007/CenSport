@@ -13,6 +13,14 @@ use config\componentes\configSistema as configSistema;
             max-height: 200px;
             overflow-y: auto;
         }
+        /* Personalización del botón tipo checkbox */
+        #toggleSexo {
+            display: none;
+        }
+        #labelToggleSexo {
+            font-size: 16px;
+            transition: 0.3s;
+        }
     </style>
     <div id="layoutSidenav">
         <?php include_once "bin/component/sidebar.php";?>
@@ -49,7 +57,7 @@ use config\componentes\configSistema as configSistema;
                                             <option value="0">--Seleccione--</option>
                                             <?php foreach($deportes as $key => $deport) {?>
 
-                                            <option value="<?php echo $deport[" id_deporte"];?>">
+                                            <option value="<?php echo $deport["id_deporte"];?>">
                                                 <?php echo $deport["nombre_deporte"]; ?>
                                             </option>
                                             <?php }?>
@@ -73,19 +81,42 @@ use config\componentes\configSistema as configSistema;
                                         <span id="sdescripcion_grupo"></span>
                                     </div>
                                 </div>
+                                <div class="row mt-2">
+                                    <!-- Checkbox para alternar entre Hombres/Mujeres -->
+                                    <div class="col-4 mb-3">
+                                        <label class="form-label">Filtrar por Sexo:</label><br>
+                                        <input type="checkbox" id="toggleSexo" class="btn-check">
+                                        <label for="toggleSexo" id="labelToggleSexo" class="btn btn-outline-secondary">
+                                            ♂ Hombres
+                                        </label>
+                                    </div>
+
+                                    <!-- Filtro de Deportes con Datalist -->
+                                    <div class="col-8 mb-3">
+                                        <label for="filtroDeporte" class="form-label">Filtrar por Deporte:</label>
+                                        <input class="form-control" list="listaDeportes" id="filtroDeporte" placeholder="Escribe un deporte">
+                                        <datalist id="listaDeportes">
+                                            <?php foreach ($deportes as $deporte) { ?>
+                                                <option value="<?php echo $deporte['nombre_deporte']; ?>"></option>
+                                            <?php } ?>
+                                        </datalist>
+                                    </div>
+                                </div>
                                 <div class="col-12 mt-2">
+                                    <!-- Datalist para personas -->
                                     <div class="input-group">
                                         <label for="cedula_persona_grupo" class="input-group-text">Integrante</label>
-                                        <input class="form-control" list="opcion_persona" id="cedula_persona_grupo"
-                                            placeholder="Cedula persona">
+                                        <input class="form-control" list="opcion_persona" id="cedula_persona_grupo" placeholder="Cédula persona">
                                         <datalist id="opcion_persona">
-                                            <?php foreach ($cedulas as $key => $persona) {?>
-                                            <option value="<?php echo $persona[" cedula"]; ?>">
-                                                <?php echo $persona["nombres"] . " " . $persona["apellidos"]; ?>
-                                            </option>
-                                            <?php }?>
+                                            <?php foreach ($cedulas as $persona) { ?>
+                                                <option value="<?php echo $persona['cedula']; ?>" 
+                                                    data-sexo="<?php echo $persona['genero']; ?>" 
+                                                    data-deportes="<?php echo implode(',', $persona['deportes']); ?>">
+                                                    <?php echo $persona['nombres'] . " " . $persona['apellidos']; ?>
+                                                </option>
+                                            <?php } ?>
                                         </datalist>
-                                        <button id='agregar' class="btn btn-secondary" type="button">Agregar</button>
+                                        <button id="agregar" class="btn btn-secondary" type="button">Agregar</button>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-2">
