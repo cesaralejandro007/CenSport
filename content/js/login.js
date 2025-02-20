@@ -2,6 +2,14 @@ var keyup_cedula = /^[0-9]{7,8}$/;
 var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
 var keyup_clave = /^.{3,}$/;
 
+document.addEventListener("DOMContentLoaded", function () {
+    const inputTexto = document.getElementById("captcha_code");
+
+    inputTexto.addEventListener("input", function () {
+        this.value = this.value.toUpperCase();
+    });
+});
+
 document.onload = carga();
 function carga() {
 /*--------------VALIDACION PARA CEDULA--------------------*/
@@ -109,6 +117,7 @@ $("#ingresar").click(function (e) {
     datos.append("accion", "ingresar");
     datos.append("usuario", $("#inputUsuario").val());
     datos.append("password", $("#inputPassword").val());
+    datos.append("captcha", $("#captcha_code").val());
     iniciar_sesion_login(datos);
 });
   

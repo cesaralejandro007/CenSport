@@ -4,7 +4,9 @@ use modelo\RegistroFuncionarioModelo as Funcionario;
 use modelo\RegistroDeporteModelo as Deporte;
 use config\componentes\configSistema as configSistema;
 session_start();
+require_once 'bin/component/captcha/securimage/securimage.php';
 $config = new configSistema;
+$securimage = new Securimage();
 $login = new Login;
 $deporte = new Deporte();
 $funcionario = new Funcionario();
@@ -18,27 +20,27 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         if($accion=="ingresar"){
             $usuario = $_POST['usuario'];
             $clave = $_POST['password'];
-            if($usuario != "" && $clave != ""){
+            $codigo = $_POST['captcha'];
+            if($usuario != "" && $clave != "" || $codigo == ""){
                 $res_usuario = $login->verificar_usuario($usuario,$clave);
-                if($res_usuario == true){
-                    $info_usuario = $login->datos_usuario($usuario);
-                    foreach ($info_usuario as $datos) {
-                        $_SESSION['usuario'] = array('id' => $datos['id_usuario'],'cedula' => $datos['cedula'], 'nombres' => $datos['nombres'], 'apellidos' => $datos['apellidos'], 'rol' => $datos['cargo']);
-                    }
-                    echo json_encode([
-                        'estatus' => '1',
-                        'icon' => 'success',
-                        'title' => 'Login',
-                        'message' => 'Inicio exitoso!'
-                    ]);
-                    return 0;
-                }
-                else{
+                if($res_usuario == true && $securimage->check($codigo) == true){
+                        $info_usuario = $login->datos_usuario($usuario);
+                        foreach ($info_usuario as $datos) {
+                            $_SESSION['usuario'] = array('id' => $datos['id_usuario'],'cedula' => $datos['cedula'], 'nombres' => $datos['nombres'], 'apellidos' => $datos['apellidos'], 'rol' => $datos['cargo']);
+                        }
+                        echo json_encode([
+                            'estatus' => '1',
+                            'icon' => 'success',
+                            'title' => 'Login',
+                            'message' => 'Inicio exitoso!'
+                        ]);
+                        return 0;
+                }else{
                     echo json_encode([
                         'estatus' => '2',
                         'icon' => 'info',
                         'title' => 'Login',
-                        'message' => 'Verifique sus datos!'
+                        'message' => 'Verifique los datos de usuario, contraseña y codigo!'
                     ]);
                     return 0;
                 }
@@ -47,7 +49,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                     'estatus' => '2',
                     'icon' => 'error',
                     'title' => 'Login',
-                    'message' => 'Ingrese usuario y contraseña!'
+                    'message' => 'Ingrese usuario, contraseña y codigo!'
                 ]);
                 return 0;
             }

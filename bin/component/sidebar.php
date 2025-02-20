@@ -19,6 +19,7 @@ use config\componentes\configSistema as configSistema;
               <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                   <nav class="sb-sidenav-menu-nested nav">
                       <a class="nav-link" href="?pagina=<?php configSistema::_Funcionarios_();?>">Funcionarios</a>
+                      <a class="nav-link" href="?pagina=<?php configSistema::_Censo_();?>">Aperturar Censo</a>
                       <a class="nav-link" href="?pagina=<?php configSistema::_Deportes_();?>">Deportes</a>
                       <a class="nav-link" href="?pagina=<?php configSistema::_Grupos_();?>">Grupos Deportivos</a>
                   </nav>

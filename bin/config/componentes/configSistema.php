@@ -110,6 +110,10 @@
 			echo self::Seguridad('GruposDeportivos', 'codificar');
 		}
 
+		public static function _Censo_() {
+			echo self::Seguridad('AperturarCenso', 'codificar');
+		}
+
 		public static function _Deportes_() {
 			echo self::Seguridad('RegistroDeporte', 'codificar');
 		}

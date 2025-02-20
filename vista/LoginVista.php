@@ -248,6 +248,7 @@ use config\componentes\configSistema as configSistema;
                                                 placeholder="Password" />
                                             <label for="inputPassword">Contraseña</label>
                                         </div>
+                                        <?php include  "bin/component/captcha/Captcha.php"; ?>
                                     </div>
                                     <div class="card-footer text-center py-3">
                                         <div class="d-flex flex-column align-items-center">
