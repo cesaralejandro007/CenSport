@@ -39,8 +39,49 @@ use config\componentes\configSistema as configSistema;
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Aquí se llenará con AJAX -->
+                    <?php
+                    foreach ($listados_censo as $valor) 
+                                {?>
+                                    <tr>
+                                        <td class="project-actions text-left">
+                                            <div class="d-flex">
+                                                <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;"
+                                                    data-toggle="modal" data-toggle="tooltip" data-placement="top"
+                                                    title="Editar"
+                                                    onclick="cargar_datos(<?=$valor['id_censo'];?>);"><i
+                                                        style="font-size: 15px" class="fas fa-edit"></i></button>
+
+                                                <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"
+                                                    type="button" data-toggle="modal" data-toggle="tooltip"
+                                                    data-placement="top" title="Eliminar"
+                                                    onclick="eliminar(<?=$valor['id_censo'];?>);"><i
+                                                        style="font-size: 15px" class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                        <td class="project-actions text-left">
+                                            <?php echo $valor['nombre_censo']; ?>
+                                        </td>
+                                        <td class="project-actions text-left">
+                                            <?php echo $valor['descripcion_censo']; ?>
+                                        </td>
+                                        <td class="project-actions text-left">
+                                            <?php echo $valor['fecha_inicio_censo']; ?>
+                                        </td>
+                                        <td class="project-actions text-left">
+                                            <?php echo $valor['fecha_final_censo']; ?>
+                                        </td>
+                                        <?php
+                                }?>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Fin</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
                 </table>
                 </div>
             </div>
@@ -59,10 +100,12 @@ use config\componentes\configSistema as configSistema;
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" id="nombre" required>
+                                    <div id="nombre-error" class="text-danger"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="descripcion" class="form-label">Descripción</label>
                                     <textarea class="form-control" id="descripcion" required></textarea>
+                                    <div id="descripcion-error" class="text-danger"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="fecha_inicio" class="form-label">Fecha y Hora de Inicio</label>
@@ -106,6 +149,7 @@ use config\componentes\configSistema as configSistema;
     <script src="plugins/sweetalert2/sweetalert2.all.js"></script>
 
     <script src="content/js/scripts.js"></script>
+    <script src="content/js/censo.js"></script>
 </body>
 
 </html>

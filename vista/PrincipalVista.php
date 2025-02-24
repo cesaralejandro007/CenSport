@@ -15,6 +15,14 @@ use config\componentes\configSistema as configSistema;
         color: white;
     }
 
+    .card-bg1_2 {
+        background-image: url('assets/img/censo-poblacion.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: black;
+    }
+
     .card-bg1 .card-body,
     .card-bg1 .card-footer {
         background: rgba(0, 123, 255, 0.5);
@@ -64,7 +72,7 @@ use config\componentes\configSistema as configSistema;
                 </div>
                 <div class="container-fluid px-4">
                     <div class="row">
-                        <div class="col-xl-4 col-md-4">
+                        <div class="col-xl-3 col-md-3">
                             <div class="card bg-primary text-white mb-4 card-bg1">
                                 <div class="card-body fw-bold">Modulo Funcionarios</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
@@ -74,7 +82,17 @@ use config\componentes\configSistema as configSistema;
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-4">
+                        <div class="col-xl-3 col-md-3">
+                            <div class="card bg-primary text-white mb-4 card-bg1_2">
+                                <div class="card-body fw-bold">Modulo Censo</div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link"
+                                        href="?pagina=<?php configSistema::_Censo_();?>">Ver Detalles</a>
+                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-3">
                             <div class="card bg-success text-white mb-4 card-bg2">
                                 <div class="card-body fw-bold">Modulo Deportes</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
@@ -84,7 +102,7 @@ use config\componentes\configSistema as configSistema;
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-4">
+                        <div class="col-xl-3 col-md-3">
                             <div class="card bg-danger text-white mb-4 card-bg3">
                                 <div class="card-body fw-bold">Grupos Deportivos</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">

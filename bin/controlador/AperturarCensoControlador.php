@@ -27,6 +27,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
         }
     }
+    $listados_censo = $Censo->listar_censos();
     require_once "vista/" . $pagina . "Vista.php";
 } else {
     echo "pagina en construccion";

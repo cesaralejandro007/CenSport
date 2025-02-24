@@ -1,5 +1,5 @@
 var keyup_cedula = /^[0-9]{7,8}$/;
-var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
+var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s(de|De|del|Del)?\s?[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
 var keyup_clave = /^.{3,}$/;
 
 document.addEventListener("DOMContentLoaded", function () {

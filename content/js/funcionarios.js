@@ -65,7 +65,7 @@ function eliminarDeporte(button) {
 }
 
 var keyup_cedula = /^[0-9]{7,8}$/;
-var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
+var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s(de|De|del|Del)?\s?[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
 var keyup_fecha = /^\d{4}-\d{2}-\d{2}$/;
 var keyup_telefono = /^[0-9]{4}-\d{7,8}$/
 
