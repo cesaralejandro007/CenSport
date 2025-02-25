@@ -1,7 +1,16 @@
+function limpiar() {
+    $("#accion").val("");
+    $("#id_censo").val("");
+    $("#nombre").val("");
+    $("#descripcion").val("");
+    $("#fecha_inicio").val("");
+    $("#fecha_fin").val("");
+}
 document.addEventListener("DOMContentLoaded", function () {
-
     // Mostrar modal de registro
     document.getElementById("evento").addEventListener("click", function () {
+        limpiar();
+        $("#accion").val("registrar");
         $("#modalCenso").modal("show");
     });
 
@@ -55,42 +64,104 @@ document.addEventListener("DOMContentLoaded", function () {
         return true;
     }
 
-    // Enviar formulario con validaciones
     $("#formCenso").on("submit", function (e) {
         e.preventDefault();
         if (!validarFormulario()) return;
-
+        let toastMixin = Swal.mixin({
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+          });
+          
         let formData = {
+            accion: $("#accion").val(),
+            id_censo: $("#id_censo").val(),
             nombre: $("#nombre").val(),
             descripcion: $("#descripcion").val(),
             fecha_inicio: $("#fecha_inicio").val(),
             fecha_fin: $("#fecha_fin").val()
         };
-        
-        $.post("api/censos/registrar.php", formData, function (response) {
-            Swal.fire("Éxito", "Censo registrado correctamente", "success");
-            $("#modalCenso").modal("hide");
-            tablaCensos.ajax.reload();
-        });
-    });
-
-    // Eliminar censo
-    $("#tablaCensos").on("click", ".eliminar", function () {
-        let id = $(this).data("id");
-        Swal.fire({
-            title: "¿Estás seguro?",
-            text: "Esta acción no se puede deshacer",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.post("api/censos/eliminar.php", { id: id }, function () {
-                    Swal.fire("Eliminado", "El censo ha sido eliminado", "success");
-                    tablaCensos.ajax.reload();
-                });
+    
+        $.post("", formData, function (response) {
+            try {
+                let res = JSON.parse(response);
+    
+                toastMixin.fire({
+                    title: res.title,
+                    text: res.message,
+                    icon: res.icon,
+                  });
+                if (res.estatus === "1") { 
+                    $("#modalCenso").modal("hide");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1500);
+                }
+    
+            } catch (error) {
+                Swal.fire("Error", "Ocurrió un error al procesar la respuesta.", "error");
             }
+        }).fail(function () {
+            Swal.fire("Error", "No se pudo conectar con el servidor.", "error");
         });
     });
+    
 });
+function eliminar(id) {   
+    let toastMixin = Swal.mixin({
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      });
+
+    Swal.fire({
+        title: "¿Está seguro de eliminar?",
+        text: "Se eliminará el censo.",
+        icon: "warning",
+        showCloseButton: true,
+        showCancelButton: true,
+        confirmButtonColor: "#0C72C4",
+        cancelButtonColor: "#9D2323",
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.post("", { accion: "eliminar", id_censo: id }, function (response) {
+                let res = JSON.parse(response);
+                toastMixin.fire({
+                    title: res.title,
+                    text: res.message,
+                    icon: res.icon,
+                  });
+                if (res.estatus === "1") { 
+                    $("#modalCenso").modal("hide");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1500);
+                }
+            });
+        }
+    });
+}
+
+function cargar_datos(id) {
+    limpiar();
+    $("#accion").val("modificar");
+    $.ajax({
+        url: "", // Asegúrate de colocar aquí la ruta correcta de tu backend
+        type: "POST",
+        data: { accion: "editar", id_censo: id },
+        success: function (response) {
+            let res = JSON.parse(response);
+            $("#id_censo").val(res.id_censo);
+            $("#nombre").val(res.nombre);
+            $("#descripcion").val(res.descripcion);
+            $("#fecha_inicio").val(res.fecha_inicio);
+            $("#fecha_fin").val(res.fecha_final); // Cambia `fecha_final` por `fecha_fin` en el JSON de PHP si es necesario.
+            $("#modalCenso").modal("show");
+        },
+        error: function () {
+            Swal.fire("Error", "No se pudo cargar el censo", "error");
+        },
+    });
+}

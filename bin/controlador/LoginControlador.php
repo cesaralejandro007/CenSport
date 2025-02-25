@@ -2,6 +2,7 @@
 use modelo\LoginModelo as Login;
 use modelo\RegistroFuncionarioModelo as Funcionario;
 use modelo\RegistroDeporteModelo as Deporte;
+use modelo\AperturarCensoModelo as AperturarCenso;
 use config\componentes\configSistema as configSistema;
 session_start();
 require_once 'bin/component/captcha/securimage/securimage.php';
@@ -9,6 +10,7 @@ $config = new configSistema;
 $securimage = new Securimage();
 $login = new Login;
 $deporte = new Deporte();
+$Censo = new AperturarCenso();
 $funcionario = new Funcionario();
 if (!is_file($config->_Dir_Model_().$pagina.$config->_MODEL_())) {
     echo "Falta definir la clase " . $pagina;

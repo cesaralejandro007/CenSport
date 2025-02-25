@@ -1,5 +1,6 @@
 <?php
 use config\componentes\configSistema as configSistema;
+$respuesta = $Censo->consultar_censo_activo();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -254,7 +255,7 @@ use config\componentes\configSistema as configSistema;
                                         <div class="d-flex flex-column align-items-center">
                                             <button id="ingresar" type="button" class="btn btn-secondary mb-1">Iniciar
                                                 Sesión</button>
-
+                                        <?php if($respuesta){ ?>
                                             <!-- Separador con la "O" en el centro -->
                                             <div class="d-flex align-items-center my-1 w-100">
                                                 <hr class="flex-grow-1 border-dark">
@@ -266,6 +267,7 @@ use config\componentes\configSistema as configSistema;
                                                 class="btn btn-danger btn-lg fw-bold">
                                                 🏆 Inscripciones Deportivas
                                             </button>
+                                        <?php } ?>
                                         </div>
                                     </div>
 

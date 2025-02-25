@@ -31,11 +31,12 @@ use config\componentes\configSistema as configSistema;
                             <table id="tablaCensos" class="table table-bordered table-hover datatable border">
                     <thead>
                         <tr>
+                            <th>Acciones</th>
+                            <th>Usuario</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Fecha Inicio</th>
                             <th>Fecha Fin</th>
-                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,6 +60,9 @@ use config\componentes\configSistema as configSistema;
                                             </div>
                                         </td>
                                         <td class="project-actions text-left">
+                                            <?php echo $valor['usuario']; ?>
+                                        </td>
+                                        <td class="project-actions text-left">
                                             <?php echo $valor['nombre_censo']; ?>
                                         </td>
                                         <td class="project-actions text-left">
@@ -75,11 +79,12 @@ use config\componentes\configSistema as configSistema;
                     </tbody>
                     <tfoot>
                         <tr>
+                            <th>Acciones</th>
+                            <th>Usuario</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Fecha Inicio</th>
                             <th>Fecha Fin</th>
-                            <th>Acciones</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -96,6 +101,8 @@ use config\componentes\configSistema as configSistema;
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input type="hidden" class="form-control" id="accion">
+                            <input type="hidden" class="form-control" id="id_censo">
                             <form id="formCenso">
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">Nombre</label>
@@ -115,7 +122,7 @@ use config\componentes\configSistema as configSistema;
                                     <label for="fecha_fin" class="form-label">Fecha y Hora de Fin</label>
                                     <input type="datetime-local" class="form-control" id="fecha_fin" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="submit" id="enviar" class="btn btn-primary">Guardar</button>
                             </form>
                         </div>
                     </div>
