@@ -288,7 +288,7 @@ $respuesta = $Censo->consultar_censo_activo();
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="plugins/sweetalert2/sweetalert2.all.js"></script>
-    <script src="content/js/censo.js"></script>
+    <script src="content/js/censo-deportivo.js"></script>
     <script src="content/js/login.js"></script>
 </body>
 

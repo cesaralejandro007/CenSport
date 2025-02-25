@@ -122,13 +122,14 @@ $("#ingresar").click(function (e) {
 });
   
   
-$("#inputPassword").on("keydown", function (e) {
+$("#captcha_code").on("keydown", function (e) {
 if (e.which === 13 || e.keyCode === 13) {
     // La tecla presionada es "Enter", ejecutar la función iniciar_sesion_login
     var datos = new FormData();
     datos.append("accion", "ingresar");
     datos.append("usuario", $("#inputUsuario").val());
     datos.append("password", $("#inputPassword").val());
+    datos.append("captcha", $("#captcha_code").val());
     iniciar_sesion_login(datos);
 }
 });
