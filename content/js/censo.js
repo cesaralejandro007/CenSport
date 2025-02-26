@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     text: res.message,
                     icon: res.icon,
                   });
-                if (res.estatus === "1") { 
+                if (res.estatus == "1") { 
                     $("#modalCenso").modal("hide");
                     setTimeout(function () {
                         window.location.reload();
@@ -133,7 +133,7 @@ function eliminar(id) {
                     text: res.message,
                     icon: res.icon,
                   });
-                if (res.estatus === "1") { 
+                if (res.estatus == "1") { 
                     $("#modalCenso").modal("hide");
                     setTimeout(function () {
                         window.location.reload();

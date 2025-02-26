@@ -10,12 +10,12 @@ use config\componentes\configSistema as configSistema;
     <?php include_once "bin/component/header.php";?>
     <div id="layoutSidenav">
         <?php include_once "bin/component/sidebar.php";?>
-        <div id="layoutSidenav_content" style="background:#D4E6F1;">
+        <div id="layoutSidenav_content" class="bg-secondary">
             <main>
                 <div class="pagetitle">
-                    <div class="d-flex justify-content-start align-items-end">
-                        <div class="py-2 px-4"
-                            style="border-radius: 0 0 50% 0; margin-bottom:10px; background:#D4AC0D; font-family:'Baskerville Old Face';">
+                    <div class="d-flex justify-content-end align-items-end">
+                        <div class="py-2 px-4 bg-dark text-light"
+                            style="border-radius: 0 0 0 30px; margin-bottom:10px; font-family:'Baskerville Old Face';">
                             <h2 class="m-0">Perfil</h2>
                         </div>
                     </div>

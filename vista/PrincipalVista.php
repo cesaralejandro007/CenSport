@@ -7,70 +7,77 @@ use config\componentes\configSistema as configSistema;
 <?php include_once "bin/component/head.php";?>
 
 <style>
-    .card-bg1 {
-        background-image: url('assets/img/Funcionarios.jpeg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: white;
-    }
+ .card-bg1 {
+    background-image: url('assets/img/Funcionarios.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
 
-    .card-bg1_2 {
-        background-image: url('assets/img/censo-poblacion.jpg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: black;
-    }
+.card-bg1_2 {
+    background-image: url('assets/img/censo-poblacion.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
 
-    .card-bg1 .card-body,
-    .card-bg1 .card-footer {
-        background: rgba(0, 123, 255, 0.5);
-        /* Fondo semitransparente */
-    }
+.card-bg1 .card-body,
+.card-bg1 .card-footer {
+    background: rgba(0, 123, 255, 0.8); /* Mayor opacidad */
+    /* Fondo semitransparente */
+}
 
-    .card-bg2 {
-        background-image: url('assets/img/Deportes.jpeg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: white;
-    }
+.card-bg1_2 .card-body,
+.card-bg1_2 .card-footer {
+    background: rgba(130, 133, 5, 0.8); /* Mayor opacidad */
+    /* Fondo semitransparente */
+}
 
-    .card-bg2 .card-body,
-    .card-bg2 .card-footer {
-        background: rgba(0, 128, 0, 0.5);
-        /* Fondo semitransparente */
-    }
+.card-bg2 {
+    background-image: url('assets/img/Deportes.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
 
-    .card-bg3 {
-        background-image: url('assets/img/Grupos.jpeg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: white;
-    }
+.card-bg2 .card-body,
+.card-bg2 .card-footer {
+    background: rgba(0, 128, 0, 0.8); /* Mayor opacidad */
+    /* Fondo semitransparente */
+}
 
-    .card-bg3 .card-body,
-    .card-bg3 .card-footer {
-        background: rgba(220, 53, 69, 0.5);
-        /* Fondo semitransparente */
-    }
+.card-bg3 {
+    background-image: url('assets/img/Grupos.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.card-bg3 .card-body,
+.card-bg3 .card-footer {
+    background: rgba(220, 53, 69, 0.5); /* Mayor opacidad */
+    /* Fondo semitransparente */
+}
+
 </style>
 
 <body class="sb-nav-fixed">
     <?php include_once "bin/component/header.php";?>
     <div id="layoutSidenav">
         <?php include_once "bin/component/sidebar.php";?>
-        <div id="layoutSidenav_content" style="background:#D4E6F1;">
+        <div id="layoutSidenav_content" class="bg-secondary">
             <main>
-                <div class="d-flex justify-content-start align-items-end">
-                    <div class="py-2 px-4"
-                        style="border-radius: 0 0 50% 0; margin-bottom:10px; background:#D4AC0D; font-family:'Baskerville Old Face';">
+                <div class="d-flex justify-content-end align-items-end">
+                    <div class="py-2 px-4 bg-dark text-light"
+                        style="border-radius: 0 0 0 30px; margin-bottom:10px; font-family:'Baskerville Old Face';">
                         <h2 class="m-0">Pagina Principal</h2>
                     </div>
                 </div>
-                <div class="container-fluid px-4">
+                <div class="container-fluid px-2">
                     <div class="row">
                         <div class="col-xl-3 col-md-3">
                             <div class="card bg-primary text-white mb-4 card-bg1">
@@ -83,7 +90,7 @@ use config\componentes\configSistema as configSistema;
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-3">
-                            <div class="card bg-primary text-white mb-4 card-bg1_2">
+                            <div class="card bg-primary mb-4  card-bg1_2">
                                 <div class="card-body fw-bold">Modulo Censo</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
                                     <a class="small text-white stretched-link"
@@ -116,7 +123,7 @@ use config\componentes\configSistema as configSistema;
                     <div class="row">
                         <div class="col-xl-6">
                             <div class="card mb-4">
-                                <div class="card-header">
+                                <div class="card-header bg-dark text-light">
                                     <i class="fas fa-chart-bar me-1"></i>
                                     Reporte de Deportes Masculino
                                 </div>
@@ -126,7 +133,7 @@ use config\componentes\configSistema as configSistema;
                         </div>
                         <div class="col-xl-6">
                             <div class="card mb-4">
-                                <div class="card-header">
+                                <div class="card-header bg-dark text-light">
                                     <i class="fas fa-chart-bar me-1"></i>
                                     Reporte de Deportes Femenino
                                 </div>
@@ -136,7 +143,7 @@ use config\componentes\configSistema as configSistema;
                         </div>
                     </div>
                     <div class="card mb-4">
-                        <div class="card-header">
+                        <div class="card-header bg-dark text-light">
                             <i class="fas fa-table me-1"></i>
                             Resumen de Funcionarios x Deporte
                         </div>

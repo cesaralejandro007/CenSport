@@ -38,7 +38,7 @@ var table = $('#tablaCensos').DataTable({
   titleAttr: 'Exportar a Excel',
   className: 'btn border border-success bg-white mr-1',
   exportOptions: {
-    columns: [1]
+    columns: [1,2,3,4,5]
 }
 },
 {
@@ -69,7 +69,7 @@ var table = $('#tablaCensos').DataTable({
     // Splice the image in after the header, but before the table
     },
   exportOptions: {
-    columns:[1]
+    columns: [1,2,3,4,5]
 }
 },
 {
@@ -85,7 +85,7 @@ var table = $('#tablaCensos').DataTable({
   titleAttr: 'Imprimir',
   className: 'btn border border-info bg-white mr-1',
   exportOptions: {
-    columns: [1]
+    columns: [1,2,3,4,5]
 }
 },    
 ]  

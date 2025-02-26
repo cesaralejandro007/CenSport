@@ -1,15 +1,15 @@
 <?php
 use config\componentes\configSistema as configSistema;
-$respuesta = $Censo->consultar_censo_activo();
+$respuesta = $censo->consultar_censo_activo();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include_once "bin/component/head.php";?>
 
-<body style="background:#991B27;">
+<body class="" style="background:#8B0000;">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
-            <main class="d-flex align-items-center justify-content-center vh-100">
+            <main class="d-flex justify-content-center align-items-center vh-100">
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -224,58 +224,46 @@ $respuesta = $Censo->consultar_censo_activo();
                     </div>
                 </div>
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-4">
-                            <form>
-                                <div class="card shadow-lg border-0 rounded-lg">
-                                    <div class="d-flex justify-content-center py-1">
-                                        <img src="assets/img/SOP.png"
-                                            class="img-fluid border-bottom border-5 border-danger" alt="Imagen de SOP">
-                                    </div>
-                                    <div class="card-header">
-                                        <center>
-                                            <img src="assets/img/CenSPORT.jpg" alt="Logo"
-                                                style="height: 130px; width: 270px;">
-                                        </center>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputUsuario" type="text"
-                                                placeholder="Usuario" />
-                                            <label for="inputUsuario">Usuario</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputPassword" type="password"
-                                                placeholder="Password" />
-                                            <label for="inputPassword">Contraseña</label>
-                                        </div>
-                                        <?php include  "bin/component/captcha/Captcha.php"; ?>
-                                    </div>
-                                    <div class="card-footer text-center py-3">
-                                        <div class="d-flex flex-column align-items-center">
-                                            <button id="ingresar" type="button" class="btn btn-secondary mb-1">Iniciar
-                                                Sesión</button>
-                                        <?php if($respuesta){ ?>
-                                            <!-- Separador con la "O" en el centro -->
-                                            <div class="d-flex align-items-center my-1 w-100">
-                                                <hr class="flex-grow-1 border-dark">
-                                                <span class="mx-1">O</span>
-                                                <hr class="flex-grow-1 border-dark">
-                                            </div>
-
-                                            <button id="inscripcionDeporte" type="button" onclick="activar_censo()"
-                                                class="btn btn-danger btn-lg fw-bold">
-                                                🏆 Inscripciones Deportivas
-                                            </button>
-                                        <?php } ?>
-                                        </div>
-                                    </div>
-
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-4">
+                        <form>
+                            <div class="card shadow-lg border-0 rounded-1">
+                                <div class="card-header bg-white text-center">
+                                    <img src="assets/img/CenSPORT.jpg" alt="Logo" class="img-fluid" style="height: 130px; width: 270px;">
                                 </div>
-                            </form>
-                        </div>
+                                <div class="card-body">
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="inputUsuario" type="text" placeholder="Usuario" />
+                                        <label for="inputUsuario">Usuario</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                                        <label for="inputPassword">Contraseña</label>
+                                    </div>
+                                    <?php include "bin/component/captcha/Captcha.php"; ?>
+                                </div>
+                                <div class="card-footer text-center py-3">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <button id="ingresar" type="button" class="btn btn-primary w-100 mb-2">Iniciar Sesión</button>
+
+                                        <?php if($respuesta){ ?>
+                                        <div class="d-flex align-items-center my-2 w-100">
+                                            <hr class="flex-grow-1 border-dark">
+                                            <span class="mx-2 fw-bold">O</span>
+                                            <hr class="flex-grow-1 border-dark">
+                                        </div>
+
+                                        <button id="inscripcionDeporte" type="button" onclick="activar_censo()" class="btn btn-danger w-100 fw-bold">
+                                            🏆 Inscripciones Deportivas
+                                        </button>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
+            </div>
             </main>
         </div>
         <div id="layoutAuthentication_footer">

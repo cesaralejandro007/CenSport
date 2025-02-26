@@ -29,15 +29,38 @@ class RegistroDeporteModelo extends connectDB
 
     public function eliminar_deporte($id_deporte)
     {
+        $validar_registro = $this->validar_personas_deportes($id_deporte);
+        if ($validar_registro==false) {
+            $respuesta["resultado"]=2;
+            $respuesta["mensaje"]="Existen personas que estan asociado a ese deporte.";
+        } else {
+            try {
+                $this->conex->query("DELETE personas_grupos, grupos_deportivos FROM personas_grupos INNER JOIN grupos_deportivos ON grupos_deportivos.id_grupo_deportivo = personas_grupos.id_grupo_deportivo WHERE personas_grupos.id_deporte = '$id_deporte';");
+                $this->conex->query("DELETE FROM deportes WHERE id_deporte = '$id_deporte'");
+                $respuesta['resultado'] = 1;
+                $respuesta['mensaje'] = "Eliminacion exitosa";
+                return $respuesta;
+            } catch (Exception $e) {
+                $respuesta['resultado'] = 0;
+                $respuesta['mensaje'] = $e->getMessage();
+            }
+        }
+        return $respuesta;
+    }  
+
+    public function validar_personas_deportes($id_deporte)
+    {
         try {
-            $this->conex->query("DELETE personas_grupos, grupos_deportivos FROM personas_grupos INNER JOIN grupos_deportivos ON grupos_deportivos.id_grupo_deportivo = personas_grupos.id_grupo_deportivo WHERE personas_grupos.id_deporte = '$id_deporte';");
-            $this->conex->query("DELETE FROM deportes WHERE id_deporte = '$id_deporte'");
-            $respuesta['resultado'] = 1;
-            $respuesta['mensaje'] = "Eliminacion exitosa";
-            return $respuesta;
+            $resultado = $this->conex->prepare("SELECT * FROM deportes,diciplina_persona WHERE deportes.id_deporte = diciplina_persona.id_deporte AND diciplina_persona.id_deporte ='$id_deporte';");
+            $resultado->execute();
+            $fila = $resultado->fetchAll();
+            if ($fila) {
+                return false;
+            } else {
+                return true;
+            }
         } catch (Exception $e) {
-            $respuesta['resultado'] = 0;
-            $respuesta['mensaje'] = $e->getMessage();
+            return false;
         }
     }
 
@@ -77,7 +100,7 @@ class RegistroDeporteModelo extends connectDB
     {
         $nombre_deporte_sin_espacio = trim($nombre_deporte);
         try {
-            $resultado = $this->conex->prepare("SELECT * FROM personas WHERE nombre_deporte='$nombre_deporte_sin_espacio' AND id_deportes <>'$id'");
+            $resultado = $this->conex->prepare("SELECT * FROM deportes WHERE nombre_deporte='$nombre_deporte_sin_espacio' AND id_deporte <>'$id'");
             $resultado->execute();
             $fila = $resultado->fetchAll();
             if ($fila) {

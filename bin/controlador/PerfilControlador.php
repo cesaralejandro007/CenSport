@@ -1,57 +1,44 @@
 <?php
 
 use modelo\PerfilModelo as Perfil;
-
 use config\componentes\configSistema as configSistema;
 
 $config = new configSistema;
-$Perfil = new Perfil();
+$perfil = new Perfil();
 session_start();
+
 if (!isset($_SESSION['usuario'])) {
-	$redirectUrl = '?pagina=' . configSistema::_INICIO_();
-    echo '<script>window.location="' . $redirectUrl . '"</script>';
-    die();
-}
-if (!is_file($config->_Dir_Model_().$pagina.$config->_MODEL_())) {
-    echo "Falta definir la clase " . $pagina;
+    echo '<script>window.location="?pagina=' . configSistema::_INICIO_() . '"</script>';
     exit;
+}
+
+if (!is_file($config->_Dir_Model_() . $pagina . $config->_MODEL_())) {
+    exit("Falta definir la clase " . $pagina);
 }
 
 if (is_file("vista/" . $pagina . "Vista.php")) {
 
-    if (isset($_POST['accion'])) {
-        $accion = $_POST['accion'];
-        if ($accion == 'verificar_perfil') {
-            $response = $Perfil->verificarcambio_password($_POST['cedula']);
-            //VERIFICAR CLAVE (password_hash)
-            if($_POST['clave_actual'] == $response[0]['password']){
-                echo 1;
-            }else{
-                echo 0;
-            }
-            return 0;
-        }else if ($accion == 'cambiar_pasword') {
-            //CLAVE ENCRIPTADA (password_hash)
-            $response = $Perfil->cambiar_password($_POST['nueva_clave'],$_POST['cedula']);
-            if($response == 1){
+    if (!empty($_POST['accion'])) {
+        switch ($_POST['accion']) {
+            case 'verificar_perfil':
+                $response = $perfil->verificarcambio_password($_POST['cedula']);
+                echo password_verify($_POST['clave_actual'], $response[0]['password']) ? 1 : 0;
+                break;
+
+            case 'cambiar_password':
+                $response = $perfil->cambiar_password($_POST['nueva_clave'], $_POST['cedula']);
                 echo json_encode([
-                    'estatus' => '1',
-                    'icon' => 'success',
+                    'estatus' => $response == 1 ? '1' : '2',
+                    'icon' => $response == 1 ? 'success' : 'error',
                     'title' => 'Perfil',
-                    'message' => 'La clave se actualizo correctamente'
+                    'message' => $response == 1 ? 'La clave se actualizó correctamente' : 'Error en la base de datos'
                 ]);
-            }else{
-                echo json_encode([
-                    'estatus' => '2',
-                    'icon' => 'error',
-                    'title' => 'Perfil',
-                    'message' => 'error BD'
-                ]);
-            }
-            return 0;
+                break;
         }
+        exit;
     }
+
     require_once "vista/" . $pagina . "Vista.php";
 } else {
-    echo "pagina en construccion";
+    exit("Página en construcción");
 }

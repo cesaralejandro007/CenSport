@@ -5,90 +5,51 @@ use config\componentes\configSistema as configSistema;
 $config = new configSistema;
 session_start();
 if (!isset($_SESSION['usuario'])) {
-	$redirectUrl = '?pagina=' . configSistema::_INICIO_();
-    echo '<script>window.location="' . $redirectUrl . '"</script>';
+    echo '<script>window.location="?pagina=' . configSistema::_INICIO_() . '"</script>';
     die();
 }
-if (!is_file($config->_Dir_Model_().$pagina.$config->_MODEL_())) {
-    echo "Falta definir la clase " . $pagina;
-    exit;
+
+if (!is_file($config->_Dir_Model_() . $pagina . $config->_MODEL_())) {
+    exit("Falta definir la clase " . $pagina);
 }
-if (is_file("vista/" . $pagina . "Vista.php")) {
-    $deporte = new Deporte();
-    if (isset($_POST['accion'])) {
-        $modulo = 'Deporte:';
-        $accion = $_POST['accion'];
-        if ($accion == 'registrar') {
+
+if (!is_file("vista/" . $pagina . "Vista.php")) {
+    exit("Página en construcción");
+}
+
+$deporte = new Deporte();
+
+if (!empty($_POST['accion'])) {
+    $modulo = 'Deporte:';
+    $accion = $_POST['accion'];
+    $response = null;
+    
+    switch ($accion) {
+        case 'registrar':
             $response = $deporte->registrar_deporte($_POST['nombre_deporte']);
-            if ($response["resultado"]==1) {
-                echo json_encode([
-                    'estatus' => '1',
-                    'icon' => 'success',
-                    'title' => $modulo,
-                    'message' => $response["mensaje"]
-                ]);
-                return 0;
-            }else{
-                echo json_encode([
-                    'estatus' => '2',
-                    'icon' => 'error',
-                    'title' => $modulo,
-                    'message' => $response["mensaje"]
-                ]);
-                return 0;
-            }
-            exit;
-        }else if ($accion == 'eliminar') {
+            break;
+        case 'eliminar':
             $response = $deporte->eliminar_deporte($_POST['id_deporte']);
-            if ($response['resultado'] == 1) {
-                echo json_encode([
-                    'estatus' => '1',
-                    'icon' => 'success',
-                    'title' => $modulo,
-                    'message' => $response['mensaje']
-                ]);
-            }else{
-                echo json_encode([
-                    'estatus' => '2',
-                    'icon' => 'error',
-                    'title' => $modulo,
-                    'message' => $response["mensaje"]
-                ]);
-            }
-            return 0;
-            exit;
-        } else if ($accion == 'editar') {
+            break;
+        case 'editar':
             $datos = $deporte->cargar_deporte($_POST['id_deporte']);
-            foreach ($datos as $valor) {
-                echo json_encode([
-                    'id_deporte' => $valor['id_deporte'],
-                    'nombre_deporte' => $valor['nombre_deporte']
-                ]);
-            }
-            return 0;
-        }else if ($accion == 'modificar'){ 
-            $response = $deporte->modificar_deporte($_POST['id'],$_POST['nombre_deporte']);
-            if ($response['resultado']== 1) {
-                echo json_encode([
-                    'estatus' => '1',
-                    'icon' => 'success',
-                    'title' => $modulo,
-                    'message' => $response['mensaje']
-                ]);
-            }else {
-                echo json_encode([
-                    'estatus' => '2',
-                    'icon' => 'info',
-                    'title' => $modulo,
-                    'message' => $response['mensaje']
-                ]);
-            }
-            return 0;
-            exit;
-        }
+            echo json_encode(reset($datos));
+            return;
+        case 'modificar':
+            $response = $deporte->modificar_deporte($_POST['id'], $_POST['nombre_deporte']);
+            break;
     }
-    $lista_deportes = $deporte->listar_deportes();
-    require_once "vista/" . $pagina . "Vista.php";
-} else {
-    echo "pagina en construccion";
+    
+    if ($response) {
+        echo json_encode([
+            'estatus' => $response['resultado'] == 1 ? '1' : '2',
+            'icon' => $response['resultado'] == 1 ? 'success' : ($accion == 'modificar' ? 'info' : 'error'),
+            'title' => $modulo,
+            'message' => $response['mensaje']
+        ]);
+    }
+    return;
 }
+
+$lista_deportes = $deporte->listar_deportes();
+require_once "vista/" . $pagina . "Vista.php";

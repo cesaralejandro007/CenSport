@@ -1,149 +1,73 @@
 var keyup_nombre = /^(?!.*\s{2})[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(?:\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*){0,49}$/;
- carga();
-function carga() {
 
-/*--------------VALIDACION PARA NOMBRE--------------------*/
-    document.getElementById("nombre_deporte").maxLength = 30;
-    document.getElementById("nombre_deporte").onkeypress = function (e) {
-        er = /^[A-Za-z\s\b\u00f1\u00d1\u00E0-\u00FC]*$/;
-        validarkeypress(er, e);
-    };
-    document.getElementById("nombre_deporte").onkeyup = function () {
-        r = validarkeyup(
-            keyup_nombre,
-            this,
-            document.getElementById("snombre_deporte"),
-            "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula."
-        );
-    };
-/*--------------FIN VALIDACION PARA NOMBRE--------------------*/
+document.addEventListener("DOMContentLoaded", () => {
+  const nombreInput = document.getElementById("nombre_deporte");
+  const mensajeError = document.getElementById("snombre_deporte");
+  const enviarBtn = document.getElementById("enviar");
 
-/*----------------------CRUD DEL MODULO------------------------*/
-document.getElementById("enviar").onclick = function () {
-    a = valida_registrar();
-    if (a != "") {
-    }else {
-        var datos = new FormData();
-        datos.append("accion", $("#accion").val());
-        datos.append("id", $("#id_deporte").val());
-        datos.append("nombre_deporte", $("#nombre_deporte").val());
-        enviaAjax(datos);
+  nombreInput.maxLength = 30;
+
+  nombreInput.addEventListener("keypress", (e) => {
+    const er = /^[A-Za-z\s\b\u00f1\u00d1\u00E0-\u00FC]*$/;
+    if (!er.test(e.key)) e.preventDefault();
+  });
+
+  nombreInput.addEventListener("keyup", () => {
+    validarKeyUp(keyup_nombre, nombreInput, mensajeError, "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula.");
+  });
+
+  enviarBtn.addEventListener("click", () => {
+    if (validarFormulario()) {
+      let datos = new FormData();
+      datos.append("accion", document.getElementById("accion").value);
+      datos.append("id", document.getElementById("id_deporte").value);
+      datos.append("nombre_deporte", nombreInput.value);
+      enviaAjax(datos);
     }
-};
+  });
 
-    document.getElementById("evento").onclick = function () {
-        limpiar();
-        $("#accion").val("registrar");
-        $("#titulo").text("Registrar Funcionario");
-        $("#enviar").text("Incluir");
-        $("#staticBackdrop").modal("show");
-    };
-}
-/*--------------------FIN DE CRUD DEL MODULO----------------------*/
-/*-------------------FUNCIONES DE HERRAMIENTAS-------------------*/
-function validarkeypress(er, e) {
-    key = e.keyCode || e.which;
-    tecla = String.fromCharCode(key);
-    a = er.test(tecla);
-    if (!a) {
-        e.preventDefault();
-    }
-}
+  document.getElementById("evento").addEventListener("click", () => {
+    limpiar();
+    $("#accion").val("registrar");
+    $("#titulo").text("Registrar Funcionario");
+    $("#enviar").text("Incluir");
+    $("#staticBackdrop").modal("show");
+  });
+});
 
-function validarselect(etiqueta, etiquetamensaje, mensaje) {
-    if(etiqueta.value == 0){
-        etiquetamensaje.innerText = mensaje;
-        etiquetamensaje.style.color = "red";
-        etiqueta.classList.add("is-invalid");
-    }else{
-        etiquetamensaje.innerText = "";
-        etiqueta.classList.remove("is-invalid");
-        etiqueta.classList.add("is-valid");
-    }
+function validarKeyUp(expresion, input, mensajeElemento, mensaje) {
+  if (!expresion.test(input.value)) {
+    mensajeElemento.innerText = mensaje;
+    mensajeElemento.style.color = "red";
+    input.classList.add("is-invalid");
+    return false;
+  } else {
+    mensajeElemento.innerText = "";
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
+    return true;
+  }
 }
 
-function validarkeyup(er, etiqueta, etiquetamensaje, mensaje) {
-    a = er.test(etiqueta.value);
-    if (!a) {
-        etiquetamensaje.innerText = mensaje;
-        etiquetamensaje.style.color = "red";
-        etiqueta.classList.add("is-invalid");
-        return 0;
-    } else {
-        etiquetamensaje.innerText = "";
-        etiqueta.classList.remove("is-invalid");
-        etiqueta.classList.add("is-valid");
-        return 1;
-    }
+function validarFormulario() {
+  if (!validarKeyUp(keyup_nombre, document.getElementById("nombre_deporte"), document.getElementById("snombre_deporte"), "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula.")) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Por favor, complete correctamente el formulario.",
+    });
+    return false;
+  }
+  return true;
 }
 
 function limpiar() {
-    $("#nombre_deporte").val("");
-    document.getElementById("snombre_deporte").innerText = "";
-    document.getElementById("nombre_deporte").classList.remove("is-invalid", "is-valid");
+  document.getElementById("nombre_deporte").value = "";
+  document.getElementById("snombre_deporte").innerText = "";
+  document.getElementById("nombre_deporte").classList.remove("is-invalid", "is-valid");
 }
-
-function valida_registrar() {
-    var error = false;
-    nombre_deporte = validarkeyup(
-        keyup_nombre,
-        document.getElementById("nombre_deporte"),
-        document.getElementById("snombre_deporte"),
-        "* Solo letras de 3 a 30 caracteres, comenzando cada palabra con la primera letra en mayúscula."
-    );
-    if(
-        nombre_deporte == 0
-    ){
-        error = true;
-    }
-    return error;
-}
-
-function cargar_datos(valor) {
-    var datos = new FormData();
-    datos.append("accion", "editar");
-    datos.append("id", valor);
-    mostrar(datos);
-}
-/*-------------------FIN DE FUNCIONES DE HERRAMIENTAS-------------------*/
-
-/*--------------------FUNCIONES CON AJAX----------------------*/
-function eliminar(id) {
-  Swal.fire({
-    title: "¿Está seguro de eliminar?",
-    text: "Se eliminarán los grupos deportivos asociados a este deporte.",
-    icon: "warning",
-    showCloseButton: true,
-    showCancelButton: true,
-    confirmButtonColor: "#0C72C4",
-    cancelButtonColor: "#9D2323",
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      setTimeout(function () {
-        var datos = new FormData();
-        datos.append("accion", "eliminar");
-        datos.append("id_deporte", id);
-        enviaAjax(datos);
-      }, 10);
-    }
-  });
-}
-
-function cargar_datos(id_persona) {
-    var datos = new FormData();
-    datos.append("accion", "editar");
-    datos.append("id_deporte", id_persona);
-    mostrar(datos);
-  }
 
 function enviaAjax(datos) {
-  var toastMixin = Swal.mixin({
-    showConfirmButton: false,
-    timer: 1500,
-    timerProgressBar: true,
-  });
   $.ajax({
     url: "",
     type: "POST",
@@ -153,80 +77,52 @@ function enviaAjax(datos) {
     cache: false,
     success: (response) => {
       var res = JSON.parse(response);
-      //alert(res.title);
+      Swal.fire({
+        title: res.title,
+        text: res.message,
+        icon: res.icon,
+        timer: 2000,
+        showConfirmButton: false,
+      });
       if (res.estatus == 1) {
-        toastMixin.fire({
-
-          title: res.title,
-          text: res.message,
-          icon: res.icon,
-        });
-
         limpiar();
-        setTimeout(function () {
-          window.location.reload();
-        }, 1500);
-      } else {
-        toastMixin.fire({
-
-          text: res.message,
-          title: res.title,
-          icon: res.icon,
-        });
+        setTimeout(() => window.location.reload(), 1500);
       }
     },
-    error: (err) => {
-      Toast.fire({
-        icon: res.error,
+    error: () => {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ocurrió un error inesperado.",
       });
     },
   });
 }
 
-function enviadatosAjax(datos) {
-var toastMixin = Swal.mixin({
-    toast: true,
-    width: 300,
-    position: "top-right",
-    showConfirmButton: false,
-    timer: 2000,
-    timerProgressBar: true,
-});
-$.ajax({
-    url: "",
-    type: "POST",
-    contentType: false,
-    data: datos,
-    processData: false,
-    cache: false,
-    success: (response) => {
-    var res = JSON.parse(response);
-    //alert(res.title);
-    if (res.estatus == 1) {
-        toastMixin.fire({
-        title: res.title,
-        text: res.message,
-        icon: res.icon,
-        });
-    } else {
-        toastMixin.fire({
-
-        text: res.message,
-        title: res.title,
-        icon: res.icon,
-        });
+function eliminar(id) {
+  Swal.fire({
+    title: "¿Está seguro de eliminar?",
+    text: "Se eliminarán los grupos deportivos asociados a este deporte.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#0C72C4",
+    cancelButtonColor: "#9D2323",
+    confirmButtonText: "Confirmar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var datos = new FormData();
+      datos.append("accion", "eliminar");
+      datos.append("id_deporte", id);
+      enviaAjax(datos);
     }
-    },
-    error: (err) => {
-    Toast.fire({
-        icon: res.error,
-    });
-    },
-});
+  });
 }
 
-
-function mostrar(datos) {
+function cargar_datos(id_persona) {
+  var datos = new FormData();
+  datos.append("accion", "editar");
+  datos.append("id_deporte", id_persona);
 $.ajax({
     async: true,
     url: "",

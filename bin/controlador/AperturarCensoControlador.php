@@ -1,101 +1,81 @@
 <?php
 
 use modelo\AperturarCensoModelo as AperturarCenso;
-
 use config\componentes\configSistema as configSistema;
 
+session_start();
 $config = new configSistema;
 $Censo = new AperturarCenso();
-session_start();
+
 if (!isset($_SESSION['usuario'])) {
-	$redirectUrl = '?pagina=' . configSistema::_INICIO_();
-    echo '<script>window.location="' . $redirectUrl . '"</script>';
-    die();
-}
-if (!is_file($config->_Dir_Model_().$pagina.$config->_MODEL_())) {
-    echo "Falta definir la clase " . $pagina;
+    header("Location: ?pagina=" . configSistema::_INICIO_());
     exit;
 }
 
-if (is_file("vista/" . $pagina . "Vista.php")) {
+if (!is_file($config->_Dir_Model_() . $pagina . $config->_MODEL_())) {
+    die("Falta definir la clase " . $pagina);
+}
 
-    if (isset($_POST['accion'])) {
-        $accion = $_POST['accion'];
-        $modulo = "Censo";
-        if ($accion == 'registrar') {
-            $response = $Censo->registrar_censo($_POST['nombre'],$_POST['descripcion'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$_SESSION['usuario']['id']);
-            if ($response["resultado"]==1) {
-                echo json_encode([
-                    'estatus' => '1',
-                    'icon' => 'success',
-                    'title' => $modulo,
-                    'message' => $response["mensaje"]
-                ]);
-                return 0;
-            }else{
-                echo json_encode([
-                    'estatus' => '2',
-                    'icon' => 'info',
-                    'title' => $modulo,
-                    'message' => $response["mensaje"]
-                ]);
-                return 0;
-            }
-            exit;
-        }else if ($accion == 'eliminar') {
-            $response = $Censo->eliminar_censo($_POST['id_censo']);
-            if ($response['resultado'] == 1) {
-                echo json_encode([
-                    'estatus' => '1',
-                    'icon' => 'success',
-                    'title' => $modulo,
-                    'message' => $response['mensaje']
-                ]);
-            }else{
-                echo json_encode([
-                    'estatus' => '2',
-                    'icon' => 'error',
-                    'title' => $modulo,
-                    'message' => $response["mensaje"]
-                ]);
-            }
-            return 0;
-            exit;
-        }else if ($accion == 'editar') {
-            $datos = $Censo->cargar_censo($_POST['id_censo']);
-            foreach ($datos as $valor) {
-                echo json_encode([
-                    'id_censo' => $valor['id_censo'],
-                    'nombre' => $valor['nombre'],
-                    'descripcion' => $valor['descripcion'],
-                    'fecha_inicio' => $valor['fecha_inicio'],
-                    'fecha_final' => $valor['fecha_final']
-                ]);
-            }
-            return 0;
-        }else if ($accion == 'modificar'){ 
-            $response = $Censo->modificar_censo($_POST['id_censo'],$_POST['nombre'],$_POST['descripcion'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$_SESSION['usuario']['id']);
-            if ($response['resultado']== 1) {
-                echo json_encode([
-                    'estatus' => '1',
-                    'icon' => 'success',
-                    'title' => $modulo,
-                    'message' => $response['mensaje']
-                ]);
-            }else {
-                echo json_encode([
-                    'estatus' => '2',
-                    'icon' => 'info',
-                    'title' => $modulo,
-                    'message' => $response['mensaje']
-                ]);
-            }
-            return 0;
-            exit;
+if (is_file("vista/" . $pagina . "Vista.php")) {
+    
+    $accion = $_POST['accion'] ?? null;
+    $modulo = "Censo";
+
+    function responder($estatus, $icon, $mensaje) {
+        echo json_encode([
+            'estatus' => $estatus,
+            'icon' => $icon,
+            'title' => "Censo",
+            'message' => $mensaje
+        ]);
+        exit;
+    }
+
+    if ($accion) {
+        switch ($accion) {
+            case 'registrar':
+                $response = $Censo->registrar_censo(
+                    $_POST['nombre'],
+                    $_POST['descripcion'],
+                    $_POST['fecha_inicio'],
+                    $_POST['fecha_fin'],
+                    $_SESSION['usuario']['id']
+                );
+                responder($response["resultado"], $response["resultado"] == 1 ? 'success' : 'info', $response["mensaje"]);
+                break;
+
+            case 'eliminar':
+                $response = $Censo->eliminar_censo($_POST['id_censo']);
+                responder($response['resultado'], $response['resultado'] == 1 ? 'success' : 'error', $response["mensaje"]);
+                break;
+
+            case 'editar':
+                $datos = $Censo->cargar_censo($_POST['id_censo']);
+                if (!empty($datos)) {
+                    echo json_encode($datos[0]);
+                }
+                exit;
+
+            case 'modificar':
+                $response = $Censo->modificar_censo(
+                    $_POST['id_censo'],
+                    $_POST['nombre'],
+                    $_POST['descripcion'],
+                    $_POST['fecha_inicio'],
+                    $_POST['fecha_fin'],
+                    $_SESSION['usuario']['id']
+                );
+                responder($response['resultado'], $response['resultado'] == 1 ? 'success' : 'info', $response['mensaje']);
+                break;
+
+            default:
+                responder(2, 'error', 'Acción no válida.');
         }
     }
+
     $listados_censo = $Censo->listar_censos();
     require_once "vista/" . $pagina . "Vista.php";
+
 } else {
-    echo "pagina en construccion";
+    die("Página en construcción");
 }
